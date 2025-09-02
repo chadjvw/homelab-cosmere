@@ -1,0 +1,38 @@
+---
+clusterName: cosmere
+talosVersion: v1.11.0
+kubernetesVersion: v1.33.4
+endpoint: https://192.168.4.107:6443
+allowSchedulingOnMasters: true
+
+nodes:
+  - hostname: yolen
+    ipAddress: 192.168.4.107
+    controlPlane: true
+    installDiskSelector:
+      model: San*
+    machine:
+      mode: metal
+      arch: amd64
+    schematic:
+      customization:
+        extraKernelArgs:
+          - mitigations=off
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
+  - hostname: sel
+    ipAddress: 192.168.4.113
+    controlPlane: false
+    installDiskSelector:
+      model: TWSC*
+    machine:
+      mode: metal
+      arch: amd64
+    schematic:
+      customization:
+        extraKernelArgs:
+          - mitigations=off
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
