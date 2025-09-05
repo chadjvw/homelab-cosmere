@@ -16,6 +16,7 @@ import (
 	ciliumbgpclusterconfig "cilium.io/ciliumbgpclusterconfig/v2"
 	ciliumbgppeerconfig "cilium.io/ciliumbgppeerconfig/v2"
 	ciliumloadbalancerippool "cilium.io/ciliumloadbalancerippool/v2"
+    ciliumgatewayclassconfig "cilium.io/ciliumgatewayclassconfig/v2alpha1"
 	// backend "gateway.envoyproxy.io/backend/v1alpha1"
 	// backendtrafficpolicy "gateway.envoyproxy.io/backendtrafficpolicy/v1alpha1"
 	// clienttrafficpolicy "gateway.envoyproxy.io/clienttrafficpolicy/v1alpha1"
@@ -48,6 +49,7 @@ import (
 	CiliumBGPPeerConfig?: [_]:        ciliumbgppeerconfig.#CiliumBGPPeerConfig
 	CiliumL2AnnouncementPolicy?: [_]: ciliuml2announcementpolicy.#CiliumL2AnnouncementPolicy
 	CiliumLoadBalancerIPPool?: [_]:   ciliumloadbalancerippool.#CiliumLoadBalancerIPPool
+    CiliumGatewayClassConfig?: [_]:   ciliumgatewayclassconfig.#CiliumGatewayClassConfig
 
 	// Plan?: [_]: plan.#Plan
 }
