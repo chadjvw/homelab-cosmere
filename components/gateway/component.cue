@@ -7,6 +7,19 @@ Component: #Kubernetes & {
 	Namespace: "kube-system"
 
 	Resources: {
+        HTTPRoute: Redirect: {
+			metadata: name:      "http-route"
+			metadata: namespace: Namespace
+			spec: {
+				parentRefs: [
+					{
+						name:        "internal"
+						namespace:   "kube-system"
+						sectionName: "http"
+					}
+				]
+			}
+		}
         Gateway: {
 			Internal: {
 				metadata: name:      "internal"
