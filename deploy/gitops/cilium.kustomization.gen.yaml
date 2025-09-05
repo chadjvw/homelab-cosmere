@@ -5,9 +5,10 @@ metadata:
     namespace: flux-system
 spec:
     force: true
-    interval: 5m
-    path: deploy/components/cilium
+    interval: 1m
+    path: components/cilium
     prune: true
     sourceRef:
         kind: OCIRepository
         name: default
+    targetNamespace: kube-system

@@ -29,4 +29,19 @@ Component: #Kustomize & {
 			}
 		}
 	}
+
+	Resources: Kustomization: "cluster-apps": {
+		metadata: name:      "cluster-apps"
+		metadata: namespace: Namespace
+		spec: {
+			interval: "10m"
+			path:     "./gitops"
+			prune:    true
+			wait:     true
+			sourceRef: {
+				kind: "OCIRepository"
+				name: "default"
+			}
+		}
+	}
 }
