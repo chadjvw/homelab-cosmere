@@ -31,7 +31,7 @@ package holos
 	gatewayAPI: {
 		enabled:           true
 		enableAlpn:        true
-        enableAppProtocol: true
+		enableAppProtocol: true
 		// xffNumTrustedHops: 1
 	}
 	// hubble: enabled: false
