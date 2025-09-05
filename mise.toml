@@ -1,0 +1,14 @@
+[tools]
+cue = "latest"
+doppler = "latest"
+flux2 = "latest"
+gh = "latest"
+"github:budimanjojo/talhelper" = "latest"
+"github:holos-run/holos" = "latest"
+helm = "latest"
+talosctl = "latest"
+terraform = "latest"
+timoni = "latest"
+
+[tasks.render]
+run = "cd {{ config_root }}; rm -rf deploy; holos render platform"

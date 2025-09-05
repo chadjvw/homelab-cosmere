@@ -4,6 +4,14 @@ talosVersion: v1.11.0
 kubernetesVersion: v1.33.4
 endpoint: https://192.168.4.107:6443
 allowSchedulingOnMasters: true
+cniConfig:
+  name: none
+
+patches:
+  - |-
+     cluster:
+       proxy:
+         disabled: true
 
 nodes:
   - hostname: yolen
@@ -14,6 +22,7 @@ nodes:
     machine:
       mode: metal
       arch: amd64
+      secureboot: false
     schematic:
       customization:
         extraKernelArgs:
@@ -29,6 +38,7 @@ nodes:
     machine:
       mode: metal
       arch: amd64
+      secureboot: false
     schematic:
       customization:
         extraKernelArgs:
