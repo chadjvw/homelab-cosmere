@@ -28,13 +28,13 @@ package holos
 	// k8sNetworkPolicy: {
 	// 	enabled: false
 	// }
-	// gatewayAPI: {
-	// 	enabled:           true
-	// 	enableAlpn:        true
-	// 	enableAppProtocol: true
-	// 	hostNetwork: enabled: true
-	// 	// xffNumTrustedHops: 1
-	// }
+	gatewayAPI: {
+		enabled:           true
+		enableAlpn:        true
+		enableAppProtocol: true
+		hostNetwork: enabled: true
+		// xffNumTrustedHops: 1
+	}
 	// hubble: enabled: false
 	// localRedirectPolicy: true
 	// loadBalancer: {
