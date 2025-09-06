@@ -7,19 +7,17 @@ Much borrowed from https://github.com/brenix/local-ops
 
 ## Bootstrapping
 
-### Flux
-
-#### Install Flux
+### Install Flux, Linstor, etc
 
 ```sh
 kubectl apply --server-side --kustomize ./bootstrap
 ```
 
-#### Create doppler secret
+### Create doppler secret
 
 See [external-secrets README](/components/external-secrets/README.md)
 
-### Apply Cluster Configuration
+## Apply Cluster Configuration
 
 ```sh
 kubectl apply -f ./deploy/components/flux/flux.gen.yaml

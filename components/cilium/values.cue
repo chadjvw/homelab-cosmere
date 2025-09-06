@@ -1,33 +1,30 @@
 package holos
 
 #Values: {
-	// rollOutCiliumPods:     true
-	// priorityClassName:     "system-cluster-critical"
-	// autoDirectNodeRoutes:  true
-	// routingMode:           "native"
-	// ipv4NativeRoutingCIDR: "10.244.0.0/16"
+	rollOutCiliumPods:     true
+	priorityClassName:     "system-cluster-critical"
+	autoDirectNodeRoutes:  true
+	routingMode:           "native"
+	ipv4NativeRoutingCIDR: "10.244.0.0/16"
 	// bandwidthManager: {
 	// 	bbr:     true
 	// 	enabled: true
 	// }
-	// endpointRoutes: enabled: true
-	// bpf: {
-	// 	datapathMode:    "netkit"
-	// 	masquerade:      true
-	// 	preallocateMaps: true
-	// 	events: trace: enabled: false
-	// }
+	endpointRoutes: enabled: true
+	bpf: {
+		datapathMode:    "netkit"
+		masquerade:      true
+		preallocateMaps: true
+		events: trace: enabled: false
+	}
 	// bpfClockProbe: true
 	// bgpControlPlane: {
 	// 	enabled: true
 	// }
-	// envoy: {
-	// 	enabled: false
-	// }
 	// enableIPv4BIGTCP: true
-	// k8sNetworkPolicy: {
-	// 	enabled: false
-	// }
+	k8sNetworkPolicy: {
+		enabled: false
+	}
 	gatewayAPI: {
 		enabled:           true
 		enableAlpn:        true
@@ -35,18 +32,18 @@ package holos
 		hostNetwork: enabled: true
 		// xffNumTrustedHops: 1
 	}
-	// hubble: enabled: false
+	hubble: enabled: true
 	// localRedirectPolicy: true
 	// loadBalancer: {
 	// 	algorithm: "maglev"
 	// 	mode:      "dsr"
 	// }
-	// operator: {
-	// 	enabled:           true
-	// 	rollOutPods:       true
-	// 	replicas:          1
-	// 	priorityClassName: "system-cluster-critical"
-	// }
+	operator: {
+		enabled:           true
+		rollOutPods:       true
+		replicas:          1
+		priorityClassName: "system-cluster-critical"
+	}
 	// enableCriticalPriorityClass: false
 	// prometheus: {
 	// 	enabled: true
@@ -83,7 +80,7 @@ package holos
 	k8sServiceHost: "localhost" // Kubeprism
 	k8sServicePort: "7445"
 
-	// l2announcements: enabled: true
-	// externalIPs: enabled:     true
-	// devices: "eno+"
+	l2announcements: enabled: true
+	externalIPs: enabled:     true
+	devices: "eno+"
 }
