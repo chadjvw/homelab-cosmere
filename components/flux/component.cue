@@ -23,7 +23,7 @@ Component: #Kustomize & {
 			metadata: name:      "default"
 			metadata: namespace: Namespace
 			spec: {
-				interval: "10m"
+				interval: "1m"
 				ref: tag: "main"
 				url: "oci://ghcr.io/chadjvw/homelab/cosmere"
 			}
@@ -34,7 +34,7 @@ Component: #Kustomize & {
 		metadata: name:      "cluster-apps"
 		metadata: namespace: Namespace
 		spec: {
-			interval: "10m"
+			interval: "1m"
 			path:     "./gitops"
 			prune:    true
 			wait:     true

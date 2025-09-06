@@ -15,13 +15,13 @@ patches:
          disabled: true
 
   # Enable Host DNS
-  - |-
-    machine:
-      features:
-        hostDNS:
-          enabled: true
-          resolveMemberNames: true
-          forwardKubeDNSToHost: false
+  # - |-
+  #   machine:
+  #     features:
+  #       hostDNS:
+  #         enabled: true
+  #         resolveMemberNames: true
+  #         forwardKubeDNSToHost: false
 
   # Configure kubelet
   - |-
