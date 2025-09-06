@@ -1,3 +1,3 @@
 talos-gen-and-apply:
-    talhelper genconfig
-    talhelper gencommand apply | bash
+    cd talos && talhelper genconfig
+    cd talos && talhelper gencommand apply | bash

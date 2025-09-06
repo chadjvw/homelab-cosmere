@@ -1,17 +1,46 @@
 ---
 clusterName: cosmere
 talosVersion: v1.11.0
-kubernetesVersion: v1.33.4
+kubernetesVersion: v1.34.0
 endpoint: https://192.168.4.107:6443
 allowSchedulingOnMasters: true
 cniConfig:
   name: none
 
 patches:
+  # disable kubeproxy for cilium
   - |-
      cluster:
        proxy:
          disabled: true
+
+  # Enable Host DNS
+  - |-
+    machine:
+      features:
+        hostDNS:
+          enabled: true
+          resolveMemberNames: true
+          forwardKubeDNSToHost: false
+
+  # Configure kubelet
+  - |-
+    machine:
+      kubelet:
+        nodeIP:
+          validSubnets:
+              - 192.168.4.0/24
+
+  # Enable cluster discovery
+  - |-
+    cluster:
+      discovery:
+        enabled: true
+        registries:
+          kubernetes:
+            disabled: false
+          service:
+            disabled: true
 
 nodes:
   - hostname: yolen
@@ -26,10 +55,22 @@ nodes:
     schematic:
       customization:
         extraKernelArgs:
+          - -init_on_alloc
+          - -init_on_free
+          - -selinux
+          - apparmor=0
+          - init_on_alloc=0
+          - init_on_free=0
           - mitigations=off
+          - talos.auditd.disabled=1
         systemExtensions:
           officialExtensions:
             - siderolabs/intel-ucode
+    kenrelModules:
+      - name: drbd
+        parameters:
+          - usermode_helper=disabled
+      - name: drbd_transport_tcp
   - hostname: sel
     ipAddress: 192.168.4.113
     controlPlane: false
@@ -42,7 +83,19 @@ nodes:
     schematic:
       customization:
         extraKernelArgs:
+          - -init_on_alloc
+          - -init_on_free
+          - -selinux
+          - apparmor=0
+          - init_on_alloc=0
+          - init_on_free=0
           - mitigations=off
+          - talos.auditd.disabled=1
         systemExtensions:
           officialExtensions:
             - siderolabs/intel-ucode
+    kenrelModules:
+      - name: drbd
+        parameters:
+          - usermode_helper=disabled
+      - name: drbd_transport_tcp
