@@ -4,6 +4,10 @@ talosVersion: v1.11.0
 kubernetesVersion: v1.34.0
 endpoint: https://192.168.4.107:6443
 allowSchedulingOnMasters: true
+additionalApiServerCertSans: &sans
+  - 192.168.4.107
+  - 127.0.0.1 # Kubeprism
+additionalMachineCertSans: *sans
 cniConfig:
   name: none
 
@@ -15,18 +19,20 @@ patches:
          disabled: true
 
   # Enable Host DNS
-  # - |-
-  #   machine:
-  #     features:
-  #       hostDNS:
-  #         enabled: true
-  #         resolveMemberNames: true
-  #         forwardKubeDNSToHost: false
+  - |-
+    machine:
+      features:
+        hostDNS:
+          enabled: true
+          resolveMemberNames: true
+          forwardKubeDNSToHost: false
 
   # Configure kubelet
   - |-
     machine:
       kubelet:
+        extraArgs:
+          rotate-server-certificates: "true"
         nodeIP:
           validSubnets:
               - 192.168.4.0/24
@@ -38,10 +44,33 @@ patches:
         enabled: true
         registries:
           kubernetes:
-            disabled: false
-          service:
             disabled: true
+          service:
+            disabled: false
 
+  # Configure NFS mount options
+  - |
+    machine:
+      files:
+        - op: overwrite
+          path: /etc/nfsmount.conf
+          permissions: 0o644
+          content: |
+            [ NFSMount_Global_Options ]
+            nfsvers=4.2
+            hard=True
+            noatime=True
+            nodiratime=True
+            nconnect=16
+  # Mount linstor file path in kubelet
+  - |-
+    machine:
+      kubelet:
+        extraMounts:
+          - destination: /var/piraeus-datastore
+            type: bind
+            source: /var/piraeus-datastore
+            options: ["bind", "rshared", "rw"]
 nodes:
   - hostname: yolen
     ipAddress: 192.168.4.107
@@ -55,18 +84,25 @@ nodes:
     schematic:
       customization:
         extraKernelArgs:
-          - -init_on_alloc
-          - -init_on_free
-          - -selinux
-          - apparmor=0
-          - init_on_alloc=0
-          - init_on_free=0
-          - mitigations=off
-          - talos.auditd.disabled=1
+          - -init_on_alloc # Less security, faster puter
+          - -init_on_free # Less security, faster puter
+          - -selinux # Less security, faster puter
+          - apparmor=0 # Less security, faster puter
+          # - i915.enable_guc=3 # this CPU is too old for this
+          - init_on_alloc=0 # Less security, faster puter
+          - init_on_free=0 # Less security, faster puter
+          - intel_iommu=on # PCI Passthrough
+          - iommu=pt # PCI Passthrough
+          - mitigations=off # Less security, faster puter
+          - security=none # Less security, faster puter
+          - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
+          - talos.auditd.disabled=1 # Less security, faster puter
         systemExtensions:
-          officialExtensions:
+          officialExtensions: &extensions
+            - siderolabs/drbd
+            - siderolabs/i915
             - siderolabs/intel-ucode
-    kenrelModules:
+    kenrelModules: &kernelMod
       - name: drbd
         parameters:
           - usermode_helper=disabled
@@ -83,19 +119,36 @@ nodes:
     schematic:
       customization:
         extraKernelArgs:
-          - -init_on_alloc
-          - -init_on_free
-          - -selinux
-          - apparmor=0
-          - init_on_alloc=0
-          - init_on_free=0
-          - mitigations=off
-          - talos.auditd.disabled=1
+          - -init_on_alloc # Less security, faster puter
+          - -init_on_free # Less security, faster puter
+          - -selinux # Less security, faster puter
+          - apparmor=0 # Less security, faster puter
+          - i915.enable_guc=3 # Meteor Lake CPU / iGPU
+          - init_on_alloc=0 # Less security, faster puter
+          - init_on_free=0 # Less security, faster puter
+          - intel_iommu=on # PCI Passthrough
+          - iommu=pt # PCI Passthrough
+          - mitigations=off # Less security, faster puter
+          - security=none # Less security, faster puter
+          - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
+          - talos.auditd.disabled=1 # Less security, faster puter
         systemExtensions:
-          officialExtensions:
-            - siderolabs/intel-ucode
-    kenrelModules:
-      - name: drbd
-        parameters:
-          - usermode_helper=disabled
-      - name: drbd_transport_tcp
+          officialExtensions: *extensions
+    kenrelModules: *kernelMod
+
+controlplane:
+  patches:
+    # Enable K8s Talos API Access
+    - |-
+      machine:
+        features:
+          kubernetesTalosAPIAccess:
+            enabled: true
+            allowedRoles:
+              - os:admin
+            allowedKubernetesNamespaces:
+              - system-upgrade
+    # Disable default API server admission plugins.
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl

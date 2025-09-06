@@ -12,11 +12,18 @@ package holos
 			tag:        "2.9.0"
 		}
 	}
+    route: main: {
+		parentRefs: [{
+			name:        "internal"
+			namespace:   "kube-system"
+			sectionName: "https"
+		}]
+	}
 	service: main: {
-		annotations: "lbipam.cilium.io/ips": "192.168.4.200"
+		annotations: "lbipam.cilium.io/ips": "192.168.5.10"
 		controller:            "main"
 		externalTrafficPolicy: "Local"
-		ports: http: port: 7878
+		ports: http: port: 80
 		type: "LoadBalancer"
 	}
 }
