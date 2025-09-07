@@ -3,7 +3,14 @@ package holos
 import (
 	"path"
 	ks "kustomize.toolkit.fluxcd.io/kustomization/v1"
+	ocirepository "source.toolkit.fluxcd.io/ocirepository/v1"
 )
+
+#Resources: {
+	// flux
+	Kustomization?: [_]: ks.#Kustomization
+	OCIRepository?: [_]: ocirepository.#OCIRepository
+}
 
 #ComponentConfig: {
 	Name:          _

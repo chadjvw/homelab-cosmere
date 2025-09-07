@@ -8,7 +8,7 @@ Component: {
 		metadata: name: "l2-policy"
 		spec: {
 			loadBalancerIPs: true
-            externalIPs: true
+			externalIPs:     true
 			interfaces: ["^enp+"]
 			nodeSelector: matchLabels: "kubernetes.io/os": "linux"
 		}
