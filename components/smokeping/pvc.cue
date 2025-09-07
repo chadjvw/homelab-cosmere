@@ -1,9 +1,18 @@
 package holos
 
 Component: Resources: PersistentVolumeClaim: {
+	config: {
+		apiVersion: "v1"
+		metadata: name: "smokeping-config"
+		spec: {
+			accessModes: ["ReadWriteOnce"]
+			resources: requests: storage: "1Gi"
+			storageClassName: "piraeus-storage"
+		}
+	}
 	data: {
 		apiVersion: "v1"
-		metadata: name: "smokeping"
+		metadata: name: "smokeping-data"
 		spec: {
 			accessModes: ["ReadWriteOnce"]
 			resources: requests: storage: "1Gi"

@@ -27,7 +27,20 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: smokeping
+  name: smokeping-config
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: piraeus-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: smokeping-data
   namespace: default
 spec:
   accessModes:
@@ -79,6 +92,8 @@ spec:
         volumeMounts:
         - mountPath: /config
           name: config
+        - mountPath: /data
+          name: data
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
@@ -88,7 +103,10 @@ spec:
       volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: smokeping
+          claimName: smokeping-config
+      - name: data
+        persistentVolumeClaim:
+          claimName: smokeping-data
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute

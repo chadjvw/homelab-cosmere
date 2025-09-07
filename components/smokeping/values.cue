@@ -19,8 +19,13 @@ package holos
 			sectionName: "https"
 		}]
 	}
-	persistence: config: {
-		existingClaim: "smokeping"
+	persistence: {
+		config: {
+			existingClaim: "smokeping-config"
+		}
+		data: {
+			existingClaim: "smokeping-data"
+		}
 	}
 	service: main: {
 		annotations: "lbipam.cilium.io/ips": "192.168.5.10"
