@@ -82,6 +82,6 @@ package holos
 
 	l2announcements: enabled: true
 	kubeProxyReplacement: true
-	externalIPs: enabled:     true
+	externalIPs: enabled: true
 	devices: "enp+"
 }

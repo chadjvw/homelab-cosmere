@@ -7,7 +7,7 @@ Component: #Kubernetes & {
 	Namespace: "kube-system"
 
 	Resources: {
-        HTTPRoute: Redirect: {
+		HTTPRoute: Redirect: {
 			metadata: name:      "http-route"
 			metadata: namespace: Namespace
 			spec: {
@@ -16,16 +16,16 @@ Component: #Kubernetes & {
 						name:        "internal"
 						namespace:   "kube-system"
 						sectionName: "http"
-					}
+					},
 				]
 			}
 		}
-        Gateway: {
+		Gateway: {
 			Internal: {
 				metadata: name:      "internal"
 				metadata: namespace: Namespace
 				spec: {
-                    gatewayClassName: "cilium"
+					gatewayClassName: "cilium"
 					listeners: [{
 						name:     "http"
 						protocol: "HTTP"
