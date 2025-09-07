@@ -3,10 +3,9 @@ package holos
 #Values: {
 	rollOutCiliumPods:     true
 	priorityClassName:     "system-cluster-critical"
-	// todo: re-enable
-	// autoDirectNodeRoutes:  true
-	// routingMode:           "native"
-	// ipv4NativeRoutingCIDR: "10.244.0.0/16"
+	autoDirectNodeRoutes:  true
+	routingMode:           "native"
+	ipv4NativeRoutingCIDR: "10.244.0.0/16"
 	// bandwidthManager: {
 	// 	bbr:     true
 	// 	enabled: true
