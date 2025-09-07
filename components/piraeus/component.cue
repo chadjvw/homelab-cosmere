@@ -12,10 +12,11 @@ Component: #Kubernetes & {
 			spec: {}
 		}
 
+        // https://piraeus.io/docs/stable/how-to/talos/#configure-the-drbd-module-loader
 		LinstorSatelliteConfiguration: TalosLoaderOverride: {
 			metadata: name: "talos-loader-override"
 			spec: {
-				podTeplate: spec: {
+				podTemplate: spec: {
 					initContainers: [
 						{
 							name:   "drbd-shutdown-guard"
