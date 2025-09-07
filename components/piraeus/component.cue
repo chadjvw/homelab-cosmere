@@ -12,6 +12,51 @@ Component: #Kubernetes & {
 			spec: {}
 		}
 
+		LinstorSatelliteConfiguration: TalosLoaderOverride: {
+			metadata: name: "talos-loader-override"
+			spec: {
+				podTeplate: spec: {
+					initContainers: [
+						{
+							name:   "drbd-shutdown-guard"
+							$patch: "delete"
+						},
+						{
+							name:   "drbd-module-loader"
+							$patch: "delete"
+						},
+					]
+					volumes: [
+						{
+							name:   "run-systemd-system"
+							$patch: "delete"
+						}, {
+							name:   "run-drbd-shutdown-guard"
+							$patch: "delete"
+						}, {
+							name:   "systemd-bus-socket"
+							$patch: "delete"
+						}, {
+							name:   "lib-modules"
+							$patch: "delete"
+						}, {
+							name:   "usr-src"
+							$patch: "delete"
+						}, {
+							name: "etc-lvm-backup"
+							hostPath: path: "/var/etc/lvm/backup"
+							hostPath: type: "DirectoryOrCreate"
+						},
+						{
+							name: "etc-lvm-archive"
+							hostPath: path: "/var/etc/lvm/archive"
+							hostPath: type: "DirectoryOrCreate"
+						},
+					]
+				}
+			}
+		}
+
 		LinstorSatelliteConfiguration: pool1: {
 			metadata: name: "storage-pool"
 			spec: {
