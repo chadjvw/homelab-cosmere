@@ -81,6 +81,7 @@ package holos
 	k8sServicePort: "7445"
 
 	l2announcements: enabled: true
+	kubeProxyReplacement: true
 	externalIPs: enabled:     true
 	devices: "enp+"
 }

@@ -12,7 +12,7 @@ metadata:
   name: smokeping
   namespace: default
 spec:
-  externalTrafficPolicy: Local
+  loadBalancerClass: io.cilium/l2-announcer
   ports:
   - name: http
     port: 80

@@ -1,6 +1,24 @@
+allowVolumeExpansion: true
+kind: StorageClass
+metadata:
+  name: piraeus-storage
+parameters:
+  linstor.csi.linbit.com/storagePool: pool1
+provisioner: linstor.csi.linbit.com
+volumeBindingMode: WaitForFirstConsumer
+---
 apiVersion: piraeus.io/v1
 kind: LinstorCluster
 metadata:
   name: linstorcluster
-  namespace: piraeus-datastore
 spec: {}
+---
+apiVersion: piraeus.io/v1
+kind: LinstorSatelliteConfiguration
+metadata:
+  name: storage-pool
+spec:
+  storagePools:
+  - fileThinPool:
+      directory: /var/piraeus-datastore/pool1
+    name: pool1
