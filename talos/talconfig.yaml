@@ -102,7 +102,7 @@ nodes:
             - siderolabs/drbd
             - siderolabs/i915
             - siderolabs/intel-ucode
-    kenrelModules: &kernelMod
+    kernelModules: &kernelMod
       - name: drbd
         parameters:
           - usermode_helper=disabled
@@ -134,7 +134,7 @@ nodes:
           - talos.auditd.disabled=1 # Less security, faster puter
         systemExtensions:
           officialExtensions: *extensions
-    kenrelModules: *kernelMod
+    kernelModules: *kernelMod
 
 controlplane:
   patches:

@@ -23,3 +23,35 @@ spec:
   - fileThinPool:
       directory: /var/piraeus-datastore/pool1
     name: pool1
+---
+apiVersion: piraeus.io/v1
+kind: LinstorSatelliteConfiguration
+metadata:
+  name: talos-loader-override
+spec:
+  podTeplate:
+    spec:
+      initContainers:
+      - $patch: delete
+        name: drbd-shutdown-guard
+      - $patch: delete
+        name: drbd-module-loader
+      volumes:
+      - $patch: delete
+        name: run-systemd-system
+      - $patch: delete
+        name: run-drbd-shutdown-guard
+      - $patch: delete
+        name: systemd-bus-socket
+      - $patch: delete
+        name: lib-modules
+      - $patch: delete
+        name: usr-src
+      - hostPath:
+          path: /var/etc/lvm/backup
+          type: DirectoryOrCreate
+        name: etc-lvm-backup
+      - hostPath:
+          path: /var/etc/lvm/archive
+          type: DirectoryOrCreate
+        name: etc-lvm-archive
