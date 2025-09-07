@@ -29,7 +29,7 @@ kind: LinstorSatelliteConfiguration
 metadata:
   name: talos-loader-override
 spec:
-  podTeplate:
+  podTemplate:
     spec:
       initContainers:
       - $patch: delete
