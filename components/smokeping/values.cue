@@ -19,9 +19,13 @@ package holos
 			sectionName: "https"
 		}]
 	}
+	persistence: config: {
+		existingClaim: "smokeping"
+	}
 	service: main: {
 		annotations: "lbipam.cilium.io/ips": "192.168.5.10"
 		controller: "main"
+		// doesnt work with l2 annouce, remove once bgp
 		// externalTrafficPolicy: "Local"
 		loadBalancerClass: "io.cilium/l2-announcer"
 		ports: http: port: 80
