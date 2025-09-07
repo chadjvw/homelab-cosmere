@@ -22,7 +22,8 @@ package holos
 	service: main: {
 		annotations: "lbipam.cilium.io/ips": "192.168.5.10"
 		controller:            "main"
-		externalTrafficPolicy: "Local"
+		// externalTrafficPolicy: "Local"
+        loadBalancerClass: "io.cilium/l2-announcer"
 		ports: http: port: 80
 		type: "LoadBalancer"
 	}

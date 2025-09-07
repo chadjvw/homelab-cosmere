@@ -2,6 +2,7 @@ package holos
 
 import (
 	corev1 "k8s.io/api/core/v1"
+    scv1 "k8s.io/api/storage/v1"
 	// bgpadv "metallb.io/bgpadvertisement/v1beta1"
 	// bgppeer "metallb.io/bgppeer/v1beta2"
 	// css "external-secrets.io/clustersecretstore/v1"
@@ -57,4 +58,5 @@ import (
     LinstorNodeConnection?: [_]: linstornodeconnection.#LinstorNodeConnection
     LinstorSatellite?: [_]: linstorsatellite.#LinstorSatellite
     LinstorSatelliteConfiguration?: [_]: linstorsatelliteconfig.#LinstorSatelliteConfiguration
+    StorageClass?: [_]:		  scv1.#StorageClass
 }

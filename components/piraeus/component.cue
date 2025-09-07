@@ -9,8 +9,19 @@ Component: #Kubernetes & {
 	Resources: {
         LinstorCluster: LinstorCluster: {
             metadata: name:      "linstorcluster"
-			metadata: namespace: Namespace
 			spec: {}
+        }
+
+        LinstorSatelliteConfiguration: pool1: {
+            metadata: name:      "storage-pool"
+			spec: {
+                storagePools: [
+                    {
+                        name: "pool1",
+                        fileThinPool: directory: "/var/piraeus-datastore/pool1"
+                    }
+                ]
+            }
         }
 	}
 }
