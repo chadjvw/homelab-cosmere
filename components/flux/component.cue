@@ -6,6 +6,7 @@ Component: #Kustomize & {
 	Name:      "flux"
 	Namespace: "flux-system"
 	KustomizeConfig: Kustomization: namespace: Namespace
+
 	Resources: OCIRepository: {
 		flux: {
 			metadata: name:      "flux"
@@ -30,17 +31,74 @@ Component: #Kustomize & {
 		}
 	}
 
-	Resources: Kustomization: "cluster-apps": {
-		metadata: name:      "cluster-apps"
-		metadata: namespace: Namespace
-		spec: {
-			interval: "1m"
-			path:     "./gitops"
-			prune:    true
-			wait:     true
-			sourceRef: {
-				kind: "OCIRepository"
-				name: "default"
+	Resources: Kustomization: {
+		"cluster-apps": {
+			metadata: name:      "cluster-apps"
+			metadata: namespace: Namespace
+			spec: {
+				interval: "1m"
+				path:     "./gitops"
+				prune:    true
+				wait:     true
+				sourceRef: {
+					kind: "OCIRepository"
+					name: "default"
+				}
+			}
+		}
+		"gateway-crds": {
+			metadata: name:      "gateway-crds"
+			metadata: namespace: Namespace
+			spec: {
+				interval: "10m"
+				path:     "config/crd"
+				prune:    true
+				wait:     true
+				sourceRef: {
+					kind: "GitRepository"
+					name: "gateway-crds"
+				}
+			}
+		}
+		"piraeus-operator": {
+			metadata: name:      "piraeus-operator"
+			metadata: namespace: Namespace
+			spec: {
+				interval: "10m"
+				path:     "config/default"
+				prune:    true
+				wait:     true
+				sourceRef: {
+					kind: "GitRepository"
+					name: "piraeus-operator"
+				}
+			}
+		}
+	}
+
+	Resources: GitRepository: {
+		"gateway-crds": {
+			metadata: name:      "gateway-crds"
+			metadata: namespace: Namespace
+			spec: {
+				interval: "10m"
+				ref: {
+					// renovate: datasource=github-releases depName=fluxcd/flux2
+					tag: "v1.3.0"
+				}
+				url: "https://github.com/kubernetes-sigs/gateway-api"
+			}
+		}
+		"piraeus-operator": {
+			metadata: name:      "piraeus-operator"
+			metadata: namespace: Namespace
+			spec: {
+				interval: "10m"
+				ref: {
+					// renovate: datasource=github-releases depName=fluxcd/flux2
+					tag: "v2.9.0"
+				}
+				url: "https://github.com/piraeusdatastore/piraeus-operator"
 			}
 		}
 	}
