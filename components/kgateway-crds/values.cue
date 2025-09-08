@@ -1,3 +1,5 @@
 package holos
 
-#Values: {}
+#Values: {
+	controller: image: pullPolicy: "Always"
+}
