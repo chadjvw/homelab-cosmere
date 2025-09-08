@@ -646,6 +646,8 @@ metadata:
   namespace: kube-system
 ---
 apiVersion: v1
+=======
+>>>>>>> f80a0fa (turn off hubble, upgrade kgateway)
 kind: Service
 metadata:
   annotations:
