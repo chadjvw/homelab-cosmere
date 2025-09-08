@@ -24,6 +24,7 @@ package holos
 	// enableIPv4BIGTCP: true
 	k8sNetworkPolicy: {
 		enabled: false
+	}
 	// gatewayAPI: {
 	// 	enabled:           true
 	// 	enableAlpn:        true
