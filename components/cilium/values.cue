@@ -32,7 +32,7 @@ package holos
 		hostNetwork: enabled: true
 		// xffNumTrustedHops: 1
 	}
-	hubble: enabled: true
+	hubble: enabled: false
 	// localRedirectPolicy: true
 	// loadBalancer: {
 	// 	algorithm: "maglev"
