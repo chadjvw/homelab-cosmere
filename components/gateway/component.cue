@@ -4,7 +4,7 @@ holos: Component.BuildPlan
 
 Component: #Kubernetes & {
 	Name:      "gateway"
-	Namespace: "kube-system"
+	Namespace: "kgateway-system"
 
 	Resources: {
 		HTTPRoute: Redirect: {
@@ -14,7 +14,7 @@ Component: #Kubernetes & {
 				parentRefs: [
 					{
 						name:        "internal"
-						namespace:   "kube-system"
+						namespace:   "kgateway-system"
 						sectionName: "http"
 					},
 				]
@@ -25,7 +25,7 @@ Component: #Kubernetes & {
 				metadata: name:      "internal"
 				metadata: namespace: Namespace
 				spec: {
-					gatewayClassName: "cilium"
+					gatewayClassName: "kgateway"
 					listeners: [{
 						name:     "http"
 						protocol: "HTTP"

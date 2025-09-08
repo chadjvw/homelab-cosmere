@@ -25,14 +25,14 @@ package holos
 	k8sNetworkPolicy: {
 		enabled: false
 	}
-	gatewayAPI: {
-		enabled:           true
-		enableAlpn:        true
-		enableAppProtocol: true
-		hostNetwork: enabled: true
-		// xffNumTrustedHops: 1
-	}
-	hubble: enabled: true
+	// gatewayAPI: {
+	// 	enabled:           true
+	// 	enableAlpn:        true
+	// 	enableAppProtocol: true
+	// 	hostNetwork: enabled: true
+	// 	// xffNumTrustedHops: 1
+	// }
+	hubble: enabled: false
 	// localRedirectPolicy: true
 	// loadBalancer: {
 	// 	algorithm: "maglev"
@@ -81,7 +81,6 @@ package holos
 	k8sServicePort: "7445"
 
 	l2announcements: enabled: true
-	kubeProxyReplacement: true
 	externalIPs: enabled: true
 	devices: "enp+"
 }
