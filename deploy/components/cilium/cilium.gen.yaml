@@ -28,41 +28,6 @@ kind: Role
 metadata:
   labels:
     app.kubernetes.io/part-of: cilium
-  name: cilium-gateway-secrets
-  namespace: cilium-secrets
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - get
-  - list
-  - watch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  labels:
-    app.kubernetes.io/part-of: cilium
-  name: cilium-operator-gateway-secrets
-  namespace: cilium-secrets
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - secrets
-  verbs:
-  - create
-  - delete
-  - update
-  - patch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  labels:
-    app.kubernetes.io/part-of: cilium
   name: cilium-operator-tlsinterception-secrets
   namespace: cilium-secrets
 rules:
@@ -298,10 +263,6 @@ rules:
   - get
   - list
   - watch
-  - create
-  - update
-  - delete
-  - patch
 - apiGroups:
   - cilium.io
   resources:
@@ -449,92 +410,6 @@ rules:
   - create
   - get
   - update
-- apiGroups:
-  - gateway.networking.k8s.io
-  resources:
-  - gatewayclasses
-  - gateways
-  - tlsroutes
-  - httproutes
-  - grpcroutes
-  - referencegrants
-  - referencepolicies
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - gateway.networking.k8s.io
-  resources:
-  - gatewayclasses
-  verbs:
-  - patch
-- apiGroups:
-  - gateway.networking.k8s.io
-  resources:
-  - gatewayclasses/status
-  - gateways/status
-  - httproutes/status
-  - grpcroutes/status
-  - tlsroutes/status
-  verbs:
-  - update
-  - patch
-- apiGroups:
-  - cilium.io
-  resources:
-  - ciliumgatewayclassconfigs
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - cilium.io
-  resources:
-  - ciliumgatewayclassconfigs/status
-  verbs:
-  - update
-  - patch
-- apiGroups:
-  - multicluster.x-k8s.io
-  resources:
-  - serviceimports
-  verbs:
-  - get
-  - list
-  - watch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  labels:
-    app.kubernetes.io/part-of: cilium
-  name: cilium-gateway-secrets
-  namespace: cilium-secrets
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: cilium-gateway-secrets
-subjects:
-- kind: ServiceAccount
-  name: cilium
-  namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  labels:
-    app.kubernetes.io/part-of: cilium
-  name: cilium-operator-gateway-secrets
-  namespace: cilium-secrets
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: cilium-operator-gateway-secrets
-subjects:
-- kind: ServiceAccount
-  name: cilium-operator
-  namespace: kube-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -657,12 +532,6 @@ data:
   enable-endpoint-health-checking: "true"
   enable-endpoint-lockdown-on-policy-overflow: "false"
   enable-endpoint-routes: "true"
-  enable-envoy-config: "true"
-  enable-gateway-api: "true"
-  enable-gateway-api-alpn: "true"
-  enable-gateway-api-app-protocol: "true"
-  enable-gateway-api-proxy-protocol: "false"
-  enable-gateway-api-secrets-sync: "true"
   enable-health-check-loadbalancer-ip: "false"
   enable-health-check-nodeport: "true"
   enable-health-checking: "true"
@@ -694,14 +563,8 @@ data:
   enable-xt-socket-fallback: "true"
   envoy-access-log-buffer-size: "4096"
   envoy-base-id: "0"
-  envoy-config-retry-interval: 15s
   envoy-keep-cap-netbindservice: "false"
   external-envoy-proxy: "true"
-  gateway-api-hostnetwork-enabled: "true"
-  gateway-api-hostnetwork-nodelabelselector: ""
-  gateway-api-secrets-namespace: cilium-secrets
-  gateway-api-service-externaltrafficpolicy: Cluster
-  gateway-api-xff-num-trusted-hops: "0"
   health-check-icmp-failure-threshold: "3"
   http-retry-count: "3"
   hubble-disable-tls: "false"
@@ -876,7 +739,7 @@ spec:
   template:
     metadata:
       annotations:
-        cilium.io/cilium-configmap-checksum: ac93e9ebc0b2d6e799a5ad41ffd0256637f1f71eb8f8371d68a28b7b5e1ffeff
+        cilium.io/cilium-configmap-checksum: 81d22625a897f22f37d84b287e5e88508c4dc44eff61f15ca9f7f79de2e36e8c
         prometheus.io/port: "9963"
         prometheus.io/scrape: "true"
       labels:
@@ -996,7 +859,7 @@ spec:
   template:
     metadata:
       annotations:
-        cilium.io/cilium-configmap-checksum: ac93e9ebc0b2d6e799a5ad41ffd0256637f1f71eb8f8371d68a28b7b5e1ffeff
+        cilium.io/cilium-configmap-checksum: 81d22625a897f22f37d84b287e5e88508c4dc44eff61f15ca9f7f79de2e36e8c
         kubectl.kubernetes.io/default-container: cilium-agent
       labels:
         app.kubernetes.io/name: cilium-agent
@@ -1606,11 +1469,3 @@ spec:
   nodeSelector:
     matchLabels:
       kubernetes.io/os: linux
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: GatewayClass
-metadata:
-  name: cilium
-spec:
-  controllerName: io.cilium/gateway-controller
-  description: The default Cilium GatewayClass
