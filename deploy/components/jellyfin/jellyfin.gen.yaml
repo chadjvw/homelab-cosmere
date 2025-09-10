@@ -82,7 +82,7 @@ spec:
       containers:
       - env:
         - name: PGID
-          value: "100"
+          value: "1000"
         - name: PUID
           value: "1000"
         - name: TZ
@@ -122,13 +122,13 @@ spec:
       - name: movies
         nfs:
           path: /mnt/user/movies
-          server: PrincessDonut
+          server: 192.168.4.101
       - emptyDir: {}
         name: transcode
       - name: tv
         nfs:
           path: /mnt/user/tv
-          server: PrincessDonut
+          server: 192.168.4.101
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute

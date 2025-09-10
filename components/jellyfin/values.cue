@@ -3,7 +3,7 @@ package holos
 #Values: {
 	controllers: main: containers: main: {
 		env: {
-			PGID: 100
+			PGID: 1000
 			PUID: 1000
 			TZ:   "America/Denver"
 		}
@@ -13,6 +13,7 @@ package holos
 		}
 	}
 	securityContext: privileged: true
+	securityContext: supplementalGroups: [100]
 	route: main: {
 		parentRefs: [{
 			name:        "internal"
@@ -32,14 +33,14 @@ package holos
 		tv: {
 			enabled: true
 			type:    "nfs"
-			server:  "PrincessDonut"
+			server:  "192.168.4.101"
 			path:    "/mnt/user/tv"
 			globalMounts: [{path: "/media/tv"}]
 		}
 		movies: {
 			enabled: true
 			type:    "nfs"
-			server:  "PrincessDonut"
+			server:  "192.168.4.101"
 			path:    "/mnt/user/movies"
 			globalMounts: [{path: "/media/movies"}]
 		}
