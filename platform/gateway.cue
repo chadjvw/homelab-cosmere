@@ -1,7 +1,7 @@
 package holos
 
 Platform: Components: {
-    "kgateway-crds": {
+	"kgateway-crds": {
 		name: "kgateway-crds"
 		path: "components/kgateway-crds"
 	}
