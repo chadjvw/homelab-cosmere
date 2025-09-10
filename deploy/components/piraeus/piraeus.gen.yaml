@@ -4,7 +4,19 @@ kind: StorageClass
 metadata:
   name: piraeus-storage
 parameters:
+  csi.storage.k8s.io/fstype: xfs
   linstor.csi.linbit.com/storagePool: pool1
+provisioner: linstor.csi.linbit.com
+volumeBindingMode: WaitForFirstConsumer
+---
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: piraeus-storage-file
+parameters:
+  csi.storage.k8s.io/fstype: xfs
+  linstor.csi.linbit.com/storagePool: pool2
 provisioner: linstor.csi.linbit.com
 volumeBindingMode: WaitForFirstConsumer
 ---
@@ -23,6 +35,16 @@ spec:
   - fileThinPool:
       directory: /var/piraeus-datastore/pool1
     name: pool1
+---
+apiVersion: piraeus.io/v1
+kind: LinstorSatelliteConfiguration
+metadata:
+  name: storage-pool2
+spec:
+  storagePools:
+  - filePool:
+      directory: /var/piraeus-datastore/pool2
+    name: pool2
 ---
 apiVersion: piraeus.io/v1
 kind: LinstorSatelliteConfiguration

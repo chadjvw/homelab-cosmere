@@ -58,7 +58,8 @@ Component: #Kubernetes & {
 			}
 		}
 
-		LinstorSatelliteConfiguration: pool1: {
+		LinstorSatelliteConfiguration:
+		{pool1: {
 			metadata: name: "storage-pool"
 			spec: {
 				storagePools: [
@@ -69,20 +70,45 @@ Component: #Kubernetes & {
 				]
 			}
 		}
+			pool2: {
+				metadata: name: "storage-pool2"
+				spec: {
+					storagePools: [
+						{
+							name: "pool2"
+							filePool: directory: "/var/piraeus-datastore/pool2"
+						},
+					]
+				}
+
+			}
+		}
 	}
 
 	Resources: {
-        // https://www.talos.dev/v1.11/kubernetes-guides/configuration/storage/#create-first-storage-pool-and-pvc
-		StorageClass: "piraeus-storage": {
+		// https://www.talos.dev/v1.11/kubernetes-guides/configuration/storage/#create-first-storage-pool-and-pvc
+		StorageClass: {"piraeus-storage": {
 			apiVersion: "storage.k8s.io/v1"
 			metadata: name: "piraeus-storage"
 			provisioner:          "linstor.csi.linbit.com"
 			allowVolumeExpansion: true
 			volumeBindingMode:    "WaitForFirstConsumer"
-			parameters:  {
-                "csi.storage.k8s.io/fstype": "xfs"
-                "linstor.csi.linbit.com/storagePool": "pool1"
-            }
+			parameters: {
+				"csi.storage.k8s.io/fstype":          "xfs"
+				"linstor.csi.linbit.com/storagePool": "pool1"
+			}
+		}
+			"piraeus-storage-file": {
+				apiVersion: "storage.k8s.io/v1"
+				metadata: name: "piraeus-storage-file"
+				provisioner:          "linstor.csi.linbit.com"
+				allowVolumeExpansion: true
+				volumeBindingMode:    "WaitForFirstConsumer"
+				parameters: {
+					"csi.storage.k8s.io/fstype":          "xfs"
+					"linstor.csi.linbit.com/storagePool": "pool2"
+				}
+			}
 		}
 	}
 }
