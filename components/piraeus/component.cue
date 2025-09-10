@@ -72,13 +72,17 @@ Component: #Kubernetes & {
 	}
 
 	Resources: {
+        // https://www.talos.dev/v1.11/kubernetes-guides/configuration/storage/#create-first-storage-pool-and-pvc
 		StorageClass: "piraeus-storage": {
 			apiVersion: "storage.k8s.io/v1"
 			metadata: name: "piraeus-storage"
 			provisioner:          "linstor.csi.linbit.com"
 			allowVolumeExpansion: true
 			volumeBindingMode:    "WaitForFirstConsumer"
-			parameters: "linstor.csi.linbit.com/storagePool": "pool1"
+			parameters:  {
+                "csi.storage.k8s.io/fstype": "xfs"
+                "linstor.csi.linbit.com/storagePool": "pool1"
+            }
 		}
 	}
 }
