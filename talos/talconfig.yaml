@@ -6,10 +6,66 @@ endpoint: https://192.168.4.107:6443
 allowSchedulingOnMasters: true
 additionalApiServerCertSans: &sans
   - 192.168.4.107
+  - 192.168.4.119
+  - 192.168.4.120
   - 127.0.0.1 # Kubeprism
 additionalMachineCertSans: *sans
 cniConfig:
   name: none
+
+controlPlane:
+  machineSpec: &spec
+    mode: metal
+    arch: amd64
+    secureboot: false
+  schematic:
+    customization:
+      extraKernelArgs:
+        - -init_on_alloc # Less security, faster puter
+        - -init_on_free # Less security, faster puter
+        - -selinux # Less security, faster puter
+        - apparmor=0 # Less security, faster puter
+        - init_on_alloc=0 # Less security, faster puter
+        - init_on_free=0 # Less security, faster puter
+        - intel_iommu=on # PCI Passthrough
+        - iommu=pt # PCI Passthrough
+        - mitigations=off # Less security, faster puter
+        - security=none # Less security, faster puter
+        - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
+        - talos.auditd.disabled=1 # Less security, faster puter
+      systemExtensions:
+          officialExtensions: &extensions
+            - siderolabs/drbd
+            - siderolabs/i915
+            - siderolabs/intel-ucode
+  kernelModules: &kernelMod
+    - name: drbd
+      parameters:
+        - usermode_helper=disabled
+    - name: drbd_transport_tcp
+  patches:
+    # Enable K8s Talos API Access
+    - |-
+      machine:
+        features:
+          kubernetesTalosAPIAccess:
+            enabled: true
+            allowedRoles:
+              - os:admin
+            allowedKubernetesNamespaces:
+              - system-upgrade
+    # Disable default API server admission plugins.
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
+
+worker:
+  machineSpec: *spec
+  kernelModules: *kernelMod
+  schematic:
+    customization:
+      systemExtensions:
+          officialExtensions: *extensions
 
 patches:
   # disable kubeproxy for cilium
@@ -99,45 +155,21 @@ nodes:
     controlPlane: true
     installDiskSelector:
       model: San*
-    machineSpec:
-      mode: metal
-      arch: amd64
-      secureboot: false
-    schematic:
-      customization:
-        extraKernelArgs:
-          - -init_on_alloc # Less security, faster puter
-          - -init_on_free # Less security, faster puter
-          - -selinux # Less security, faster puter
-          - apparmor=0 # Less security, faster puter
-          # - i915.enable_guc=3 # this CPU is too old for this
-          - init_on_alloc=0 # Less security, faster puter
-          - init_on_free=0 # Less security, faster puter
-          - intel_iommu=on # PCI Passthrough
-          - iommu=pt # PCI Passthrough
-          - mitigations=off # Less security, faster puter
-          - security=none # Less security, faster puter
-          - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
-          - talos.auditd.disabled=1 # Less security, faster puter
-        systemExtensions:
-          officialExtensions: &extensions
-            - siderolabs/drbd
-            - siderolabs/i915
-            - siderolabs/intel-ucode
-    kernelModules: &kernelMod
-      - name: drbd
-        parameters:
-          - usermode_helper=disabled
-      - name: drbd_transport_tcp
-  - hostname: sel
+  - hostname: roshar
+    ipAddress: 192.168.4.119
+    controlPlane: true
+    installDiskSelector:
+      model: INTEL*
+  - hostname: nalthis
+    ipAddress: 192.168.4.120
+    controlPlane: true
+    installDiskSelector:
+      busPath: /pci0000:00/0000:00:17.0/ata1/host1/target1:0:0/1:0:0:0
+  - hostname: scadrial 
     ipAddress: 192.168.4.113
     controlPlane: false
     installDiskSelector:
       model: TWSC*
-    machineSpec:
-      mode: metal
-      arch: amd64
-      secureboot: false
     schematic:
       customization:
         extraKernelArgs:
@@ -145,7 +177,6 @@ nodes:
           - -init_on_free # Less security, faster puter
           - -selinux # Less security, faster puter
           - apparmor=0 # Less security, faster puter
-          - i915.enable_guc=3 # Meteor Lake CPU / iGPU
           - init_on_alloc=0 # Less security, faster puter
           - init_on_free=0 # Less security, faster puter
           - intel_iommu=on # PCI Passthrough
@@ -154,23 +185,5 @@ nodes:
           - security=none # Less security, faster puter
           - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
           - talos.auditd.disabled=1 # Less security, faster puter
-        systemExtensions:
-          officialExtensions: *extensions
-    kernelModules: *kernelMod
+          - i915.enable_guc=3 # Meteor Lake CPU / iGPU
 
-controlPlane:
-  patches:
-    # Enable K8s Talos API Access
-    - |-
-      machine:
-        features:
-          kubernetesTalosAPIAccess:
-            enabled: true
-            allowedRoles:
-              - os:admin
-            allowedKubernetesNamespaces:
-              - system-upgrade
-    # Disable default API server admission plugins.
-    - |-
-      - op: remove
-        path: /cluster/apiServer/admissionControl
