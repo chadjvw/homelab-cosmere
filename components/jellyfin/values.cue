@@ -33,14 +33,14 @@ package holos
 		tv: {
 			enabled: true
 			type:    "nfs"
-			server:  "192.168.4.101"
+			server:  "10.0.20.10"
 			path:    "/mnt/user/tv"
 			globalMounts: [{path: "/media/tv"}]
 		}
 		movies: {
 			enabled: true
 			type:    "nfs"
-			server:  "192.168.4.101"
+			server:  "10.0.20.10"
 			path:    "/mnt/user/movies"
 			globalMounts: [{path: "/media/movies"}]
 		}
@@ -56,7 +56,7 @@ package holos
 		}
 	}
 	service: main: {
-		annotations: "lbipam.cilium.io/ips": "192.168.5.7"
+		annotations: "lbipam.cilium.io/ips": "10.0.30.7"
 		controller: "main"
 		// doesnt work with l2 annouce, remove once bgp
 		// externalTrafficPolicy: "Local"
