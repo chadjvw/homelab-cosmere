@@ -41,6 +41,7 @@ package holos
 			storageSpec: volumeClaimTemplate: spec: {
 				accessModes: ["ReadWriteOnce"]
 				resources: requests: storage: "10Gi"
+				storageClassName: "piraeus-storage"
 			}
 		}
 	}
