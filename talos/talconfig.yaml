@@ -2,19 +2,19 @@
 clusterName: cosmere
 talosVersion: v1.11.0
 kubernetesVersion: v1.34.0
-endpoint: https://192.168.4.107:6443
+endpoint: https://10.0.10.13:6443
 allowSchedulingOnMasters: true
 additionalApiServerCertSans: &sans
-  - 192.168.4.107
-  - 192.168.4.119
-  - 192.168.4.120
+  - 10.0.10.12
+  - 10.0.10.13
+  - 10.0.10.14
   - 127.0.0.1 # Kubeprism
 additionalMachineCertSans: *sans
 cniConfig:
   name: none
 
 controlPlane:
-  machineSpec: &spec
+  machineSpec:
     mode: metal
     arch: amd64
     secureboot: false
@@ -34,11 +34,11 @@ controlPlane:
         - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
         - talos.auditd.disabled=1 # Less security, faster puter
       systemExtensions:
-          officialExtensions: &extensions
+          officialExtensions:
             - siderolabs/drbd
             - siderolabs/i915
             - siderolabs/intel-ucode
-  kernelModules: &kernelMod
+  kernelModules:
     - name: drbd
       parameters:
         - usermode_helper=disabled
@@ -58,14 +58,6 @@ controlPlane:
     - |-
       - op: remove
         path: /cluster/apiServer/admissionControl
-
-worker:
-  machineSpec: *spec
-  kernelModules: *kernelMod
-  schematic:
-    customization:
-      systemExtensions:
-          officialExtensions: *extensions
 
 patches:
   # disable kubeproxy for cilium
@@ -113,7 +105,7 @@ patches:
           rotate-server-certificates: "true"
         nodeIP:
           validSubnets:
-              - 192.168.4.0/24
+              - 10.0.0.0/16
 
   # Enable cluster discovery
   - |-
@@ -150,24 +142,19 @@ patches:
             source: /var/piraeus-datastore
             options: ["bind", "rshared", "rw"]
 nodes:
-  - hostname: yolen
-    ipAddress: 192.168.4.107
-    controlPlane: true
-    installDiskSelector:
-      model: San*
   - hostname: roshar
-    ipAddress: 192.168.4.119
+    ipAddress: 10.0.10.13
     controlPlane: true
     installDiskSelector:
       model: INTEL*
   - hostname: nalthis
-    ipAddress: 192.168.4.120
+    ipAddress: 10.0.10.14
     controlPlane: true
     installDiskSelector:
       busPath: /pci0000:00/0000:00:17.0/ata1/host1/target1:0:0/1:0:0:0
   - hostname: scadrial 
-    ipAddress: 192.168.4.113
-    controlPlane: false
+    ipAddress: 10.0.10.12
+    controlPlane: true
     installDiskSelector:
       model: TWSC*
     schematic:
