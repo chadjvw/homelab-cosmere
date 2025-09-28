@@ -14,6 +14,7 @@ import (
 	ap "argoproj.io/appproject/v1alpha1"
 	es "external-secrets.io/externalsecret/v1beta1"
 	ss "external-secrets.io/secretstore/v1beta1"
+	css "external-secrets.io/clustersecretstore/v1beta1"
 )
 
 #Resources: {
@@ -39,6 +40,7 @@ import (
 	RoleBinding?: [_]:        rbacv1.#RoleBinding
 	Secret?: [_]:             corev1.#Secret
 	SecretStore?: [_]:        ss.#SecretStore
+	ClusterSecretStore?: [_]: css.#ClusterSecretStore
 	Service?: [_]:            corev1.#Service
 	ServiceAccount?: [_]:     corev1.#ServiceAccount
 	StatefulSet?: [_]:        appsv1.#StatefulSet
