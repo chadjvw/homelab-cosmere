@@ -60,20 +60,6 @@ Component: #Kustomize & {
 				}
 			}
 		}
-		"piraeus-operator": {
-			metadata: name:      "piraeus-operator"
-			metadata: namespace: Namespace
-			spec: {
-				interval: "10m"
-				path:     "config/default"
-				prune:    true
-				wait:     true
-				sourceRef: {
-					kind: "GitRepository"
-					name: "piraeus-operator"
-				}
-			}
-		}
 	}
 
 	Resources: GitRepository: {
@@ -87,18 +73,6 @@ Component: #Kustomize & {
 					tag: "v1.3.0"
 				}
 				url: "https://github.com/kubernetes-sigs/gateway-api"
-			}
-		}
-		"piraeus-operator": {
-			metadata: name:      "piraeus-operator"
-			metadata: namespace: Namespace
-			spec: {
-				interval: "10m"
-				ref: {
-					// renovate: datasource=github-releases depName=fluxcd/flux2
-					tag: "v2.9.0"
-				}
-				url: "https://github.com/piraeusdatastore/piraeus-operator"
 			}
 		}
 	}
