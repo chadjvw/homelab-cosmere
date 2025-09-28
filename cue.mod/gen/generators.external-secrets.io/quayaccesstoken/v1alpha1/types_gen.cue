@@ -6,9 +6,9 @@ package v1alpha1
 
 import "strings"
 
-// Fake generator is used for testing. It lets you define
-// a static set of credentials that is always returned.
-#Fake: {
+// QuayAccessToken generates Quay oauth token for pulling/pushing
+// images
+#QuayAccessToken: {
 	// APIVersion defines the versioned schema of this representation
 	// of an object.
 	// Servers should convert recognized schemas to the latest
@@ -26,7 +26,7 @@ import "strings"
 	// In CamelCase.
 	// More info:
 	// https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
-	kind: "Fake"
+	kind: "QuayAccessToken"
 	metadata!: {
 		name!: strings.MaxRunes(253) & strings.MinRunes(1) & {
 			string
@@ -41,22 +41,34 @@ import "strings"
 			[string]: string
 		}
 	}
-
-	// FakeSpec contains the static data.
-	spec!: #FakeSpec
+	spec!: #QuayAccessTokenSpec
 }
+#QuayAccessTokenSpec: {
+	// Name of the robot account you are federating with
+	robotAccount!: string
 
-// FakeSpec contains the static data.
-#FakeSpec: {
-	// Used to select the correct ESO controller (think:
-	// ingress.ingressClassName)
-	// The ESO controller is instantiated with a specific controller
-	// name and filters VDS based on this property
-	controller?: string
+	// Name of the service account you are federating with
+	serviceAccountRef!: {
+		// Audience specifies the `aud` claim for the service account
+		// token
+		// If the service account uses a well-known annotation for e.g.
+		// IRSA or GCP Workload Identity
+		// then this audiences will be appended to the list
+		audiences?: [...string]
 
-	// Data defines the static data returned
-	// by this generator.
-	data?: {
-		[string]: string
+		// The name of the ServiceAccount resource being referred to.
+		name!: strings.MaxRunes(253) & strings.MinRunes(1) & {
+			=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+		}
+
+		// Namespace of the resource being referred to.
+		// Ignored if referent is not cluster-scoped, otherwise defaults
+		// to the namespace of the referent.
+		namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+			=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+		}
 	}
+
+	// URL configures the Quay instance URL. Defaults to quay.io.
+	url?: string
 }

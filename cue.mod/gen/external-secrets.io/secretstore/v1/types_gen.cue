@@ -2,17 +2,16 @@
 
 //timoni:generate timoni mod vendor crd -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.20.1/deploy/crds/bundle.yaml
 
-package v1beta1
+package v1
 
 import (
 	"strings"
 	"struct"
 )
 
-// ClusterSecretStore represents a secure external location for
-// storing secrets, which can be referenced as part of `storeRef`
-// fields.
-#ClusterSecretStore: {
+// SecretStore represents a secure external location for storing
+// secrets, which can be referenced as part of `storeRef` fields.
+#SecretStore: {
 	// APIVersion defines the versioned schema of this representation
 	// of an object.
 	// Servers should convert recognized schemas to the latest
@@ -20,7 +19,7 @@ import (
 	// may reject unrecognized values.
 	// More info:
 	// https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
-	apiVersion: "external-secrets.io/v1beta1"
+	apiVersion: "external-secrets.io/v1"
 
 	// Kind is a string value representing the REST resource this
 	// object represents.
@@ -30,12 +29,12 @@ import (
 	// In CamelCase.
 	// More info:
 	// https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
-	kind: "ClusterSecretStore"
+	kind: "SecretStore"
 	metadata!: {
 		name!: strings.MaxRunes(253) & strings.MinRunes(1) & {
 			string
 		}
-		namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+		namespace!: strings.MaxRunes(63) & strings.MinRunes(1) & {
 			string
 		}
 		labels?: {
@@ -47,11 +46,11 @@ import (
 	}
 
 	// SecretStoreSpec defines the desired state of SecretStore.
-	spec!: #ClusterSecretStoreSpec
+	spec!: #SecretStoreSpec
 }
 
 // SecretStoreSpec defines the desired state of SecretStore.
-#ClusterSecretStoreSpec: {
+#SecretStoreSpec: {
 	// Used to constraint a ClusterSecretStore to specific namespaces.
 	// Relevant only to ClusterSecretStore
 	conditions?: [...{
@@ -623,14 +622,38 @@ import (
 			// (see aad-pod-identity)
 			authType?: "ServicePrincipal" | "ManagedIdentity" | "WorkloadIdentity"
 
+			// CustomCloudConfig defines custom Azure Stack Hub or Azure Stack
+			// Edge endpoints.
+			// Required when EnvironmentType is AzureStackCloud.
+			// IMPORTANT: This feature REQUIRES UseAzureSDK to be set to true.
+			// Custom cloud
+			// configuration is not supported with the legacy go-autorest SDK.
+			customCloudConfig?: {
+				// ActiveDirectoryEndpoint is the AAD endpoint for authentication
+				// Required when using custom cloud configuration
+				activeDirectoryEndpoint!: string
+
+				// KeyVaultDNSSuffix is the DNS suffix for Key Vault URLs
+				keyVaultDNSSuffix?: string
+
+				// KeyVaultEndpoint is the Key Vault service endpoint
+				keyVaultEndpoint?: string
+
+				// ResourceManagerEndpoint is the Azure Resource Manager endpoint
+				resourceManagerEndpoint?: string
+			}
+
 			// EnvironmentType specifies the Azure cloud environment endpoints
 			// to use for
 			// connecting and authenticating with Azure. By default it points
 			// to the public cloud AAD endpoint.
 			// The following endpoints are available, also see here:
 			// https://github.com/Azure/go-autorest/blob/main/autorest/azure/environments.go#L152
-			// PublicCloud, USGovernmentCloud, ChinaCloud, GermanCloud
-			environmentType?: "PublicCloud" | "USGovernmentCloud" | "ChinaCloud" | "GermanCloud"
+			// PublicCloud, USGovernmentCloud, ChinaCloud, GermanCloud,
+			// AzureStackCloud
+			// Use AzureStackCloud when you need to configure custom Azure
+			// Stack Hub or Azure Stack Edge endpoints.
+			environmentType?: "PublicCloud" | "USGovernmentCloud" | "ChinaCloud" | "GermanCloud" | "AzureStackCloud"
 
 			// If multiple Managed Identity is assigned to the pod, you can
 			// select the one to be used
@@ -663,6 +686,12 @@ import (
 			// Required for ServicePrincipal auth type. Optional for
 			// WorkloadIdentity.
 			tenantId?: string
+
+			// UseAzureSDK enables the use of the new Azure SDK for Go
+			// (azcore-based) instead of the legacy go-autorest SDK.
+			// This is experimental and may have behavioral differences.
+			// Defaults to false (legacy SDK).
+			useAzureSDK?: bool
 
 			// Vault Url from which the secrets to be fetched from.
 			vaultUrl!: string
@@ -1325,12 +1354,15 @@ import (
 			// Doppler project (required if not using a Service Token)
 			project?: string
 		}
+
+		// Fake configures a store with static key/value pairs
 		fake?: {
 			data!: [...{
 				key!:     string
 				value!:   string
 				version?: string
 			}]
+			validationResult?: int
 		}
 
 		// Fortanix configures this store to sync secrets using the
@@ -1413,6 +1445,109 @@ import (
 
 					// A reference to a ServiceAccount resource.
 					serviceAccountRef!: {
+						// Audience specifies the `aud` claim for the service account
+						// token
+						// If the service account uses a well-known annotation for e.g.
+						// IRSA or GCP Workload Identity
+						// then this audiences will be appended to the list
+						audiences?: [...string]
+
+						// The name of the ServiceAccount resource being referred to.
+						name!: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// Namespace of the resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
+
+				// GCPWorkloadIdentityFederation holds the configurations required
+				// for generating federated access tokens.
+				workloadIdentityFederation?: {
+					// audience is the Secure Token Service (STS) audience which
+					// contains the resource name for the workload identity pool and
+					// the provider identifier in that pool.
+					// If specified, Audience found in the external account credential
+					// config will be overridden with the configured value.
+					// audience must be provided when serviceAccountRef or
+					// awsSecurityCredentials is configured.
+					audience?: string
+
+					// awsSecurityCredentials is for configuring AWS region and
+					// credentials to use for obtaining the access token,
+					// when using the AWS metadata server is not an option.
+					awsSecurityCredentials?: {
+						// awsCredentialsSecretRef is the reference to the secret which
+						// holds the AWS credentials.
+						// Secret should be created with below names for keys
+						// - aws_access_key_id: Access Key ID, which is the unique
+						// identifier for the AWS account or the IAM user.
+						// - aws_secret_access_key: Secret Access Key, which is used to
+						// authenticate requests made to AWS services.
+						// - aws_session_token: Session Token, is the short-lived token to
+						// authenticate requests made to AWS services.
+						awsCredentialsSecretRef!: {
+							// name of the secret.
+							name!: strings.MaxRunes(253) & strings.MinRunes(1) & {
+								=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+							}
+
+							// namespace in which the secret exists. If empty, secret will
+							// looked up in local namespace.
+							namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+								=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+							}
+						}
+
+						// region is for configuring the AWS region to be used.
+						region!: strings.MaxRunes(50) & strings.MinRunes(1) & {
+							=~"^[a-z0-9-]+$"
+						}
+					}
+
+					// credConfig holds the configmap reference containing the GCP
+					// external account credential configuration in JSON format and
+					// the key name containing the json data.
+					// For using Kubernetes cluster as the identity provider, use
+					// serviceAccountRef instead. Operators mounted serviceaccount
+					// token cannot be used as the token source, instead
+					// serviceAccountRef must be used by providing operators service
+					// account details.
+					credConfig?: {
+						// key name holding the external account credential config.
+						key!: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// name of the configmap.
+						name!: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// namespace in which the configmap exists. If empty, configmap
+						// will looked up in local namespace.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// externalTokenEndpoint is the endpoint explicitly set up to
+					// provide tokens, which will be matched against the
+					// credential_source.url in the provided credConfig. This field is
+					// merely to double-check the external token source
+					// URL is having the expected value.
+					externalTokenEndpoint?: string
+
+					// serviceAccountRef is the reference to the kubernetes
+					// ServiceAccount to be used for obtaining the tokens,
+					// when Kubernetes is configured as provider in workload identity
+					// pool.
+					serviceAccountRef?: {
 						// Audience specifies the `aud` claim for the service account
 						// token
 						// If the service account uses a well-known annotation for e.g.
@@ -1627,7 +1762,501 @@ import (
 		// Infisical configures this store to sync secrets using the
 		// Infisical provider
 		infisical?: {
+			// Auth configures how the Operator authenticates with the
+			// Infisical API
 			auth!: {
+				awsAuthCredentials?: {
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					identityId!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
+				azureAuthCredentials?: {
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					identityId!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					resource?: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
+				gcpIamAuthCredentials?: {
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					identityId!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					serviceAccountKeyFilePath!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
+				gcpIdTokenAuthCredentials?: {
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					identityId!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
+				jwtAuthCredentials?: {
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					identityId!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					jwt!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
+				kubernetesAuthCredentials?: {
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					identityId!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					serviceAccountTokenPath?: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
+				ldapAuthCredentials?: {
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					identityId!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					ldapPassword!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					ldapUsername!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
+				ociAuthCredentials?: {
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					fingerprint!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					identityId!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					privateKey!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					privateKeyPassphrase?: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					region!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					tenancyId!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					userId!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
+				tokenAuthCredentials?: {
+					// A reference to a specific 'key' within a Secret resource.
+					// In some instances, `key` is a required field.
+					accessToken!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
 				universalAuthCredentials?: {
 					// A reference to a specific 'key' within a Secret resource.
 					// In some instances, `key` is a required field.
@@ -2005,6 +2634,52 @@ import (
 			}
 		}
 
+		// OnePasswordSDK configures this store to use 1Password's new Go
+		// SDK to sync secrets.
+		onepasswordSDK?: {
+			auth!: {
+				// ServiceAccountSecretRef points to the secret containing the
+				// token to access 1Password vault.
+				serviceAccountSecretRef!: {
+					// A key in the referenced Secret.
+					// Some instances of this field may be defaulted, in others it may
+					// be required.
+					key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+						=~"^[-._a-zA-Z0-9]+$"
+					}
+
+					// The name of the Secret resource being referred to.
+					name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+						=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+					}
+
+					// The namespace of the Secret resource being referred to.
+					// Ignored if referent is not cluster-scoped, otherwise defaults
+					// to the namespace of the referent.
+					namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+						=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+					}
+				}
+			}
+
+			// IntegrationInfo specifies the name and version of the
+			// integration built using the 1Password Go SDK.
+			// If you don't know which name and version to use, use
+			// `DefaultIntegrationName` and `DefaultIntegrationVersion`,
+			// respectively.
+			integrationInfo?: {
+				// Name defaults to "1Password SDK".
+				name?: string
+
+				// Version defaults to "v1.0.0".
+				version?: string
+			}
+
+			// Vault defines the vault's name or uuid to access. Do NOT add
+			// op:// prefix. This will be done automatically.
+			vault!: string
+		}
+
 		// Oracle configures this store to sync secrets using Oracle Vault
 		// provider
 		oracle?: {
@@ -2367,6 +3042,9 @@ import (
 		// SecretServer provider
 		// https://docs.delinea.com/online-help/secret-server/start.htm
 		secretserver?: {
+			// Domain is the secret server domain.
+			domain?: string
+
 			// Password is the secret server account password.
 			password!: {
 				// SecretRef references a key in a secret that will be used as
@@ -3025,6 +3703,12 @@ import (
 				// The type of provider to use such as "Secret", or "ConfigMap".
 				type!: "Secret" | "ConfigMap"
 			}
+			checkAndSet?: {
+				// Required when true, all write operations must include a
+				// check-and-set parameter.
+				// This helps prevent unintentional overwrites of secrets.
+				required?: bool
+			}
 
 			// ForwardInconsistent tells Vault to forward read-after-write
 			// requests to the Vault
@@ -3132,6 +3816,89 @@ import (
 			// either "v1" or
 			// "v2". Version defaults to "v2".
 			version?: "v1" | "v2"
+		}
+
+		// Volcengine configures this store to sync secrets using the
+		// Volcengine provider
+		volcengine?: {
+			auth?: {
+				// SecretRef defines the static credentials to use for
+				// authentication.
+				// If not set, IRSA is used.
+				secretRef?: {
+					// AccessKeyID is the reference to the secret containing the
+					// Access Key ID.
+					accessKeyID!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// SecretAccessKey is the reference to the secret containing the
+					// Secret Access Key.
+					secretAccessKey!: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+
+					// Token is the reference to the secret containing the
+					// STS(Security Token Service) Token.
+					token?: {
+						// A key in the referenced Secret.
+						// Some instances of this field may be defaulted, in others it may
+						// be required.
+						key?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[-._a-zA-Z0-9]+$"
+						}
+
+						// The name of the Secret resource being referred to.
+						name?: strings.MaxRunes(253) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$"
+						}
+
+						// The namespace of the Secret resource being referred to.
+						// Ignored if referent is not cluster-scoped, otherwise defaults
+						// to the namespace of the referent.
+						namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
+							=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
+						}
+					}
+				}
+			}
+
+			// Region specifies the Volcengine region to connect to.
+			region!: string
 		}
 
 		// Webhook configures this store to sync secrets using a generic
@@ -3326,6 +4093,20 @@ import (
 					}
 				}
 			}
+
+			// FetchingPolicy configures the provider to interpret the
+			// `data.secretKey.remoteRef.key` field in ExternalSecret as
+			// certificate ID or certificate name
+			fetching?: struct.MinFields(1) & struct.MaxFields(1) & {
+				// ByID configures the provider to interpret the
+				// `data.secretKey.remoteRef.key` field in ExternalSecret as
+				// secret ID.
+				byID?: {}
+				byName?: {
+					// The folder to fetch secrets from
+					folderID!: string
+				}
+			}
 		}
 
 		// YandexLockbox configures this store to sync secrets using
@@ -3378,6 +4159,20 @@ import (
 					namespace?: strings.MaxRunes(63) & strings.MinRunes(1) & {
 						=~"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
 					}
+				}
+			}
+
+			// FetchingPolicy configures the provider to interpret the
+			// `data.secretKey.remoteRef.key` field in ExternalSecret as
+			// secret ID or secret name
+			fetching?: struct.MinFields(1) & struct.MaxFields(1) & {
+				// ByID configures the provider to interpret the
+				// `data.secretKey.remoteRef.key` field in ExternalSecret as
+				// secret ID.
+				byID?: {}
+				byName?: {
+					// The folder to fetch secrets from
+					folderID!: string
 				}
 			}
 		}
