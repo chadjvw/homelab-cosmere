@@ -4,11 +4,12 @@
 
 package v1alpha1
 
-import "strings"
+import (
+	"strings"
+	"time"
+)
 
-// Fake generator is used for testing. It lets you define
-// a static set of credentials that is always returned.
-#Fake: {
+#GeneratorState: {
 	// APIVersion defines the versioned schema of this representation
 	// of an object.
 	// Servers should convert recognized schemas to the latest
@@ -26,7 +27,7 @@ import "strings"
 	// In CamelCase.
 	// More info:
 	// https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
-	kind: "Fake"
+	kind: "GeneratorState"
 	metadata!: {
 		name!: strings.MaxRunes(253) & strings.MinRunes(1) & {
 			string
@@ -41,22 +42,30 @@ import "strings"
 			[string]: string
 		}
 	}
-
-	// FakeSpec contains the static data.
-	spec!: #FakeSpec
+	spec!: #GeneratorStateSpec
 }
+#GeneratorStateSpec: {
+	// GarbageCollectionDeadline is the time after which the generator
+	// state
+	// will be deleted.
+	// It is set by the controller which creates the generator state
+	// and
+	// can be set configured by the user.
+	// If the garbage collection deadline is not set the generator
+	// state will not be deleted.
+	garbageCollectionDeadline?: time.Time
 
-// FakeSpec contains the static data.
-#FakeSpec: {
-	// Used to select the correct ESO controller (think:
-	// ingress.ingressClassName)
-	// The ESO controller is instantiated with a specific controller
-	// name and filters VDS based on this property
-	controller?: string
+	// Resource is the generator manifest that produced the state.
+	// It is a snapshot of the generator manifest at the time the
+	// state was produced.
+	// This manifest will be used to delete the resource. Any
+	// configuration that is referenced
+	// in the manifest should be available at the time of garbage
+	// collection. If that is not the case deletion will
+	// be blocked by a finalizer.
+	resource!: _
 
-	// Data defines the static data returned
-	// by this generator.
-	data?: {
-		[string]: string
-	}
+	// State is the state that was produced by the generator
+	// implementation.
+	state!: _
 }

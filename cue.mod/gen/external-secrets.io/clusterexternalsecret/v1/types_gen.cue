@@ -2,7 +2,7 @@
 
 //timoni:generate timoni mod vendor crd -f https://raw.githubusercontent.com/external-secrets/external-secrets/v0.20.1/deploy/crds/bundle.yaml
 
-package v1beta1
+package v1
 
 import (
 	"strings"
@@ -19,7 +19,7 @@ import (
 	// may reject unrecognized values.
 	// More info:
 	// https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
-	apiVersion: "external-secrets.io/v1beta1"
+	apiVersion: "external-secrets.io/v1"
 
 	// Kind is a string value representing the REST resource this
 	// object represents.
@@ -116,7 +116,7 @@ import (
 					apiVersion?: string
 
 					// Specify the Kind of the generator resource
-					kind!: "ACRAccessToken" | "ClusterGenerator" | "ECRAuthorizationToken" | "Fake" | "GCRAccessToken" | "GithubAccessToken" | "QuayAccessToken" | "Password" | "SSHKey" | "STSSessionToken" | "UUID" | "VaultDynamicSecret" | "Webhook" | "Grafana"
+					kind!: "ACRAccessToken" | "ClusterGenerator" | "CloudsmithAccessToken" | "ECRAuthorizationToken" | "Fake" | "GCRAccessToken" | "GithubAccessToken" | "QuayAccessToken" | "Password" | "SSHKey" | "STSSessionToken" | "UUID" | "VaultDynamicSecret" | "Webhook" | "Grafana" | "MFA"
 
 					// Specify the name of the generator resource
 					name!: strings.MaxRunes(253) & strings.MinRunes(1) & {
@@ -199,6 +199,24 @@ import (
 			// Multiple Rewrite operations can be provided. They are applied
 			// in a layered order (first to last)
 			rewrite?: [...struct.MaxFields(1) & struct.MinFields(1) & {
+				// Used to merge key/values in one single Secret
+				// The resulting key will contain all values from the specified
+				// secrets
+				merge?: {
+					// Used to define the policy to use in conflict resolution.
+					conflictPolicy?: string
+
+					// Used to define the target key of the merge operation.
+					// Required if strategy is JSON. Ignored otherwise.
+					into?: string
+
+					// Used to define key priority in conflict resolution.
+					priority?: [...string]
+
+					// Used to define the strategy to use in the merge operation.
+					strategy?: string
+				}
+
 				// Used to rewrite with regular expressions.
 				// The resulting key will be the output of a regexp.ReplaceAll
 				// operation.
@@ -230,7 +248,7 @@ import (
 					apiVersion?: string
 
 					// Specify the Kind of the generator resource
-					kind!: "ACRAccessToken" | "ClusterGenerator" | "ECRAuthorizationToken" | "Fake" | "GCRAccessToken" | "GithubAccessToken" | "QuayAccessToken" | "Password" | "SSHKey" | "STSSessionToken" | "UUID" | "VaultDynamicSecret" | "Webhook" | "Grafana"
+					kind!: "ACRAccessToken" | "ClusterGenerator" | "CloudsmithAccessToken" | "ECRAuthorizationToken" | "Fake" | "GCRAccessToken" | "GithubAccessToken" | "QuayAccessToken" | "Password" | "SSHKey" | "STSSessionToken" | "UUID" | "VaultDynamicSecret" | "Webhook" | "Grafana" | "MFA"
 
 					// Specify the name of the generator resource
 					name!: strings.MaxRunes(253) & strings.MinRunes(1) & {
@@ -328,6 +346,7 @@ import (
 					annotations?: {
 						[string]: string
 					}
+					finalizers?: [...string]
 					labels?: {
 						[string]: string
 					}
@@ -374,7 +393,8 @@ import (
 	}
 
 	// The labels to select by to find the Namespaces to create the
-	// ExternalSecrets in
+	// ExternalSecrets in.
+	// Deprecated: Use NamespaceSelectors instead.
 	namespaceSelector?: {
 		// matchExpressions is a list of label selector requirements. The
 		// requirements are ANDed.
