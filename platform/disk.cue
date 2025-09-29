@@ -9,4 +9,8 @@ Platform: Components: {
 		name: "democratic-csi-nfs"
 		path: "components/democratic-csi-nfs"
 	}
+	"snapshot-controller": {
+		name: "snapshot-controller"
+		path: "components/snapshot-controller"
+	}
 }
