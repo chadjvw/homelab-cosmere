@@ -1,3 +1,19 @@
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  labels:
+    app.kubernetes.io/instance: democratic-csi
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: democratic-csi
+    helm.sh/chart: democratic-csi-0.15.0
+  name: iscsi
+parameters:
+  fsType: xfs
+provisioner: iscsi
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -352,7 +368,46 @@ metadata:
   name: democratic-csi-driver-config
   namespace: democratic-csi
 stringData:
-  driver-config-file.yaml: 'driver: freenas-api-iscsi'
+  driver-config-file.yaml: |-
+    driver: freenas-api-iscsi
+    httpConnection:
+      allowInsecure: true
+      apiKey:
+        valueFrom:
+          secretKeyRef:
+            key: TRUENAS_API_KEY
+            name: democratic-csi-iscsi-truenas
+      host:
+        valueFrom:
+          secretKeyRef:
+            key: TRUENAS_IP
+            name: democratic-csi-iscsi-truenas
+      port: 80
+      protocol: http
+    iscsi:
+      extentAvailThreshold: 0
+      extentBlocksize: 512
+      extentDisablePhysicalBlocksize: true
+      extentInsecureTpc: true
+      extentRpm: SSD
+      extentXenCompat: false
+      interface:
+        namePrefix: csi-
+      nameSuffix: -clustera
+      targetGroups:
+      - targetGroupAuthType: None
+        targetGroupInitiatorGroup: 14
+        targetGroupPortalGroup: 8
+      targetPortal:
+        valueFrom:
+          secretKeyRef:
+            key: TRUENAS_TARGET_PORTAL
+            name: democratic-csi-iscsi-truenas
+      targetPortals: []
+    zfs:
+      datasetParentName: mongo/k8s/iscsi/v
+      detachedSnapshotsDatasetParentName: mongo/k8s/iscsi/s
+      zvolEnableReservation: false
 type: Opaque
 ---
 apiVersion: apps/v1
@@ -380,7 +435,7 @@ spec:
     metadata:
       annotations:
         checksum/configmap: be3be23b8b52f8a7bc9319f0e70f83561f80a3ac2567bde5ff721188dc747e6a
-        checksum/secret: 01b85e51f5b68a7c1bfba1461ea0db671e496a8fedd552cc82d468f3fef869b1
+        checksum/secret: 0d33e677dce2cf0ca4ffb6fe6e26edf1e16adc4f1df94ff2b24a82812ddcc59f
       labels:
         app.kubernetes.io/component: controller-linux
         app.kubernetes.io/csi-role: controller
@@ -571,7 +626,7 @@ spec:
     metadata:
       annotations:
         checksum/configmap: be3be23b8b52f8a7bc9319f0e70f83561f80a3ac2567bde5ff721188dc747e6a
-        checksum/secret: 01b85e51f5b68a7c1bfba1461ea0db671e496a8fedd552cc82d468f3fef869b1
+        checksum/secret: 0d33e677dce2cf0ca4ffb6fe6e26edf1e16adc4f1df94ff2b24a82812ddcc59f
       labels:
         app.kubernetes.io/component: node-linux
         app.kubernetes.io/csi-role: node
@@ -768,6 +823,46 @@ spec:
             path: extra-ca-certs.crt
           name: democratic-csi
         name: extra-ca-certs
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: democratic-csi-iscsi-truenas
+  namespace: democratic-csi
+spec:
+  data:
+  - remoteRef:
+      key: TRUENAS_IP
+    secretKey: TRUENAS_IP
+  - remoteRef:
+      key: TRUENAS_API_KEY
+    secretKey: TRUENAS_API_KEY
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: doppler
+  target:
+    name: democratic-csi-iscsi-truenas
+    template:
+      data:
+        TRUENAS_API_KEY: '{{ .TRUENAS_API_KEY }}'
+        TRUENAS_IP: '{{ .TRUENAS_IP }}'
+        TRUENAS_TARGET_PORTAL: '{{ .TRUENAS_IP }}:3260'
+      engineVersion: v2
+---
+apiVersion: snapshot.storage.k8s.io/v1
+deletionPolicy: Delete
+driver: iscsi
+kind: VolumeSnapshotClass
+metadata:
+  labels:
+    app.kubernetes.io/instance: democratic-csi
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: democratic-csi
+    helm.sh/chart: democratic-csi-0.15.0
+  name: iscsi
+  namespace: democratic-csi
+parameters:
+  detachedSnapshots: "true"
 ---
 apiVersion: storage.k8s.io/v1
 kind: CSIDriver
