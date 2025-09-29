@@ -11,4 +11,4 @@ spec:
     sourceRef:
         kind: OCIRepository
         name: default
-    targetNamespace: democratic-csi
+    targetNamespace: storage
