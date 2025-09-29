@@ -3,5 +3,5 @@
 The doppler token secret must be created manually
 
 ```sh
-kubectl create secret -n security generic --from-literal=dopplerToken=$TOKEN
+kubectl create secret -n security generic doppler-token-auth-api --from-literal=dopplerToken=$TOKE
 ```
