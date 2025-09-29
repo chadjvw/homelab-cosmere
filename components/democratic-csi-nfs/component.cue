@@ -4,7 +4,7 @@ holos: Component.BuildPlan
 
 Component: #Helm & {
 	Name:        "democratic-csi-nfs"
-	Namespace:   "democratic-csi"
+	Namespace:   "storage"
 	EnableHooks: true
 	Chart: {
 		release: "democratic-csi"

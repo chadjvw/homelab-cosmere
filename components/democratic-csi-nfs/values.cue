@@ -62,7 +62,18 @@ package holos
 		driver: {
 			enabled: true
 			image: {
-				registry:   "docker.io/democraticcsi/democratic-csi"
+				registry:   "ghcr.io/democratic-csi/democratic-csi"
+				pullPolicy: "Always"
+				tag:        "next"
+			}
+		}
+	}
+
+	node: {
+		driver: {
+			enabled: true
+			image: {
+				registry:   "ghcr.io/democratic-csi/democratic-csi"
 				pullPolicy: "Always"
 				tag:        "next"
 			}

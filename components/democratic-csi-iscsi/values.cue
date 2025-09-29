@@ -46,7 +46,7 @@ package holos
 			targetPortals: []
 			interface:
 				namePrefix: "csi-"
-			nameSuffix: "-clustera"
+			nameSuffix: "-cosmere"
 			targetGroups: [{
 				targetGroupPortalGroup:    8
 				targetGroupInitiatorGroup: 14
@@ -74,6 +74,12 @@ package holos
 			}]
 			iscsiDirHostPath:     "/usr/local/etc/iscsi"
 			iscsiDirHostPathType: ""
+			enabled:              true
+			image: {
+				registry:   "ghcr.io/democratic-csi/democratic-csi"
+				pullPolicy: "Always"
+				tag:        "next"
+			}
 		}
 	}
 
@@ -81,7 +87,7 @@ package holos
 		driver: {
 			enabled: true
 			image: {
-				registry:   "docker.io/democraticcsi/democratic-csi"
+				registry:   "ghcr.io/democratic-csi/democratic-csi"
 				pullPolicy: "Always"
 				tag:        "next"
 			}
