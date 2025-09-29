@@ -1,7 +1,7 @@
 package holos
 
 #Values: {
-	csiDriver: name: "iscsi"
+	csiDriver: name: "org.democratic-csi.iscsi"
 
 	storageClasses: [{
 		name:                 "iscsi"
@@ -18,49 +18,8 @@ package holos
 		parameters: detachedSnapshots: "true"
 	}]
 
-	driver: config: {
-		driver: "freenas-api-iscsi"
-		httpConnection: {
-			protocol: "http"
-			host: valueFrom: secretKeyRef: {
-				key:  "TRUENAS_IP"
-				name: "democratic-csi-iscsi-truenas"
-			}
-			port: 80
-			apiKey: valueFrom: secretKeyRef: {
-				key:  "TRUENAS_API_KEY"
-				name: "democratic-csi-iscsi-truenas"
-			}
-			allowInsecure: true
-		}
-		zfs: {
-			datasetParentName:                  "mongo/k8s/iscsi/v"
-			detachedSnapshotsDatasetParentName: "mongo/k8s/iscsi/s"
-			zvolEnableReservation:              false
-		}
-		iscsi: {
-			targetPortal: valueFrom: secretKeyRef: {
-				key:  "TRUENAS_TARGET_PORTAL"
-				name: "democratic-csi-iscsi-truenas"
-			}
-			targetPortals: []
-			interface:
-				namePrefix: "csi-"
-			nameSuffix: "-cosmere"
-			targetGroups: [{
-				targetGroupPortalGroup:    8
-				targetGroupInitiatorGroup: 14
-				targetGroupAuthType:       "None"
-			},
-			]
-			extentInsecureTpc:              true
-			extentXenCompat:                false
-			extentDisablePhysicalBlocksize: true
-			extentBlocksize:                512
-			extentRpm:                      "SSD"
-			extentAvailThreshold:           0
-		}
-	}
+	driver: existingConfigSecret: "democratic-csi-iscsi-config"
+	driver: config: driver: "freenas-api-iscsi"
 
 	node: {
 		hostPID: true
