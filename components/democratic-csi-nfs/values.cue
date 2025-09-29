@@ -60,7 +60,8 @@ package holos
 
 	controller: {
 		driver: {
-			enabled: true
+			logLevel: "debug"
+			enabled:  true
 			image: {
 				registry:   "ghcr.io/democratic-csi/democratic-csi"
 				pullPolicy: "Always"
