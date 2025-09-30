@@ -33,7 +33,7 @@ controlPlane:
         - security=none # Less security, faster puter
         - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
         - talos.auditd.disabled=1 # Less security, faster puter
-      systemExtensions:
+      systemExtensions: &extensions
           officialExtensions:
             - siderolabs/iscsi-tools
             - siderolabs/i915
@@ -160,4 +160,4 @@ nodes:
           - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
           - talos.auditd.disabled=1 # Less security, faster puter
           - i915.enable_guc=3 # Meteor Lake CPU / iGPU
-
+        systemExtensions: *extensions
