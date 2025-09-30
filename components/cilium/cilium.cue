@@ -16,6 +16,6 @@ Component: {
 
 	Resources: CiliumLoadBalancerIPPool: (Name): {
 		metadata: name: "default"
-		spec: blocks: [{cidr: "10.0.30.0/24"}]
+		spec: blocks: [{cidr: "10.0.10.0/24"}]
 	}
 }

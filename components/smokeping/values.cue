@@ -28,7 +28,7 @@ package holos
 		}
 	}
 	service: main: {
-		annotations: "lbipam.cilium.io/ips": "10.0.40.10"
+		annotations: "lbipam.cilium.io/ips": "10.0.10.25"
 		controller: "main"
 		// doesnt work with l2 annouce, remove once bgp
 		// externalTrafficPolicy: "Local"
