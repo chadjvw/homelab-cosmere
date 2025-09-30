@@ -18,7 +18,7 @@ Component: {
 				data: {
 					"driver-config-file.yaml": yaml.Marshal({
 						driver:      "freenas-api-iscsi"
-						// instance_id: ""
+						instance_id: ""
 						httpConnection: {
 							protocol:      "http"
 							host:          "{{ .TRUENAS_IP }}"
@@ -31,14 +31,14 @@ Component: {
 							detachedSnapshotsDatasetParentName: "mongo/k8s/iscsi/s"
 							// datasetProperties: "org.freenas:description": "{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}"
 							zvolEnableReservation: false
-							// zvolBlocksize:         ""
-							zvolDedup:             "off"
-							// zvolCompression:       ""
+							zvolBlocksize:         ""
+							zvolDedup:             ""
+							zvolCompression:       ""
 						}
 						iscsi: {
 							targetPortal: "{{ .TRUENAS_IP }}:3260"
 							targetPortals: []
-							// interface:  ""
+							interface:  ""
 							namePrefix: "csi-"
 							nameSuffix: "-cosmere"
 							targetGroups: [{
