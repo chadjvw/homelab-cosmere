@@ -1,7 +1,7 @@
 ---
 clusterName: cosmere
-talosVersion: v1.11.0
-kubernetesVersion: v1.34.0
+talosVersion: v1.11.2
+kubernetesVersion: v1.34.1
 endpoint: https://10.0.10.13:6443
 allowSchedulingOnMasters: true
 additionalApiServerCertSans: &sans
@@ -35,14 +35,9 @@ controlPlane:
         - talos.auditd.disabled=1 # Less security, faster puter
       systemExtensions:
           officialExtensions:
-            - siderolabs/drbd
+            - siderolabs/iscsi-tools
             - siderolabs/i915
             - siderolabs/intel-ucode
-  kernelModules:
-    - name: drbd
-      parameters:
-        - usermode_helper=disabled
-    - name: drbd_transport_tcp
   patches:
     # Enable K8s Talos API Access
     - |-
@@ -132,15 +127,7 @@ patches:
             noatime=True
             nodiratime=True
             nconnect=16
-  # Mount linstor file path in kubelet
-  - |-
-    machine:
-      kubelet:
-        extraMounts:
-          - destination: /var/piraeus-datastore
-            type: bind
-            source: /var/piraeus-datastore
-            options: ["bind", "rshared", "rw"]
+
 nodes:
   - hostname: roshar
     ipAddress: 10.0.10.13
