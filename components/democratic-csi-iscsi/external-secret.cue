@@ -6,8 +6,8 @@ Component: {
 	Name:      string
 	Namespace: string
 
-	Resources: ExternalSecret: "democratic-csi-iscsi": {
-		metadata: name:      "democratic-csi-iscsi-config"
+	Resources: ExternalSecret: "truenas-iscsi-driver-config": {
+		metadata: name:      "truenas-iscsi-driver-config"
 		metadata: namespace: Namespace
 		spec: {
 			target: name: metadata.name
@@ -27,10 +27,11 @@ Component: {
 						zfs: {
 							datasetParentName:                  "mongo/k8s/iscsi/v"
 							detachedSnapshotsDatasetParentName: "mongo/k8s/iscsi/s"
-							zvolEnableReservation:              false
-							zvolBlocksize:                      ""
-							zvolDedup:                          ""
-							zvolCompression:                    ""
+							datasetProperties: "org.freenas:description": "{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}"
+							zvolEnableReservation: false
+							zvolBlocksize:         ""
+							zvolDedup:             "off"
+							zvolCompression:       ""
 						}
 						iscsi: {
 							targetPortal: "{{ .TRUENAS_IP }}:3260"
@@ -39,14 +40,15 @@ Component: {
 							namePrefix: "csi-"
 							nameSuffix: "-cosmere"
 							targetGroups: [{
-								targetGroupPortalGroup:    8
-								targetGroupInitiatorGroup: 14
+								targetGroupPortalGroup:    1
+								targetGroupInitiatorGroup: 1
 								targetGroupAuthType:       "None"
 							}]
+							extentCommentTemplate:          "{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}"
 							extentInsecureTpc:              true
 							extentXenCompat:                false
 							extentDisablePhysicalBlocksize: true
-							extentBlocksize:                4096
+							extentBlocksize:                512
 							extentRpm:                      "SSD"
 							extentAvailThreshold:           0
 						}

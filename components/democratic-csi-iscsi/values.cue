@@ -1,24 +1,31 @@
 package holos
 
+let driverName = "org.democratic-csi.iscsi"
+let driverImage = {
+	registry:   "ghcr.io/democratic-csi/democratic-csi"
+	pullPolicy: "Always"
+	tag:        "next"
+}
+
 #Values: {
-	csiDriver: name: "org.democratic-csi.iscsi"
+	csiDriver: name: driverName
 
 	storageClasses: [{
-		name:                 "iscsi"
+		name:                 driverName
 		defaultClass:         false
 		reclaimPolicy:        "Delete"
 		volumeBindingMode:    "Immediate"
 		allowVolumeExpansion: true
-		parameters: fsType: "xfs"
-		detachedVolumesFromSnapshots: "false"
+		parameters: fsType:                       "xfs"
+		parameters: detachedVolumesFromSnapshots: "false"
 	}]
 
 	volumeSnapshotClasses: [{
-		name: "iscsi"
+		name: driverName
 		parameters: detachedSnapshots: "true"
 	}]
 
-	driver: existingConfigSecret: "democratic-csi-iscsi-config"
+	driver: existingConfigSecret: "truenas-iscsi-driver-config"
 	driver: config: driver: "freenas-api-iscsi"
 
 	node: {
@@ -31,14 +38,10 @@ package holos
 				name:  "ISCSIADM_HOST_PATH"
 				value: "/usr/local/sbin/iscsiadm"
 			}]
-			iscsiDirHostPath:     "/usr/local/etc/iscsi"
+			iscsiDirHostPath:     "/var/iscsi"
 			iscsiDirHostPathType: ""
 			enabled:              true
-			image: {
-				registry:   "ghcr.io/democratic-csi/democratic-csi"
-				pullPolicy: "Always"
-				tag:        "next"
-			}
+			image:                driverImage
 		}
 	}
 
@@ -46,11 +49,7 @@ package holos
 		driver: {
 			logLevel: "debug"
 			enabled:  true
-			image: {
-				registry:   "ghcr.io/democratic-csi/democratic-csi"
-				pullPolicy: "Always"
-				tag:        "next"
-			}
+			image:    driverImage
 		}
 	}
 }

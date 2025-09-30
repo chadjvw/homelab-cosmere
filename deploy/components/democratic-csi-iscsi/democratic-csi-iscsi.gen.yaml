@@ -7,8 +7,9 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
     helm.sh/chart: democratic-csi-0.15.0
-  name: iscsi
+  name: org.democratic-csi.iscsi
 parameters:
+  detachedVolumesFromSnapshots: "false"
   fsType: xfs
 provisioner: org.democratic-csi.iscsi
 reclaimPolicy: Delete
@@ -540,7 +541,7 @@ spec:
         name: socket-dir
       - name: config
         secret:
-          secretName: democratic-csi-iscsi-config
+          secretName: truenas-iscsi-driver-config
       - configMap:
           items:
           - key: extra-ca-certs
@@ -626,7 +627,7 @@ spec:
         - mountPath: /var/lib/kubelet
           mountPropagation: Bidirectional
           name: kubelet-dir
-        - mountPath: /usr/local/etc/iscsi
+        - mountPath: /var/iscsi
           mountPropagation: Bidirectional
           name: iscsi-dir
         - mountPath: /var/lib/iscsi
@@ -733,7 +734,7 @@ spec:
           type: Directory
         name: kubelet-dir
       - hostPath:
-          path: /usr/local/etc/iscsi
+          path: /var/iscsi
           type: null
         name: iscsi-dir
       - hostPath:
@@ -762,7 +763,7 @@ spec:
         name: host-dir
       - name: config
         secret:
-          secretName: democratic-csi-iscsi-config
+          secretName: truenas-iscsi-driver-config
       - configMap:
           items:
           - key: extra-ca-certs
@@ -773,7 +774,7 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: democratic-csi-iscsi-config
+  name: truenas-iscsi-driver-config
   namespace: storage
 spec:
   data:
@@ -787,7 +788,7 @@ spec:
     kind: ClusterSecretStore
     name: doppler
   target:
-    name: democratic-csi-iscsi-config
+    name: truenas-iscsi-driver-config
     template:
       data:
         driver-config-file.yaml: |
@@ -802,9 +803,11 @@ spec:
           zfs:
             datasetParentName: mongo/k8s/iscsi/v
             detachedSnapshotsDatasetParentName: mongo/k8s/iscsi/s
+            datasetProperties:
+              org.freenas:description: '{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}'
             zvolEnableReservation: false
             zvolBlocksize: ""
-            zvolDedup: ""
+            zvolDedup: "off"
             zvolCompression: ""
           iscsi:
             targetPortal: '{{ .TRUENAS_IP }}:3260'
@@ -813,13 +816,14 @@ spec:
             namePrefix: csi-
             nameSuffix: -cosmere
             targetGroups:
-              - targetGroupPortalGroup: 8
-                targetGroupInitiatorGroup: 14
+              - targetGroupPortalGroup: 1
+                targetGroupInitiatorGroup: 1
                 targetGroupAuthType: None
+            extentCommentTemplate: '{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}'
             extentInsecureTpc: true
             extentXenCompat: false
             extentDisablePhysicalBlocksize: true
-            extentBlocksize: 4096
+            extentBlocksize: 512
             extentRpm: SSD
             extentAvailThreshold: 0
       engineVersion: v2
@@ -834,7 +838,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
     helm.sh/chart: democratic-csi-0.15.0
-  name: iscsi
+  name: org.democratic-csi.iscsi
   namespace: storage
 parameters:
   detachedSnapshots: "true"
