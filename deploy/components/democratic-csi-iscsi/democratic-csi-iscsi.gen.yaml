@@ -803,8 +803,6 @@ spec:
           zfs:
             datasetParentName: mongo/k8s/iscsi/v
             detachedSnapshotsDatasetParentName: mongo/k8s/iscsi/s
-            datasetProperties:
-              org.freenas:description: '{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}'
             zvolEnableReservation: false
             zvolBlocksize: ""
             zvolDedup: "off"
@@ -819,7 +817,6 @@ spec:
               - targetGroupPortalGroup: 1
                 targetGroupInitiatorGroup: 1
                 targetGroupAuthType: None
-            extentCommentTemplate: '{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}'
             extentInsecureTpc: true
             extentXenCompat: false
             extentDisablePhysicalBlocksize: true

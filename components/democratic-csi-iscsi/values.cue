@@ -1,6 +1,7 @@
 package holos
 
-let driverName = "org.democratic-csi.iscsi"
+import "homelab.cosmere/config/csi"
+
 let driverImage = {
 	registry:   "ghcr.io/democratic-csi/democratic-csi"
 	pullPolicy: "Always"
@@ -8,10 +9,10 @@ let driverImage = {
 }
 
 #Values: {
-	csiDriver: name: driverName
+	csiDriver: name: csi.config.iscsiStorageClass
 
 	storageClasses: [{
-		name:                 driverName
+		name:                 csi.config.iscsiStorageClass
 		defaultClass:         false
 		reclaimPolicy:        "Delete"
 		volumeBindingMode:    "Immediate"
@@ -21,11 +22,11 @@ let driverImage = {
 	}]
 
 	volumeSnapshotClasses: [{
-		name: driverName
+		name: csi.config.iscsiStorageClass
 		parameters: detachedSnapshots: "true"
 	}]
 
-	driver: existingConfigSecret: "truenas-iscsi-driver-config"
+	driver: existingConfigSecret: csi.config.iscsiDriverConfig
 	driver: config: driver: "freenas-api-iscsi"
 
 	node: {
