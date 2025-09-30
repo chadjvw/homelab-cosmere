@@ -492,7 +492,7 @@ spec:
         - --csi-version=1.5.0
         - --csi-name=org.democratic-csi.iscsi
         - --driver-config-file=/config/driver-config-file.yaml
-        - --log-level=debug
+        - --log-level=verbose
         - --csi-mode=controller
         - --server-socket=/csi-data/csi.sock.internal
         env:
