@@ -793,7 +793,7 @@ spec:
       data:
         driver-config-file.yaml: |
           driver: freenas-api-iscsi
-          instance_id: ""
+          instance_id: null
           httpConnection:
             protocol: http
             host: '{{ .TRUENAS_IP }}'
@@ -804,9 +804,6 @@ spec:
             datasetParentName: mongo/k8s/iscsi/v
             detachedSnapshotsDatasetParentName: mongo/k8s/iscsi/s
             zvolEnableReservation: false
-            zvolBlocksize: ""
-            zvolDedup: ""
-            zvolCompression: ""
           iscsi:
             targetPortal: '{{ .TRUENAS_IP }}:3260'
             targetPortals: []
@@ -819,7 +816,6 @@ spec:
                 targetGroupAuthType: None
             extentInsecureTpc: true
             extentXenCompat: false
-            extentDisablePhysicalBlocksize: true
             extentBlocksize: 512
             extentRpm: SSD
             extentAvailThreshold: 0
