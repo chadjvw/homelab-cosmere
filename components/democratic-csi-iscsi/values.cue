@@ -48,9 +48,13 @@ let driverImage = {
 
 	controller: {
 		driver: {
-			logLevel: "verbose"
-			enabled:  true
-			image:    driverImage
+			enabled: true
+			image:   driverImage
 		}
+		externalAttacher: image: tag:                "v4.8.0"
+		externalController: image: tag:              "v5.2.0"
+		externalResizer: image: tag:                 "v1.13.0"
+		externalSnapshotter: image: tag:             "v8.2.0"
+		externalHealthMonitorController: image: tag: "v0.14.0"
 	}
 }

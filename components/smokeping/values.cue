@@ -21,10 +21,10 @@ package holos
 	}
 	persistence: {
 		config: existingClaim: "smokeping-config"
-		data: existingClaim: "smokeping-data"
+		data: existingClaim:   "smokeping-data"
 	}
 	service: main: {
-		controller: "main"
+		controller:            "main"
 		externalTrafficPolicy: "Local"
 		ports: http: port: 80
 		type: "LoadBalancer"

@@ -398,7 +398,7 @@ spec:
         - --timeout=90s
         - --worker-threads=10
         - --csi-address=/csi-data/csi.sock
-        image: registry.k8s.io/sig-storage/csi-attacher:v4.4.0
+        image: registry.k8s.io/sig-storage/csi-attacher:v4.8.0
         name: external-attacher
         volumeMounts:
         - mountPath: /csi-data
@@ -455,7 +455,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.name
-        image: registry.k8s.io/sig-storage/csi-resizer:v1.9.0
+        image: registry.k8s.io/sig-storage/csi-resizer:v1.13.0
         name: external-resizer
         volumeMounts:
         - mountPath: /csi-data
@@ -483,7 +483,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.name
-        image: registry.k8s.io/sig-storage/csi-snapshotter:v8.2.1
+        image: registry.k8s.io/sig-storage/csi-snapshotter:v8.2.0
         name: external-snapshotter
         volumeMounts:
         - mountPath: /csi-data
@@ -492,7 +492,7 @@ spec:
         - --csi-version=1.5.0
         - --csi-name=org.democratic-csi.iscsi
         - --driver-config-file=/config/driver-config-file.yaml
-        - --log-level=verbose
+        - --log-level=info
         - --csi-mode=controller
         - --server-socket=/csi-data/csi.sock.internal
         env:
@@ -803,6 +803,8 @@ spec:
           zfs:
             datasetParentName: mongo/k8s/iscsi/v
             detachedSnapshotsDatasetParentName: mongo/k8s/iscsi/s
+            datasetProperties:
+              org.freenas:description: '{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}'
             zvolEnableReservation: false
           iscsi:
             targetPortal: '{{ .TRUENAS_IP }}:3260'
@@ -814,6 +816,7 @@ spec:
               - targetGroupPortalGroup: 1
                 targetGroupInitiatorGroup: 1
                 targetGroupAuthType: None
+            extentCommentTemplate: '{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}'
             extentInsecureTpc: true
             extentXenCompat: false
             extentBlocksize: 512
