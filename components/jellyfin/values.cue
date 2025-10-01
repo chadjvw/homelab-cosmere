@@ -34,15 +34,22 @@ package holos
 			enabled: true
 			type:    "nfs"
 			server:  "10.0.30.156"
-			path:    "/mnt/user/tv"
+			path:    "/mnt/mongo/data/media/tv"
 			globalMounts: [{path: "/media/tv"}]
 		}
 		movies: {
 			enabled: true
 			type:    "nfs"
 			server:  "10.0.30.156"
-			path:    "/mnt/user/movies"
+			path:    "/mnt/mongo/data/media/movies"
 			globalMounts: [{path: "/media/movies"}]
+		}
+				music: {
+			enabled: true
+			type:    "nfs"
+			server:  "10.0.30.156"
+			path:    "/mnt/mongo/data/media/music"
+			globalMounts: [{path: "/media/music"}]
 		}
 		transcode: {
 			enabled: true
