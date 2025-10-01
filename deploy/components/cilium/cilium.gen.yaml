@@ -560,6 +560,7 @@ data:
   enable-bbr-hostns-only: "false"
   enable-bgp-control-plane: "true"
   enable-bgp-control-plane-status-report: "true"
+  enable-bgp-legacy-origin-attribute: "false"
   enable-bpf-clock-probe: "true"
   enable-bpf-masquerade: "true"
   enable-endpoint-health-checking: "true"
@@ -726,7 +727,7 @@ spec:
   template:
     metadata:
       annotations:
-        cilium.io/cilium-configmap-checksum: 7204c87cfa1318ac4dfde39d3402f73ce4d7e69cda29edecd97b3b8db71df0cc
+        cilium.io/cilium-configmap-checksum: 4485ada2b265774b56dd158510215521998ded1f83e3940fafae93a923c71a0f
         prometheus.io/port: "9963"
         prometheus.io/scrape: "true"
       labels:
@@ -770,7 +771,7 @@ spec:
           value: localhost
         - name: KUBERNETES_SERVICE_PORT
           value: "7445"
-        image: quay.io/cilium/operator-generic:v1.18.1@sha256:97f4553afa443465bdfbc1cc4927c93f16ac5d78e4dd2706736e7395382201bc
+        image: quay.io/cilium/operator-generic:v1.18.2@sha256:cb4e4ffc5789fd5ff6a534e3b1460623df61cba00f5ea1c7b40153b5efb81805
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -823,6 +824,8 @@ spec:
         operator: Exists
       - key: node.kubernetes.io/not-ready
         operator: Exists
+      - key: node.cloudprovider.kubernetes.io/uninitialized
+        operator: Exists
       - key: node.cilium.io/agent-not-ready
         operator: Exists
       volumes:
@@ -846,7 +849,7 @@ spec:
   template:
     metadata:
       annotations:
-        cilium.io/cilium-configmap-checksum: 7204c87cfa1318ac4dfde39d3402f73ce4d7e69cda29edecd97b3b8db71df0cc
+        cilium.io/cilium-configmap-checksum: 4485ada2b265774b56dd158510215521998ded1f83e3940fafae93a923c71a0f
         kubectl.kubernetes.io/default-container: cilium-agent
       labels:
         app.kubernetes.io/name: cilium-agent
@@ -892,7 +895,7 @@ spec:
           value: "1"
         - name: KUBE_CLIENT_BACKOFF_DURATION
           value: "120"
-        image: quay.io/cilium/cilium:v1.18.1@sha256:65ab17c052d8758b2ad157ce766285e04173722df59bdee1ea6d5fda7149f0e9
+        image: quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667
         imagePullPolicy: IfNotPresent
         lifecycle:
           postStart:
@@ -1036,7 +1039,7 @@ spec:
           value: localhost
         - name: KUBERNETES_SERVICE_PORT
           value: "7445"
-        image: quay.io/cilium/cilium:v1.18.1@sha256:65ab17c052d8758b2ad157ce766285e04173722df59bdee1ea6d5fda7149f0e9
+        image: quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667
         imagePullPolicy: IfNotPresent
         name: config
         terminationMessagePolicy: FallbackToLogsOnError
@@ -1053,7 +1056,7 @@ spec:
         env:
         - name: BIN_PATH
           value: /opt/cni/bin
-        image: quay.io/cilium/cilium:v1.18.1@sha256:65ab17c052d8758b2ad157ce766285e04173722df59bdee1ea6d5fda7149f0e9
+        image: quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667
         imagePullPolicy: IfNotPresent
         name: apply-sysctl-overwrites
         securityContext:
@@ -1079,7 +1082,7 @@ spec:
         - /bin/bash
         - -c
         - --
-        image: quay.io/cilium/cilium:v1.18.1@sha256:65ab17c052d8758b2ad157ce766285e04173722df59bdee1ea6d5fda7149f0e9
+        image: quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667
         imagePullPolicy: IfNotPresent
         name: mount-bpf-fs
         securityContext:
@@ -1114,7 +1117,7 @@ spec:
           value: localhost
         - name: KUBERNETES_SERVICE_PORT
           value: "7445"
-        image: quay.io/cilium/cilium:v1.18.1@sha256:65ab17c052d8758b2ad157ce766285e04173722df59bdee1ea6d5fda7149f0e9
+        image: quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667
         imagePullPolicy: IfNotPresent
         name: clean-cilium-state
         securityContext:
@@ -1139,7 +1142,7 @@ spec:
           name: cilium-run
       - command:
         - /install-plugin.sh
-        image: quay.io/cilium/cilium:v1.18.1@sha256:65ab17c052d8758b2ad157ce766285e04173722df59bdee1ea6d5fda7149f0e9
+        image: quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667
         imagePullPolicy: IfNotPresent
         name: install-cni-binaries
         resources:
@@ -1320,7 +1323,7 @@ spec:
           value: localhost
         - name: KUBERNETES_SERVICE_PORT
           value: "7445"
-        image: quay.io/cilium/cilium-envoy:v1.34.4-1754895458-68cffdfa568b6b226d70a7ef81fc65dda3b890bf@sha256:247e908700012f7ef56f75908f8c965215c26a27762f296068645eb55450bda2
+        image: quay.io/cilium/cilium-envoy:v1.34.7-1757592137-1a52bb680a956879722f48c591a2ca90f7791324@sha256:7932d656b63f6f866b6732099d33355184322123cfe1182e6f05175a3bc2e0e0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10
@@ -1483,6 +1486,7 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: default
 spec:
+  allowFirstLastIPs: "No"
   blocks:
   - cidr: 10.0.40.0/24
 ---
