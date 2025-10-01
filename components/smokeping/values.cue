@@ -28,7 +28,6 @@ package holos
 		}
 	}
 	service: main: {
-		annotations: "lbipam.cilium.io/ips": "10.0.40.25"
 		controller: "main"
 		externalTrafficPolicy: "Local"
 		ports: http: port: 80
