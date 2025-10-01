@@ -1420,34 +1420,19 @@ spec:
     type: RollingUpdate
 ---
 apiVersion: cilium.io/v2
-kind: CiliumLoadBalancerIPPool
+kind: CiliumBGPAdvertisement
 metadata:
-  name: default
+  labels:
+    advertise: bgp
+  name: bgp-advertisements
 spec:
-  blocks:
-  - cidr: 10.0.40.0/24
----
-apiVersion: cilium.io/v2alpha1
-kind: CiliumBGPPeeringPolicy
-metadata:
-  name: bgp-peering-policy
-spec:
-  nodeSelector:
-    matchLabels:
-      kubernetes.io/os: linux
-  virtualRouters:
-  - localASN: 64513
-    neighbors:
-    - connectRetryTimeSeconds: 120
-      eBGPMultihopTTL: 10
-      gracefulRestart:
-        enabled: true
-        restartTimeSeconds: 120
-      holdTimeSeconds: 90
-      keepAliveTimeSeconds: 30
-      peerASN: 64512
-      peerAddress: 10.0.10.1/32
-    serviceSelector:
+  advertisements:
+  - advertisementType: Service
+    attributes:
+      communities:
+        standard:
+        - "64512"
+    selector:
       matchExpressions:
       - key: io.cilium/bgp
         operator: NotIn
@@ -1458,6 +1443,48 @@ spec:
         operator: NotIn
         values:
         - "true"
+    service:
+      addresses:
+      - LoadBalancerIP
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPClusterConfig
+metadata:
+  name: cilium-bgp
+spec:
+  bgpInstances:
+  - localASN: 64513
+    name: node
+    peers:
+    - name: opnsense
+      peerASN: 64512
+      peerAddress: 10.0.10.1
+      peerConfigRef:
+        name: cilium-peer
+---
+apiVersion: cilium.io/v2
+kind: CiliumBGPPeerConfig
+metadata:
+  name: cilium-peer
+spec:
+  authSecretRef: bgp-auth-secret
+  families:
+  - advertisements:
+      matchLabels:
+        advertise: bgp
+    afi: ipv4
+    safi: unicast
+  gracefulRestart:
+    enabled: true
+    restartTimeSeconds: 15
+---
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: default
+spec:
+  blocks:
+  - cidr: 10.0.40.0/24
 ---
 apiVersion: cilium.io/v2alpha1
 kind: CiliumL2AnnouncementPolicy
