@@ -20,12 +20,8 @@ package holos
 		}]
 	}
 	persistence: {
-		config: {
-			existingClaim: "smokeping-config"
-		}
-		data: {
-			existingClaim: "smokeping-data"
-		}
+		config: existingClaim: "smokeping-config"
+		data: existingClaim: "smokeping-data"
 	}
 	service: main: {
 		controller: "main"

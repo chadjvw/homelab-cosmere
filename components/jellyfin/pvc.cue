@@ -1,5 +1,7 @@
 package holos
 
+import "homelab.cosmere/config/csi"
+
 Component: Resources: PersistentVolumeClaim: {
 	data: {
 		apiVersion: "v1"
@@ -7,7 +9,7 @@ Component: Resources: PersistentVolumeClaim: {
 		spec: {
 			accessModes: ["ReadWriteOnce"]
 			resources: requests: storage: "5Gi"
-			storageClassName: "piraeus-storage"
+				storageClassName: csi.config.iscsiStorageClass
 		}
 	}
 	cache: {
@@ -16,7 +18,7 @@ Component: Resources: PersistentVolumeClaim: {
 		spec: {
 			accessModes: ["ReadWriteOnce"]
 			resources: requests: storage: "1Gi"
-			storageClassName: "piraeus-storage-file"
+			storageClassName: csi.config.iscsiStorageClass
 		}
 	}
 }
