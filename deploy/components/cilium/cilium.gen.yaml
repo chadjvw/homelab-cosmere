@@ -1428,6 +1428,38 @@ spec:
   - cidr: 10.0.40.0/24
 ---
 apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: bgp-peering-policy
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/os: linux
+  virtualRouters:
+  - localASN: 64513
+    neighbors:
+    - connectRetryTimeSeconds: 120
+      eBGPMultihopTTL: 10
+      gracefulRestart:
+        enabled: true
+        restartTimeSeconds: 120
+      holdTimeSeconds: 90
+      keepAliveTimeSeconds: 30
+      peerASN: 64512
+      peerAddress: 10.0.10.1/32
+    serviceSelector:
+      matchExpressions:
+      - key: io.cilium/bgp
+        operator: NotIn
+        values:
+        - deny
+        - "false"
+      - key: io.cilium/internal
+        operator: NotIn
+        values:
+        - "true"
+---
+apiVersion: cilium.io/v2alpha1
 kind: CiliumL2AnnouncementPolicy
 metadata:
   name: l2-policy
@@ -1443,34 +1475,3 @@ spec:
     matchExpressions:
     - key: io.cilium/l2
       operator: Exists
----
-kind: CiliumBGPPeeringPolicy
-metadata:
-  name: bgp-peering-policy
-spec:
-  nodeSelector:
-    matchLabels:
-      kubernetes.io/os: linux
-  virtualRouters:
-  - localASN: "64513"
-    neighbors:
-    - connectRetryTimeSeconds: 120
-      eBGPMultihopTTL: 10
-      gracefulRestart:
-        enabled: true
-        restartTimeSeconds: 120
-      holdTimeSeconds: 90
-      keepAliveTimeSeconds: 30
-      peerASN: "64512"
-      peerAddress: 10.0.10.1/32
-    serviceSelector:
-      matchExpressions:
-      - key: io.cilium/bgp
-        operator: NotIn
-        values:
-        - deny
-        - "false"
-      - key: io.cilium/internal
-        operator: NotIn
-        values:
-        - "true"

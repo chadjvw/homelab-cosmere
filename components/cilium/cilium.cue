@@ -9,7 +9,7 @@ Component: {
 		spec: {
 			nodeSelector: matchLabels: "kubernetes.io/os": "linux"
 			virtualRouters: [{
-				localASN: "64513"
+				localASN: 64513
 				serviceSelector: matchExpressions: [{
 					key:      "io.cilium/bgp"
 					operator: "NotIn"
@@ -21,7 +21,7 @@ Component: {
 				}]
 				neighbors: [{
 					peerAddress:             "10.0.10.1/32"
-					peerASN:                 "64512"
+					peerASN:                 64512
 					eBGPMultihopTTL:         10
 					connectRetryTimeSeconds: 120
 					holdTimeSeconds:         90

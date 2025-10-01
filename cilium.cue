@@ -7,12 +7,14 @@ import (
 	ciliumbgpadvertisement "cilium.io/ciliumbgpadvertisement/v2"
 	ciliumbgpclusterconfig "cilium.io/ciliumbgpclusterconfig/v2"
 	ciliumbgppeerconfig "cilium.io/ciliumbgppeerconfig/v2"
+	ciliumbgppeeringpolicy "cilium.io/ciliumbgppeeringpolicy/v2alpha1"
 	ciliumloadbalancerippool "cilium.io/ciliumloadbalancerippool/v2"
 )
 
 #Resources: {
 	// cilium
 	GatewayClass?: [_]:               gwcv1.#GatewayClass
+	CiliumBGPPeeringPolicy?: [_]:     ciliumbgppeeringpolicy.#CiliumBGPPeeringPolicy
 	CiliumBGPAdvertisement?: [_]:     ciliumbgpadvertisement.#CiliumBGPAdvertisement
 	CiliumBGPClusterConfig?: [_]:     ciliumbgpclusterconfig.#CiliumBGPClusterConfig
 	CiliumBGPPeerConfig?: [_]:        ciliumbgppeerconfig.#CiliumBGPPeerConfig
