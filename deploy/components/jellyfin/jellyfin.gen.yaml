@@ -96,6 +96,8 @@ spec:
           name: dri
         - mountPath: /media/movies
           name: movies
+        - mountPath: /media/music
+          name: music
         - mountPath: /transcode
           name: transcode
         - mountPath: /media/tv
@@ -119,13 +121,17 @@ spec:
         name: dri
       - name: movies
         nfs:
-          path: /mnt/user/movies
+          path: /mnt/mongo/data/media/movies
+          server: 10.0.30.156
+      - name: music
+        nfs:
+          path: /mnt/mongo/data/media/music
           server: 10.0.30.156
       - emptyDir: {}
         name: transcode
       - name: tv
         nfs:
-          path: /mnt/user/tv
+          path: /mnt/mongo/data/media/tv
           server: 10.0.30.156
 ---
 apiVersion: gateway.networking.k8s.io/v1
