@@ -63,6 +63,23 @@ kind: Role
 metadata:
   labels:
     app.kubernetes.io/part-of: cilium
+  name: cilium-bgp-control-plane-secrets
+  namespace: kube-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app.kubernetes.io/part-of: cilium
   name: cilium-config-agent
   namespace: kube-system
 rules:
@@ -110,16 +127,6 @@ rules:
   - get
   - list
   - watch
-- apiGroups:
-  - coordination.k8s.io
-  resources:
-  - leases
-  verbs:
-  - create
-  - get
-  - update
-  - list
-  - delete
 - apiGroups:
   - apiextensions.k8s.io
   resources:
@@ -448,6 +455,22 @@ kind: RoleBinding
 metadata:
   labels:
     app.kubernetes.io/part-of: cilium
+  name: cilium-bgp-control-plane-secrets
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: cilium-bgp-control-plane-secrets
+subjects:
+- kind: ServiceAccount
+  name: cilium
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app.kubernetes.io/part-of: cilium
   name: cilium-config-agent
   namespace: kube-system
 roleRef:
@@ -493,14 +516,19 @@ apiVersion: v1
 data:
   agent-not-ready-taint-key: node.cilium.io/agent-not-ready
   auto-direct-node-routes: "true"
+  bgp-router-id-allocation-ip-pool: ""
+  bgp-router-id-allocation-mode: default
+  bgp-secrets-namespace: kube-system
   bpf-distributed-lru: "false"
   bpf-events-drop-enabled: "true"
   bpf-events-policy-verdict-enabled: "true"
   bpf-events-trace-enabled: "false"
-  bpf-lb-acceleration: disabled
+  bpf-lb-acceleration: best-effort
+  bpf-lb-algorithm: maglev
   bpf-lb-algorithm-annotation: "false"
   bpf-lb-external-clusterip: "false"
   bpf-lb-map-max: "65536"
+  bpf-lb-mode: dsr
   bpf-lb-mode-annotation: "false"
   bpf-lb-sock: "false"
   bpf-lb-source-range-all-types: "false"
@@ -527,7 +555,12 @@ data:
   dnsproxy-socket-linger-timeout: "10"
   egress-gateway-reconciliation-trigger-interval: 1s
   enable-auto-protect-node-port-range: "true"
-  enable-bpf-clock-probe: "false"
+  enable-bandwidth-manager: "true"
+  enable-bbr: "true"
+  enable-bbr-hostns-only: "false"
+  enable-bgp-control-plane: "true"
+  enable-bgp-control-plane-status-report: "true"
+  enable-bpf-clock-probe: "true"
   enable-bpf-masquerade: "true"
   enable-endpoint-health-checking: "true"
   enable-endpoint-lockdown-on-policy-overflow: "false"
@@ -538,16 +571,16 @@ data:
   enable-hubble: "false"
   enable-internal-traffic-policy: "true"
   enable-ipv4: "true"
-  enable-ipv4-big-tcp: "false"
+  enable-ipv4-big-tcp: "true"
   enable-ipv4-masquerade: "true"
   enable-ipv6: "false"
   enable-ipv6-big-tcp: "false"
   enable-ipv6-masquerade: "true"
   enable-k8s-networkpolicy: "false"
-  enable-l2-announcements: "true"
   enable-l2-neigh-discovery: "false"
   enable-l7-proxy: "true"
   enable-lb-ipam: "true"
+  enable-local-redirect-policy: "true"
   enable-masquerade-to-route-source: "false"
   enable-metrics: "true"
   enable-node-selector-labels: "false"
@@ -693,7 +726,7 @@ spec:
   template:
     metadata:
       annotations:
-        cilium.io/cilium-configmap-checksum: 2420d3a0e4fe827abca2b526b3e4b65e775c683f565cc2bd90d2e445b249efe7
+        cilium.io/cilium-configmap-checksum: 7204c87cfa1318ac4dfde39d3402f73ce4d7e69cda29edecd97b3b8db71df0cc
         prometheus.io/port: "9963"
         prometheus.io/scrape: "true"
       labels:
@@ -813,7 +846,7 @@ spec:
   template:
     metadata:
       annotations:
-        cilium.io/cilium-configmap-checksum: 2420d3a0e4fe827abca2b526b3e4b65e775c683f565cc2bd90d2e445b249efe7
+        cilium.io/cilium-configmap-checksum: 7204c87cfa1318ac4dfde39d3402f73ce4d7e69cda29edecd97b3b8db71df0cc
         kubectl.kubernetes.io/default-container: cilium-agent
       labels:
         app.kubernetes.io/name: cilium-agent
@@ -1392,7 +1425,7 @@ metadata:
   name: default
 spec:
   blocks:
-  - cidr: 10.0.10.0/24
+  - cidr: 10.0.40.0/24
 ---
 apiVersion: cilium.io/v2alpha1
 kind: CiliumL2AnnouncementPolicy
@@ -1406,3 +1439,38 @@ spec:
   nodeSelector:
     matchLabels:
       kubernetes.io/os: linux
+  serviceSelector:
+    matchExpressions:
+    - key: io.cilium/l2
+      operator: Exists
+---
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: bgp-peering-policy
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/os: linux
+  virtualRouters:
+  - localASN: "64513"
+    neighbors:
+    - connectRetryTimeSeconds: 120
+      eBGPMultihopTTL: 10
+      gracefulRestart:
+        enabled: true
+        restartTimeSeconds: 120
+      holdTimeSeconds: 90
+      keepAliveTimeSeconds: 30
+      peerASN: "64512"
+      peerAddress: 10.0.10.1/32
+    serviceSelector:
+      matchExpressions:
+      - key: io.cilium/bgp
+        operator: NotIn
+        values:
+        - deny
+        - "false"
+      - key: io.cilium/internal
+        operator: NotIn
+        values:
+        - "true"

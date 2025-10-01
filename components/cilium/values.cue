@@ -6,38 +6,33 @@ package holos
 	autoDirectNodeRoutes:  true
 	routingMode:           "native"
 	ipv4NativeRoutingCIDR: "10.244.0.0/16"
-	// bandwidthManager: {
-	// 	bbr:     true
-	// 	enabled: true
-	// }
+	bandwidthManager: {
+		bbr:     true
+		enabled: true
+	}
 	endpointRoutes: enabled: true
 	bpf: {
 		datapathMode:    "netkit"
 		masquerade:      true
 		preallocateMaps: true
 		events: trace: enabled: false
+		events: monitorInterval: "10s"
 	}
-	// bpfClockProbe: true
-	// bgpControlPlane: {
-	// 	enabled: true
-	// }
-	// enableIPv4BIGTCP: true
+	bpfClockProbe: true
+	bgpControlPlane: {
+		enabled: true
+	}
+	enableIPv4BIGTCP: true
 	k8sNetworkPolicy: {
 		enabled: false
 	}
-	// gatewayAPI: {
-	// 	enabled:           true
-	// 	enableAlpn:        true
-	// 	enableAppProtocol: true
-	// 	hostNetwork: enabled: true
-	// 	// xffNumTrustedHops: 1
-	// }
-	hubble: enabled: false
-	// localRedirectPolicy: true
-	// loadBalancer: {
-	// 	algorithm: "maglev"
-	// 	mode:      "dsr"
-	// }
+	hubble: enabled:                false
+	localRedirectPolicies: enabled: true
+	loadBalancer: {
+		acceleration: "best-effort"
+		algorithm:    "maglev"
+		mode:         "dsr"
+	}
 	operator: {
 		enabled:           true
 		rollOutPods:       true
@@ -80,7 +75,6 @@ package holos
 	k8sServiceHost: "localhost" // Kubeprism
 	k8sServicePort: "7445"
 
-	l2announcements: enabled: true
-	externalIPs: enabled:     true
+	externalIPs: enabled: true
 	devices: "enp+"
 }
