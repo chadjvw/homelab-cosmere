@@ -28,11 +28,9 @@ package holos
 		}
 	}
 	service: main: {
-		annotations: "lbipam.cilium.io/ips": "10.0.10.25"
+		annotations: "lbipam.cilium.io/ips": "10.0.40.25"
 		controller: "main"
-		// doesnt work with l2 annouce, remove once bgp
-		// externalTrafficPolicy: "Local"
-		loadBalancerClass: "io.cilium/l2-announcer"
+		externalTrafficPolicy: "Local"
 		ports: http: port: 80
 		type: "LoadBalancer"
 	}
