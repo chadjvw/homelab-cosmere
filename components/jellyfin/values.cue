@@ -44,7 +44,7 @@ package holos
 			path:    "/mnt/mongo/data/media/movies"
 			globalMounts: [{path: "/media/movies"}]
 		}
-				music: {
+		music: {
 			enabled: true
 			type:    "nfs"
 			server:  "10.0.30.156"
@@ -63,7 +63,7 @@ package holos
 		}
 	}
 	service: main: {
-		controller: "main"
+		controller:            "main"
 		externalTrafficPolicy: "Local"
 		ports: http: port: 8096
 		type: "LoadBalancer"

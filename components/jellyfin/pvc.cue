@@ -9,7 +9,7 @@ Component: Resources: PersistentVolumeClaim: {
 		spec: {
 			accessModes: ["ReadWriteOnce"]
 			resources: requests: storage: "5Gi"
-				storageClassName: csi.config.iscsiStorageClass
+			storageClassName: csi.config.iscsiStorageClass
 		}
 	}
 	cache: {
