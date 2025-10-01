@@ -33,14 +33,14 @@ package holos
 		tv: {
 			enabled: true
 			type:    "nfs"
-			server:  "10.0.20.10"
+			server:  "10.0.30.156"
 			path:    "/mnt/user/tv"
 			globalMounts: [{path: "/media/tv"}]
 		}
 		movies: {
 			enabled: true
 			type:    "nfs"
-			server:  "10.0.20.10"
+			server:  "10.0.30.156"
 			path:    "/mnt/user/movies"
 			globalMounts: [{path: "/media/movies"}]
 		}
@@ -56,11 +56,8 @@ package holos
 		}
 	}
 	service: main: {
-		annotations: "lbipam.cilium.io/ips": "10.0.30.7"
 		controller: "main"
-		// doesnt work with l2 annouce, remove once bgp
-		// externalTrafficPolicy: "Local"
-		loadBalancerClass: "io.cilium/l2-announcer"
+		externalTrafficPolicy: "Local"
 		ports: http: port: 8096
 		type: "LoadBalancer"
 	}
