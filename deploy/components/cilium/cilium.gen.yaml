@@ -1456,12 +1456,12 @@ spec:
       peerASN: 64512
       peerAddress: 10.0.10.1
       peerConfigRef:
-        name: cilium-peer
+        name: cilium-peer-v2
 ---
 apiVersion: cilium.io/v2
 kind: CiliumBGPPeerConfig
 metadata:
-  name: cilium-peer
+  name: cilium-peer-v2
 spec:
   families:
   - advertisements:

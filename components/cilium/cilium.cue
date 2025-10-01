@@ -13,13 +13,13 @@ Component: {
 				name:        "opnsense"
 				peerASN:     64512
 				peerAddress: "10.0.10.1"
-				peerConfigRef: name: "cilium-peer"
+				peerConfigRef: name: "cilium-peer-v2"
 			}]
 		}]
 	}
 
 	Resources: CiliumBGPPeerConfig: (Name): {
-		metadata: name: "cilium-peer"
+		metadata: name: "cilium-peer-v2"
 		spec: {
 			gracefulRestart: {
 				enabled:            true
