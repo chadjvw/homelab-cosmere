@@ -70,5 +70,6 @@ Component: {
 	Resources: CiliumLoadBalancerIPPool: (Name): {
 		metadata: name: "default"
 		spec: blocks: [{cidr: "10.0.40.0/24"}]
+		spec: allowFirstLastIPs: "No"
 	}
 }
