@@ -1,11 +1,4 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    app.kubernetes.io/part-of: cilium
-  name: cilium-secrets
----
-apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: cilium
@@ -1470,7 +1463,6 @@ kind: CiliumBGPPeerConfig
 metadata:
   name: cilium-peer
 spec:
-  authSecretRef: bgp-auth-secret
   families:
   - advertisements:
       matchLabels:

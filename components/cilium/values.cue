@@ -46,6 +46,8 @@ package holos
 	// 	serviceMonitor: trustCRDsExist: true
 	// }
 
+	tls: secretsNamespace: create: false
+
 	// Talos requirements
 	ipam: mode: "kubernetes"
 	kubeProxyReplacement: true

@@ -21,7 +21,6 @@ Component: {
 	Resources: CiliumBGPPeerConfig: (Name): {
 		metadata: name: "cilium-peer"
 		spec: {
-			authSecretRef: "bgp-auth-secret"
 			gracefulRestart: {
 				enabled:            true
 				restartTimeSeconds: 15
