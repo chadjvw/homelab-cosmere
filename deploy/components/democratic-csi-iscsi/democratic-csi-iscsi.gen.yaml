@@ -398,7 +398,7 @@ spec:
         - --timeout=90s
         - --worker-threads=10
         - --csi-address=/csi-data/csi.sock
-        image: registry.k8s.io/sig-storage/csi-attacher:v4.8.0
+        image: registry.k8s.io/sig-storage/csi-attacher:v4.4.0
         name: external-attacher
         volumeMounts:
         - mountPath: /csi-data
@@ -455,7 +455,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.name
-        image: registry.k8s.io/sig-storage/csi-resizer:v1.13.0
+        image: registry.k8s.io/sig-storage/csi-resizer:v1.9.0
         name: external-resizer
         volumeMounts:
         - mountPath: /csi-data
@@ -483,7 +483,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.name
-        image: registry.k8s.io/sig-storage/csi-snapshotter:v8.2.0
+        image: registry.k8s.io/sig-storage/csi-snapshotter:v8.2.1
         name: external-snapshotter
         volumeMounts:
         - mountPath: /csi-data
