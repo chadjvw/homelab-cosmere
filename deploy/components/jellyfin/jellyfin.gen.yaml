@@ -145,12 +145,14 @@ metadata:
   name: jellyfin
   namespace: default
 spec:
+  hostnames:
+  - jellyfin.vanwyhe.xyz
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
-    name: internal
+    name: external
     namespace: kube-system
-    sectionName: http
+    sectionName: https
   rules:
   - backendRefs:
     - group: ""
