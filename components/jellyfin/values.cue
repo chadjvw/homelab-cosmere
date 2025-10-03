@@ -1,14 +1,12 @@
 package holos
 
-import "homelab.cosmere/config/media"
+import (
+	"homelab.cosmere/config/media"
+	"homelab.cosmere/config/app"
+)
 
-#Values: {
+#Values: app.#ExternalAppTemplate & {
 	controllers: main: containers: main: {
-		env: {
-			PGID: 1000
-			PUID: 1000
-			TZ:   "America/Denver"
-		}
 		image: {
 			repository: "ghcr.io/jellyfin/jellyfin"
 			tag:        "10.10.7"
@@ -16,13 +14,6 @@ import "homelab.cosmere/config/media"
 	}
 	securityContext: privileged: true
 	securityContext: supplementalGroups: [100]
-	route: main: {
-		parentRefs: [{
-			name:        "internal"
-			namespace:   "kube-system"
-			sectionName: "http"
-		}]
-	}
 	persistence: {
 		config: {
 			existingClaim: "jellyfin-data"
@@ -46,10 +37,5 @@ import "homelab.cosmere/config/media"
 			hostPath:     "/dev/dri"
 		}
 	}
-	service: main: {
-		controller:            "main"
-		externalTrafficPolicy: "Local"
-		ports: http: port: 8096
-		type: "LoadBalancer"
-	}
+	service: main: ports: http: port: 8096
 }
