@@ -18,7 +18,7 @@ package holos
 		parentRefs: [{
 			name:        "internal"
 			namespace:   "kube-system"
-			sectionName: "https"
+			sectionName: "http"
 		}]
 	}
 	persistence: {
