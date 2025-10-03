@@ -13,10 +13,11 @@ package holos
 		}
 	}
 	route: main: {
+		hostnames: ["{{ .Release.Name }}.int.vanwyhe.xyz"]
 		parentRefs: [{
 			name:        "internal"
 			namespace:   "kube-system"
-			sectionName: "http"
+			sectionName: "https"
 		}]
 	}
 	persistence: {
