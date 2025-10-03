@@ -1,5 +1,7 @@
 package holos
 
+import "homelab.cosmere/config/media"
+
 #Values: {
 	controllers: main: containers: main: {
 		env: {
@@ -30,27 +32,9 @@ package holos
 			existingClaim: "jellyfin-cache"
 			globalMounts: [{path: "/config/cache"}]
 		}
-		tv: {
-			enabled: true
-			type:    "nfs"
-			server:  "10.0.30.156"
-			path:    "/mnt/mongo/data/media/tv"
-			globalMounts: [{path: "/media/tv"}]
-		}
-		movies: {
-			enabled: true
-			type:    "nfs"
-			server:  "10.0.30.156"
-			path:    "/mnt/mongo/data/media/movies"
-			globalMounts: [{path: "/media/movies"}]
-		}
-		music: {
-			enabled: true
-			type:    "nfs"
-			server:  "10.0.30.156"
-			path:    "/mnt/mongo/data/media/music"
-			globalMounts: [{path: "/media/music"}]
-		}
+		tv:     media.tv
+		movies: media.movies
+		music:  media.music
 		transcode: {
 			enabled: true
 			type:    "emptyDir"

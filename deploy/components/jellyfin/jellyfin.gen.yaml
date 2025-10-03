@@ -122,17 +122,17 @@ spec:
       - name: movies
         nfs:
           path: /mnt/mongo/data/media/movies
-          server: 10.0.30.156
+          server: nas.int.vanwyhe.xyz
       - name: music
         nfs:
           path: /mnt/mongo/data/media/music
-          server: 10.0.30.156
+          server: nas.int.vanwyhe.xyz
       - emptyDir: {}
         name: transcode
       - name: tv
         nfs:
           path: /mnt/mongo/data/media/tv
-          server: 10.0.30.156
+          server: nas.int.vanwyhe.xyz
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute

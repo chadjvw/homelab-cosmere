@@ -1,3 +1,60 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: int.vanwyhe.xyz
+  namespace: kube-system
+spec:
+  commonName: int.vanwyhe.xyz
+  dnsNames:
+  - int.vanwyhe.xyz
+  - '*.int.vanwyhe.xyz'
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+  secretName: int.vanwyhe.xyz-tls
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vanwyhe.xyz
+  namespace: kube-system
+spec:
+  commonName: vanwyhe.xyz
+  dnsNames:
+  - vanwyhe.xyz
+  - '*.vanwyhe.xyz'
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging
+  secretName: vanwyhe.xyz-tls
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: external
+  namespace: kube-system
+spec:
+  gatewayClassName: envoy
+  listeners:
+  - allowedRoutes:
+      namespaces:
+        from: Same
+    hostname: '*.vanwyhe.xyz'
+    name: http
+    port: 80
+    protocol: HTTP
+  - allowedRoutes:
+      namespaces:
+        from: All
+    hostname: '*.vanwyhe.xyz'
+    name: https
+    port: 443
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - kind: Secret
+        name: vanwyhe.xyz-tls
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
@@ -6,17 +63,45 @@ metadata:
 spec:
   gatewayClassName: envoy
   listeners:
-  - name: http
+  - allowedRoutes:
+      namespaces:
+        from: Same
+    hostname: '*.int.vanwyhe.xyz'
+    name: http
     port: 80
     protocol: HTTP
+  - allowedRoutes:
+      namespaces:
+        from: All
+    hostname: '*.int.vanwyhe.xyz'
+    name: https
+    port: 443
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - kind: Secret
+        name: int.vanwyhe.xyz-tls
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: http-route
+  name: https-redirect
   namespace: kube-system
 spec:
   parentRefs:
   - name: internal
     namespace: kube-system
     sectionName: http
+  - name: external
+    namespace: kube-system
+    sectionName: http
+  rules:
+  - filters:
+    - requestRedirect:
+        scheme: https
+        statusCode: 301
+      type: RequestRedirect
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
