@@ -5,7 +5,9 @@ import (
 	gwcv1 "gateway.networking.k8s.io/gatewayclass/v1"
 
 	// envoy - gateway api impl
-	envoyproxy "gateway.envoyproxy.io/envoyproxy/v1alpha1"
+	evproxy "gateway.envoyproxy.io/envoyproxy/v1alpha1"
+	evbtp "gateway.envoyproxy.io/backendtrafficpolicy/v1alpha1"
+	evctp "gateway.envoyproxy.io/clienttrafficpolicy/v1alpha1"
 
 	// cilium - cni
 	ciliuml2announcementpolicy "cilium.io/ciliuml2announcementpolicy/v2alpha1"
@@ -17,7 +19,9 @@ import (
 
 #Resources: {
 	GatewayClass?: [_]:               gwcv1.#GatewayClass
-	EnvoyProxy?: [_]:                 envoyproxy.#EnvoyProxy
+	EnvoyProxy?: [_]:                 evproxy.#EnvoyProxy
+	BackendTrafficPolicy?: [_]:       evbtp.#BackendTrafficPolicy
+	ClientTrafficPolicy?: [_]:        evctp.#ClientTrafficPolicy
 	CiliumBGPAdvertisement?: [_]:     ciliumbgpadvertisement.#CiliumBGPAdvertisement
 	CiliumBGPClusterConfig?: [_]:     ciliumbgpclusterconfig.#CiliumBGPClusterConfig
 	CiliumBGPPeerConfig?: [_]:        ciliumbgppeerconfig.#CiliumBGPPeerConfig
