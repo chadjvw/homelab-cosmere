@@ -46,34 +46,5 @@ Component: #Kustomize & {
 				}
 			}
 		}
-		"gateway-crds": {
-			metadata: name:      "gateway-crds"
-			metadata: namespace: Namespace
-			spec: {
-				interval: "10m"
-				path:     "config/crd"
-				prune:    true
-				wait:     true
-				sourceRef: {
-					kind: "GitRepository"
-					name: "gateway-crds"
-				}
-			}
-		}
-	}
-
-	Resources: GitRepository: {
-		"gateway-crds": {
-			metadata: name:      "gateway-crds"
-			metadata: namespace: Namespace
-			spec: {
-				interval: "10m"
-				ref: {
-					// renovate: datasource=github-releases depName=fluxcd/flux2
-					tag: "v1.3.0"
-				}
-				url: "https://github.com/kubernetes-sigs/gateway-api"
-			}
-		}
 	}
 }

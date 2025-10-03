@@ -1,13 +1,9 @@
 package holos
 
 Platform: Components: {
-	"kgateway-crds": {
-		name: "kgateway-crds"
-		path: "components/kgateway-crds"
-	}
-	kgateway: {
-		name: "kgateway"
-		path: "components/kgateway"
+	"envoy-gateway": {
+		name: "envoy-gateway"
+		path: "components/envoy-gateway"
 	}
 	gateway: {
 		name: "gateway"

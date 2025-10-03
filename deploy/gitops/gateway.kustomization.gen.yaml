@@ -11,4 +11,4 @@ spec:
     sourceRef:
         kind: OCIRepository
         name: default
-    targetNamespace: kgateway-system
+    targetNamespace: kube-system
