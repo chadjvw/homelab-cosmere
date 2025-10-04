@@ -2,50 +2,37 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/instance: jellyfin
+    app.kubernetes.io/instance: plex
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: jellyfin
-    app.kubernetes.io/service: jellyfin
+    app.kubernetes.io/name: plex
+    app.kubernetes.io/service: plex
     helm.sh/chart: app-template-4.3.0
-  name: jellyfin
+  name: plex
   namespace: default
 spec:
   externalTrafficPolicy: Local
   ports:
   - name: http
-    port: 8096
+    port: 32400
     protocol: TCP
-    targetPort: 8096
+    targetPort: 32400
   selector:
     app.kubernetes.io/controller: main
-    app.kubernetes.io/instance: jellyfin
-    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/instance: plex
+    app.kubernetes.io/name: plex
   type: LoadBalancer
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-cache
+  name: plex-config
   namespace: default
 spec:
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
-  storageClassName: org.democratic-csi.iscsi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: jellyfin-data
-  namespace: default
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
+      storage: 20Gi
   storageClassName: org.democratic-csi.iscsi
 ---
 apiVersion: apps/v1
@@ -53,11 +40,11 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/controller: main
-    app.kubernetes.io/instance: jellyfin
+    app.kubernetes.io/instance: plex
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/name: plex
     helm.sh/chart: app-template-4.3.0
-  name: jellyfin
+  name: plex
   namespace: default
 spec:
   replicas: 1
@@ -65,26 +52,35 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/controller: main
-      app.kubernetes.io/instance: jellyfin
-      app.kubernetes.io/name: jellyfin
+      app.kubernetes.io/instance: plex
+      app.kubernetes.io/name: plex
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app.kubernetes.io/controller: main
-        app.kubernetes.io/instance: jellyfin
-        app.kubernetes.io/name: jellyfin
+        app.kubernetes.io/instance: plex
+        app.kubernetes.io/name: plex
     spec:
       automountServiceAccountToken: true
       containers:
       - env:
+        - name: ADVERTISE_IP
+          value: https://plex.vanwyhe.xyz
         - name: PGID
           value: "1000"
+        - name: PLEX_CLAIM
+          valueFrom:
+            secretKeyRef:
+              key: PLEX_CLAIM
+              name: plex-claim-token
         - name: PUID
           value: "1000"
         - name: TZ
           value: America/Denver
+        - name: VERSION
+          value: latest
         image: docker.io/kennethreitz/httpbin:latest
         name: main
         resources:
@@ -93,8 +89,6 @@ spec:
           requests:
             gpu.intel.com/i915: "1"
         volumeMounts:
-        - mountPath: /config/cache
-          name: cache
         - mountPath: /config
           name: config
         - mountPath: /dev/dri
@@ -114,12 +108,9 @@ spec:
       hostPID: false
       serviceAccountName: default
       volumes:
-      - name: cache
-        persistentVolumeClaim:
-          claimName: jellyfin-cache
       - name: config
         persistentVolumeClaim:
-          claimName: jellyfin-data
+          claimName: plex-config
       - hostPath:
           path: /dev/dri
           type: Directory
@@ -142,28 +133,47 @@ spec:
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  dnsHost: jellyfin
-  name: jellyfin-ext-dns
+  dnsHost: plex
+  name: plex-ext-dns
   namespace: default
 spec:
-  dnsName: k8s-jellyfin.vanwyhe.xyz
+  dnsName: k8s-plex.vanwyhe.xyz
   targets:
   - home.vanwyhe.xyz
   ttl: 300
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: plex-claim-token
+  namespace: default
+spec:
+  data:
+  - remoteRef:
+      key: PLEX_CLAIM_TOKEN
+    secretKey: PLEX_CLAIM_TOKEN
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: doppler
+  target:
+    name: plex-claim-token
+    template:
+      data:
+        PLEX_CLAIM: '{{ .PLEX_CLAIM_TOKEN }}'
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   labels:
-    app.kubernetes.io/instance: jellyfin
+    app.kubernetes.io/instance: plex
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/name: plex
     helm.sh/chart: app-template-4.3.0
-  name: jellyfin
+  name: plex
   namespace: default
 spec:
   hostnames:
-  - k8s-jellyfin.vanwyhe.xyz
+  - k8s-plex.vanwyhe.xyz
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
@@ -174,7 +184,7 @@ spec:
   - backendRefs:
     - group: ""
       kind: Service
-      name: jellyfin
+      name: plex
       namespace: default
-      port: 8096
+      port: 32400
       weight: 1

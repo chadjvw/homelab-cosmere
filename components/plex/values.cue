@@ -8,7 +8,7 @@ import (
 #Values: app.#ExternalAppTemplate & {
 	controllers: main: containers: main: {
 		image: {
-			// repository: "ghcr.io/jellyfin/jellyfin"
+			// repository: "ghcr.io/advplyr/audiobookshelf"
 			repository: "docker.io/kennethreitz/httpbin"
 			tag:        "latest"
 		}
@@ -16,17 +16,20 @@ import (
 			requests: "gpu.intel.com/i915": "1"
 			limits: "gpu.intel.com/i915":   "1"
 		}
+		env: {
+			VERSION:      "latest"
+			ADVERTISE_IP: "https://plex.vanwyhe.xyz"
+			PLEX_CLAIM: valueFrom: secretKeyRef: {
+				name: "plex-claim-token"
+				key:  "PLEX_CLAIM"
+			}
+		}
 	}
 	securityContext: privileged: true
 	securityContext: supplementalGroups: [100]
 	persistence: {
 		config: {
-			existingClaim: "jellyfin-data"
-		}
-		cache: {
-			enabled:       true
-			existingClaim: "jellyfin-cache"
-			globalMounts: [{path: "/config/cache"}]
+			existingClaim: "plex-config"
 		}
 		tv:     media.tv
 		movies: media.movies
@@ -42,5 +45,5 @@ import (
 			hostPath:     "/dev/dri"
 		}
 	}
-	service: main: ports: http: port: 8096
+	service: main: ports: http: port: 32400
 }
