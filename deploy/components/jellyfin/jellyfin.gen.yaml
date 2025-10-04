@@ -134,7 +134,7 @@ spec:
           server: truenas.vanwyhe.xyz
       - emptyDir:
           medium: Memory
-          sizeLimit: 4GiB
+          sizeLimit: 4Gi
         name: transcode
       - name: tv
         nfs:

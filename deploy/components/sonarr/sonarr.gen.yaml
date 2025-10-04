@@ -1,0 +1,117 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: sonarr
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: sonarr
+    app.kubernetes.io/service: sonarr
+    helm.sh/chart: app-template-4.3.0
+  name: sonarr
+  namespace: default
+spec:
+  externalTrafficPolicy: Local
+  ports:
+  - name: http
+    port: 889
+    protocol: TCP
+    targetPort: 889
+  selector:
+    app.kubernetes.io/controller: main
+    app.kubernetes.io/instance: sonarr
+    app.kubernetes.io/name: sonarr
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr-config
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: org.democratic-csi.iscsi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/controller: main
+    app.kubernetes.io/instance: sonarr
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: sonarr
+    helm.sh/chart: app-template-4.3.0
+  name: sonarr
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/controller: main
+      app.kubernetes.io/instance: sonarr
+      app.kubernetes.io/name: sonarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/controller: main
+        app.kubernetes.io/instance: sonarr
+        app.kubernetes.io/name: sonarr
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - env:
+        - name: PGID
+          value: "1000"
+        - name: PUID
+          value: "1000"
+        - name: TZ
+          value: America/Denver
+        image: docker.io/kennethreitz/httpbin:latest
+        name: main
+        volumeMounts:
+        - mountPath: /config
+          name: config
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      serviceAccountName: default
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: sonarr-config
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  labels:
+    app.kubernetes.io/instance: sonarr
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: sonarr
+    helm.sh/chart: app-template-4.3.0
+  name: sonarr
+  namespace: default
+spec:
+  hostnames:
+  - sonarr.int.vanwyhe.xyz
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: internal
+    namespace: kube-system
+    sectionName: https
+  rules:
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: sonarr
+      namespace: default
+      port: 889
+      weight: 1
