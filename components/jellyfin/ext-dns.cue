@@ -1,12 +1,11 @@
 package holos
 
 Component: {
-	Name:      string
-	Namespace: string
+	Name: string
 
 	Resources: DNSEntry: (Name): {
-		metadata: namespace: Namespace
-		metadata: name:      "jellyfin-dns"
+		metadata: namespace: "kube-system"
+		metadata: name:      "\(Name)-ext-dns"
 		spec: {
 			dnsName: "k8s-\(Name).vanwyhe.xyz"
 			ttl:     300
