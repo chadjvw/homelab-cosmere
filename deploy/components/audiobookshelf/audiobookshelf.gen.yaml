@@ -115,7 +115,6 @@ spec:
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  dnsHost: books
   name: books-ext-dns
   namespace: default
 spec:

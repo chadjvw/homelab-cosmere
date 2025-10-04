@@ -5,10 +5,9 @@ Component: {
 
 	Resources: DNSEntry: dns: {
 		metadata: namespace: Namespace
-		metadata: dnsHost:   "books"
-		metadata: name:      "\(metadata.dnsHost)-ext-dns"
+		metadata: name:      "noms-ext-dns"
 		spec: {
-			dnsName: "k8s-\(metadata.dnsHost).vanwyhe.xyz"
+			dnsName: "k8s-noms.vanwyhe.xyz"
 			ttl:     300
 			targets: ["home.vanwyhe.xyz"]
 		}

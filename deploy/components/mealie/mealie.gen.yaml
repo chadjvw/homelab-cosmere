@@ -97,11 +97,10 @@ spec:
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  dnsHost: books
-  name: books-ext-dns
+  name: noms-ext-dns
   namespace: default
 spec:
-  dnsName: k8s-books.vanwyhe.xyz
+  dnsName: k8s-noms.vanwyhe.xyz
   targets:
   - home.vanwyhe.xyz
   ttl: 300

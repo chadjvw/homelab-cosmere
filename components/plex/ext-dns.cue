@@ -5,10 +5,9 @@ Component: {
 
 	Resources: DNSEntry: dns: {
 		metadata: namespace: Namespace
-		metadata: dnsHost:   "plex"
-		metadata: name:      "\(metadata.dnsHost)-ext-dns"
+		metadata: name:      "plex-ext-dns"
 		spec: {
-			dnsName: "k8s-\(metadata.dnsHost).vanwyhe.xyz"
+			dnsName: "k8s-plex.vanwyhe.xyz"
 			ttl:     300
 			targets: ["home.vanwyhe.xyz"]
 		}

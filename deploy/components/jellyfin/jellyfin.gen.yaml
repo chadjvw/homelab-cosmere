@@ -142,7 +142,6 @@ spec:
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  dnsHost: jellyfin
   name: jellyfin-ext-dns
   namespace: default
 spec:
