@@ -139,6 +139,17 @@ spec:
           path: /mnt/mongo/data/media/tv
           server: nas.int.vanwyhe.xyz
 ---
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  name: jellyfin-dns
+  namespace: default
+spec:
+  dnsName: k8s-jellyfin.vanwyhe.xyz
+  targets:
+  - home.vanwyhe.xyz
+  ttl: 300
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
