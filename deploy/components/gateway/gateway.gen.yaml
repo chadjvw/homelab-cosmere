@@ -70,14 +70,12 @@ spec:
   - allowedRoutes:
       namespaces:
         from: Same
-    hostname: '*.int.vanwyhe.xyz'
     name: http
     port: 80
     protocol: HTTP
   - allowedRoutes:
       namespaces:
         from: All
-    hostname: '*.int.vanwyhe.xyz'
     name: https
     port: 443
     protocol: HTTPS
