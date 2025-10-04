@@ -48,8 +48,9 @@ let driverImage = {
 
 	controller: {
 		driver: {
-			enabled: true
-			image:   driverImage
+			logLevel: "debug"
+			enabled:  true
+			image:    driverImage
 		}
 	}
 }
