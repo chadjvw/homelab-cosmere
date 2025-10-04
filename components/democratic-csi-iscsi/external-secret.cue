@@ -29,7 +29,7 @@ Component: {
 						zfs: {
 							datasetParentName:                  "mongo/k8s/iscsi/v"
 							detachedSnapshotsDatasetParentName: "mongo/k8s/iscsi/s"
-							datasetProperties: "org.freenas:description": "\{\{ parameters.[csi.storage.k8s.io/pvc/namespace] \}\}/\{\{ parameters.[csi.storage.k8s.io/pvc/name] \}\}"
+							datasetProperties: "org.freenas:description": "{{ `{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}` }}"
 							zvolEnableReservation: false
 							// zvolBlocksize:         ""
 							// zvolDedup:             ""
@@ -46,7 +46,7 @@ Component: {
 								targetGroupInitiatorGroup: 1
 								targetGroupAuthType:       "None"
 							}]
-							extentCommentTemplate: "\{\{ parameters.[csi.storage.k8s.io/pvc/namespace] \}\}/\{\{ parameters.[csi.storage.k8s.io/pvc/name] \}\}"
+							extentCommentTemplate: "{{ `{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}` }}"
 							extentInsecureTpc:     true
 							extentXenCompat:       false
 							// extentDisablePhysicalBlocksize: true

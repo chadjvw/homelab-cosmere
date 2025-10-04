@@ -804,7 +804,7 @@ spec:
             datasetParentName: mongo/k8s/iscsi/v
             detachedSnapshotsDatasetParentName: mongo/k8s/iscsi/s
             datasetProperties:
-              org.freenas:description: '{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}'
+              org.freenas:description: '{{ `{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}` }}'
             zvolEnableReservation: false
           iscsi:
             targetPortal: '{{ .TRUENAS_IP }}:3260'
@@ -816,7 +816,7 @@ spec:
               - targetGroupPortalGroup: 1
                 targetGroupInitiatorGroup: 1
                 targetGroupAuthType: None
-            extentCommentTemplate: '{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}'
+            extentCommentTemplate: '{{ `{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}/{{ parameters.[csi.storage.k8s.io/pvc/name] }}` }}'
             extentInsecureTpc: true
             extentXenCompat: false
             extentBlocksize: 512
