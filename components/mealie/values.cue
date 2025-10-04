@@ -7,9 +7,8 @@ import (
 #Values: app.#ExternalAppTemplate & {
 	controllers: main: containers: main: {
 		image: {
-			// repository: "ghcr.io/advplyr/audiobookshelf"
-			repository: "docker.io/kennethreitz/httpbin"
-			tag:        "latest"
+			repository: "ghcr.io/mealie-recipes/mealie"
+			tag:        "v3.3.1"
 		}
 		env: {
 			ALLOW_SIGNUP: false
