@@ -4,7 +4,7 @@ holos: Component.BuildPlan
 
 Component: #Helm & {
 	Name:        "dns-controller"
-	Namespace:   "kube-system"
+	Namespace:   "default"
 	EnableHooks: true
 	Chart: {
 		name:    "oci://europe-docker.pkg.dev/gardener-project/releases/charts/dns-controller-manager"

@@ -11,4 +11,4 @@ spec:
     sourceRef:
         kind: OCIRepository
         name: default
-    targetNamespace: kube-system
+    targetNamespace: default
