@@ -787,7 +787,7 @@ metadata:
     app.kubernetes.io/name: dns-controller-manager
     helm.sh/chart: dns-controller-manager-v0.28.0
   name: dns-controller-manager
-  namespace: kube-system
+  namespace: default
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -798,7 +798,7 @@ metadata:
     app.kubernetes.io/name: dns-controller-manager
     helm.sh/chart: dns-controller-manager-v0.28.0
   name: dns-controller-manager
-  namespace: kube-system
+  namespace: default
 rules:
 - apiGroups:
   - ""
@@ -936,7 +936,7 @@ metadata:
     app.kubernetes.io/name: dns-controller-manager
     helm.sh/chart: dns-controller-manager-v0.28.0
   name: dns-controller-manager
-  namespace: kube-system
+  namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -944,7 +944,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: dns-controller-manager
-  namespace: kube-system
+  namespace: default
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -962,7 +962,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: dns-controller-manager
-  namespace: kube-system
+  namespace: default
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -973,7 +973,7 @@ metadata:
     app.kubernetes.io/name: dns-controller-manager
     helm.sh/chart: dns-controller-manager-v0.28.0
   name: dns-controller-manager
-  namespace: kube-system
+  namespace: default
 spec:
   replicas: 1
   revisionHistoryLimit: 5
@@ -1003,7 +1003,6 @@ spec:
         - --remote-access-client-id=client
         - --controllers=all
         - --lease-duration=30s
-        - --namespace=default
         - --server-port-http=8080
         - --ttl=300
         image: europe-docker.pkg.dev/gardener-project/releases/dns-controller-manager:v0.28.0
@@ -1048,7 +1047,7 @@ apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSProvider
 metadata:
   name: dns-provider-cloudflare
-  namespace: kube-system
+  namespace: default
 spec:
   domains:
     include:
@@ -1061,7 +1060,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: external-dns-cloudflare-api-token
-  namespace: kube-system
+  namespace: default
 spec:
   data:
   - remoteRef:
