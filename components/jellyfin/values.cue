@@ -33,7 +33,7 @@ import (
 		transcode: {
 			enabled:   true
 			medium:    "Memory"
-			sizeLimit: "4GiB"
+			sizeLimit: "4Gi"
 			type:      "emptyDir"
 		}
 		dri: {
