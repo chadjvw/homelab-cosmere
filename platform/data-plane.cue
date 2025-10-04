@@ -1,9 +1,9 @@
 package holos
 
 Platform: Components: {
-	"external-dns": {
-		name: "external-dns"
-		path: "components/external-dns"
+	"external-dns-controller": {
+		name: "dns-controller"
+		path: "components/external-dns-controller"
 	}
 	"cert-manager": {
 		name: "cert-manager"
