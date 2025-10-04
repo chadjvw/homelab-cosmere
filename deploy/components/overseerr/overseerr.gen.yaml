@@ -72,7 +72,7 @@ spec:
           value: "1000"
         - name: TZ
           value: America/Denver
-        image: docker.io/kennethreitz/httpbin:latest
+        image: ghcr.io/advplyr/audiobookshelf:1.34.0
         name: main
         volumeMounts:
         - mountPath: /app/config
@@ -111,7 +111,7 @@ metadata:
   namespace: default
 spec:
   hostnames:
-  - k8s-overseerr.vanwyhe.xyz
+  - req.vanwyhe.xyz
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

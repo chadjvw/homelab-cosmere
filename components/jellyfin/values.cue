@@ -42,5 +42,8 @@ import (
 			hostPath:     "/dev/dri"
 		}
 	}
+
+	route: main: hostnames: ["jellyfin.vanwyhe.xyz"]
+
 	service: main: ports: http: port: 8096
 }

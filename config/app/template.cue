@@ -39,7 +39,7 @@ package app
 
 #ExternalAppTemplate: #AppTemplate & {
 	route: main: {
-		hostnames: ["k8s-{{ .Release.Name }}.vanwyhe.xyz"]
+		hostnames: [string]
 		parentRefs: [{
 			name: "external"
 		}]

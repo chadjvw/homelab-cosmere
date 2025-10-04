@@ -172,7 +172,7 @@ metadata:
   namespace: default
 spec:
   hostnames:
-  - k8s-plex.vanwyhe.xyz
+  - plex.vanwyhe.xyz
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

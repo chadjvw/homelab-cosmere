@@ -7,9 +7,8 @@ import (
 #Values: app.#ExternalAppTemplate & {
 	controllers: main: containers: main: {
 		image: {
-			// repository: "ghcr.io/advplyr/audiobookshelf"
-			repository: "docker.io/kennethreitz/httpbin"
-			tag:        "latest"
+			repository: "ghcr.io/advplyr/audiobookshelf"
+			tag:        "1.34.0"
 		}
 	}
 
@@ -19,6 +18,8 @@ import (
 			globalMounts: [{path: "/app/config"}]
 		}
 	}
+
+	route: main: hostnames: ["req.vanwyhe.xyz"]
 
 	service: main: ports: http: port: 5055
 }
