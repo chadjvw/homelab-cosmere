@@ -17,7 +17,7 @@ Component: Resources: PersistentVolumeClaim: {
 		metadata: name: "jellyfin-cache"
 		spec: {
 			accessModes: ["ReadWriteOnce"]
-			resources: requests: storage: "1Gi"
+			resources: requests: storage: "5Gi"
 			storageClassName: csi.config.iscsiStorageClass
 		}
 	}
