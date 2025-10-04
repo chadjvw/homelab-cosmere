@@ -1062,6 +1062,19 @@ spec:
   updatePolicy:
     updateMode: Auto
 ---
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSProvider
+metadata:
+  name: dns-provider-cloudflare
+  namespace: kube-system
+spec:
+  domains:
+    include:
+    - vanwyhe.xyz
+  secretRef:
+    name: external-dns-cloudflare-api-token
+  type: cloudflare-dns
+---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
@@ -1080,15 +1093,3 @@ spec:
     template:
       data:
         CLOUDFLARE_API_TOKEN: '{{ .CLOUDFLARE_API_TOKEN }}'
----
-kind: DNSProvider
-metadata:
-  name: cloudflare
-  namespace: kube-system
-spec:
-  domains:
-    include:
-    - vanwyhe.xyz
-  secretRef:
-    name: external-dns-cloudflare-api-token
-  type: cloudflare

@@ -16,11 +16,13 @@ Component: #Helm & {
 
 	KustomizeConfig: Kustomization: namespace: Namespace
 
-	// Resources: DNSProvider: cloudflare: {
-	// 	spec: {
-	// 		type: "cloudflare"
-	// 		secretRef: name: "external-dns-cloudflare-api-token"
-	// 		domains: include: ["vanwyhe.xyz"]
-	// 	}
-	// }
+	Resources: DNSProvider: cloudflare: {
+		metadata: name:      "dns-provider-cloudflare"
+		metadata: namespace: Namespace
+		spec: {
+			type: "cloudflare-dns"
+			secretRef: name: "external-dns-cloudflare-api-token"
+			domains: include: ["vanwyhe.xyz"]
+		}
+	}
 }
