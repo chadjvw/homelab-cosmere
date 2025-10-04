@@ -85,7 +85,7 @@ spec:
           value: "1000"
         - name: TZ
           value: America/Denver
-        image: docker.io/kennethreitz/httpbin:latest
+        image: ghcr.io/advplyr/audiobookshelf:2.29.0
         name: main
         volumeMounts:
         - mountPath: /media/books
@@ -118,7 +118,7 @@ metadata:
   name: books-ext-dns
   namespace: default
 spec:
-  dnsName: k8s-books.vanwyhe.xyz
+  dnsName: books.vanwyhe.xyz
   targets:
   - home.vanwyhe.xyz
   ttl: 300
