@@ -8,9 +8,8 @@ import (
 #Values: app.#ExternalAppTemplate & {
 	controllers: main: containers: main: {
 		image: {
-			// repository: "ghcr.io/jellyfin/jellyfin"
-			repository: "docker.io/kennethreitz/httpbin"
-			tag:        "latest"
+			repository: "ghcr.io/jellyfin/jellyfin"
+			tag:        "10.10.7"
 		}
 		resources: {
 			requests: "gpu.intel.com/i915": "1"
@@ -32,8 +31,10 @@ import (
 		movies: media.movies
 		music:  media.music
 		transcode: {
-			enabled: true
-			type:    "emptyDir"
+			enabled:   true
+			medium:    "Memory"
+			sizeLimit: "4GiB"
+			type:      "emptyDir"
 		}
 		dri: {
 			enabled:      true

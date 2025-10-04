@@ -8,9 +8,8 @@ import (
 #Values: app.#ExternalAppTemplate & {
 	controllers: main: containers: main: {
 		image: {
-			// repository: "ghcr.io/advplyr/audiobookshelf"
-			repository: "docker.io/kennethreitz/httpbin"
-			tag:        "latest"
+			repository: "ghcr.io/linuxserver/plex"
+			tag:        "1.42.2"
 		}
 		resources: {
 			requests: "gpu.intel.com/i915": "1"
@@ -37,8 +36,10 @@ import (
 		movies: media.movies
 		music:  media.music
 		transcode: {
-			enabled: true
-			type:    "emptyDir"
+			enabled:   true
+			medium:    "Memory"
+			sizeLimit: "4GiB"
+			type:      "emptyDir"
 		}
 		dri: {
 			enabled:      true
