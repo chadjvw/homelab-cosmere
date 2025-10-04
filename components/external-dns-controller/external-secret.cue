@@ -9,7 +9,7 @@ Component: {
 		metadata: namespace: Namespace
 		spec: {
 			target: name: metadata.name
-			target: template: data: "api-token": "{{ .CLOUDFLARE_API_TOKEN }}"
+			target: template: data: "CLOUDFLARE_API_TOKEN": "{{ .CLOUDFLARE_API_TOKEN }}"
 			data: [{secretKey: "CLOUDFLARE_API_TOKEN", remoteRef: {key: "CLOUDFLARE_API_TOKEN"}}]
 			secretStoreRef: kind: "ClusterSecretStore"
 			secretStoreRef: name: "doppler"
