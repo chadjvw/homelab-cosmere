@@ -11,6 +11,10 @@ import (
 			repository: "ghcr.io/jellyfin/jellyfin"
 			tag:        "10.10.7"
 		}
+		resources: {
+			requests: "gpu.intel.com/i915": "1"
+			limits: "gpu.intel.com/i915":   "1"
+		}
 	}
 	securityContext: privileged: true
 	securityContext: supplementalGroups: [100]
