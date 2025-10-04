@@ -70,7 +70,10 @@ Component: #Kubernetes & {
 			External: {
 				metadata: name:      "external"
 				metadata: namespace: Namespace
-				metadata: annotations: "dns.gardener.cloud/dnsnames": "*"
+				metadata: annotations: {
+					"dns.gardener.cloud/dnsnames": "*"
+					"dns.gardener.cloud/targets":  "home.vanwyhe.xyz"
+				}
 				spec: {
 					gatewayClassName: "envoy"
 					listeners: [{
@@ -90,10 +93,6 @@ Component: #Kubernetes & {
 						]
 					}]
 				}
-				status: addresses: [{
-					type:  "Hostname"
-					value: "home.vanwyhe.xyz"
-				}]
 			}
 			Internal: {
 				metadata: name:      "internal"
