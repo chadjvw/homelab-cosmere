@@ -21,4 +21,12 @@ Platform: Components: {
 		name: "gateway"
 		path: "components/gateway"
 	}
+	"democratic-csi-iscsi": {
+		name: "democratic-csi-iscsi"
+		path: "components/democratic-csi-iscsi"
+	}
+	"snapshot-controller": {
+		name: "snapshot-controller"
+		path: "components/snapshot-controller"
+	}
 }
