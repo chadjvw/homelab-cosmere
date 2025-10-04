@@ -17,10 +17,10 @@ Platform: Components: {
 		name: "mealie"
 		path: "components/mealie"
 	}
-	// jellyfin: {
-	// 	name: "jellyfin"
-	// 	path: "components/jellyfin"
-	// }
+	jellyfin: {
+		name: "jellyfin"
+		path: "components/jellyfin"
+	}
 	smokeping: {
 		name: "smokeping"
 		path: "components/smokeping"
