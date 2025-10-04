@@ -11,7 +11,4 @@ terraform = "latest"
 timoni = "latest"
 
 [tasks.render]
-run = "cd {{ config_root }}; rm -rf deploy; holos render platform"
-
-[tasks.fmt]
-run = " cd {{ config_root }} & holos cue fmt --files ."
+run = "cd {{ config_root }}; holos cue fmt --files .; rm -rf deploy; holos render platform"

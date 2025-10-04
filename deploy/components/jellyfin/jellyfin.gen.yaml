@@ -142,9 +142,6 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: home.vanwyhe.xyz
-    external-dns.alpha.kubernetes.io/ingress-hostname-source: annotation-only
   labels:
     app.kubernetes.io/instance: jellyfin
     app.kubernetes.io/managed-by: Helm

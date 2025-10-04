@@ -15,6 +15,10 @@ import (
 	ciliumbgpclusterconfig "cilium.io/ciliumbgpclusterconfig/v2"
 	ciliumbgppeerconfig "cilium.io/ciliumbgppeerconfig/v2"
 	ciliumloadbalancerippool "cilium.io/ciliumloadbalancerippool/v2"
+
+	// dns
+	dnsentry "dns.gardener.cloud/dnsentry/v1alpha1"
+	dnsprovider "dns.gardener.cloud/dnsprovider/v1alpha1"
 )
 
 #Resources: {
@@ -27,4 +31,6 @@ import (
 	CiliumBGPPeerConfig?: [_]:        ciliumbgppeerconfig.#CiliumBGPPeerConfig
 	CiliumL2AnnouncementPolicy?: [_]: ciliuml2announcementpolicy.#CiliumL2AnnouncementPolicy
 	CiliumLoadBalancerIPPool?: [_]:   ciliumloadbalancerippool.#CiliumLoadBalancerIPPool
+	DNSEntry?: [_]:                   dnsentry.#DNSEntry
+	DNSProvider?: [_]:                dnsprovider.#DNSProvider
 }
