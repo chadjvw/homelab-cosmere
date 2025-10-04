@@ -1003,8 +1003,9 @@ spec:
         - --remote-access-client-id=client
         - --controllers=all
         - --lease-duration=30s
+        - --namespace=default
         - --server-port-http=8080
-        - --ttl=120
+        - --ttl=300
         image: europe-docker.pkg.dev/gardener-project/releases/dns-controller-manager:v0.28.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
