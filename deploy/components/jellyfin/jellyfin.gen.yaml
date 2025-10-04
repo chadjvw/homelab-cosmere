@@ -142,7 +142,7 @@ spec:
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  name: jellyfin-dns
+  name: jellyfin-ext-dns
   namespace: default
 spec:
   dnsName: k8s-jellyfin.vanwyhe.xyz
