@@ -77,13 +77,13 @@ Component: #Kubernetes & {
 						name:     "http"
 						protocol: "HTTP"
 						port:     80
-						hostname: "*.vanwyhe.xyz"
+						// hostname: "*.vanwyhe.xyz"
 						allowedRoutes: namespaces: from: "Same"
 					}, {
 						name:     "https"
 						protocol: "HTTPS"
 						port:     443
-						hostname: "*.vanwyhe.xyz"
+						// hostname: "*.vanwyhe.xyz"
 						allowedRoutes: namespaces: from: "All"
 						tls: certificateRefs: [{
 							kind: "Secret"
