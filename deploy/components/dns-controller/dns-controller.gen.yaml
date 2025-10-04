@@ -1043,25 +1043,6 @@ spec:
         runAsUser: 65534
       serviceAccountName: dns-controller-manager
 ---
-apiVersion: autoscaling.k8s.io/v1
-kind: VerticalPodAutoscaler
-metadata:
-  name: dns-controller-manager-vpa
-  namespace: kube-system
-spec:
-  resourcePolicy:
-    containerPolicies:
-    - containerName: '*'
-      minAllowed:
-        cpu: 50m
-        memory: 50Mi
-  targetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: dns-controller-manager
-  updatePolicy:
-    updateMode: Auto
----
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSProvider
 metadata:
