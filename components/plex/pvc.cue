@@ -8,7 +8,7 @@ Component: Resources: PersistentVolumeClaim: {
 		metadata: name: "plex-config"
 		spec: {
 			accessModes: ["ReadWriteOnce"]
-			resources: requests: storage: "20Gi"
+			resources: requests: storage: "40Gi"
 			storageClassName: csi.config.iscsiStorageClass
 		}
 	}
