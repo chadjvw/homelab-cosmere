@@ -133,7 +133,6 @@ spec:
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  dnsHost: plex
   name: plex-ext-dns
   namespace: default
 spec:

@@ -5,10 +5,9 @@ Component: {
 
 	Resources: DNSEntry: dns: {
 		metadata: namespace: Namespace
-		metadata: dnsHost:   "jellyfin"
-		metadata: name:      "\(metadata.dnsHost)-ext-dns"
+		metadata: name:      "jellyfin-ext-dns"
 		spec: {
-			dnsName: "k8s-\(metadata.dnsHost).vanwyhe.xyz"
+			dnsName: "k8s-jellyfin.vanwyhe.xyz"
 			ttl:     300
 			targets: ["home.vanwyhe.xyz"]
 		}
