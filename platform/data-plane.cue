@@ -29,4 +29,13 @@ Platform: Components: {
 		name: "snapshot-controller"
 		path: "components/snapshot-controller"
 	}
+	"intel-device-plugins-operator": {
+		name: "intel-device-plugins-operator"
+		path: "components/intel-device-plugins-operator"
+	}
+	"intel-device-plugins-gpu": {
+		name: "intel-device-plugins-gpu"
+		path: "components/intel-device-plugins-gpu"
+	}
+
 }
