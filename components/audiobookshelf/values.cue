@@ -1,7 +1,6 @@
 package holos
 
 import (
-	"homelab.cosmere/config/media"
 	"homelab.cosmere/config/app"
 )
 
@@ -20,7 +19,11 @@ import (
 		metadata: {
 			existingClaim: "audiobookshelf-metadata"
 		}
-		books: media.books
+		audiobooks: {
+			type:   "nfs"
+			server: "truenas.vanwyhe.xyz"
+			path:   "/mnt/mongo/data/media/books"
+		}
 	}
 
 	route: main: hostnames: ["books.vanwyhe.xyz"]
