@@ -5,4 +5,9 @@ Platform: Components: {
 		name: "jellyfin"
 		path: "components/jellyfin"
 	}
+	smokeping: {
+		name: "smokeping"
+		path: "components/smokeping"
+	}
+
 }
