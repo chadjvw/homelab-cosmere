@@ -25,5 +25,20 @@ Platform: Components: {
 		name: "smokeping"
 		path: "components/smokeping"
 	}
-
+	qbittorrent: {
+		name: "qbittorrent"
+		path: "components/qbittorrent"
+	}
+	prowlarr: {
+		name: "prowlarr"
+		path: "components/prowlarr"
+	}
+	sonarr: {
+		name: "sonarr"
+		path: "components/sonarr"
+	}
+	radarr: {
+		name: "radarr"
+		path: "components/radarr"
+	}
 }
