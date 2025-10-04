@@ -85,7 +85,7 @@ spec:
           value: "1000"
         - name: TZ
           value: America/Denver
-        image: docker.io/kennethreitz/httpbin:latest
+        image: ghcr.io/jellyfin/jellyfin:10.10.7
         name: main
         resources:
           limits:
@@ -132,7 +132,9 @@ spec:
         nfs:
           path: /mnt/mongo/data/media/music
           server: truenas.vanwyhe.xyz
-      - emptyDir: {}
+      - emptyDir:
+          medium: Memory
+          sizeLimit: 4GiB
         name: transcode
       - name: tv
         nfs:

@@ -81,7 +81,7 @@ spec:
           value: America/Denver
         - name: VERSION
           value: latest
-        image: docker.io/kennethreitz/httpbin:latest
+        image: ghcr.io/linuxserver/plex:1.42.2
         name: main
         resources:
           limits:
@@ -123,7 +123,9 @@ spec:
         nfs:
           path: /mnt/mongo/data/media/music
           server: truenas.vanwyhe.xyz
-      - emptyDir: {}
+      - emptyDir:
+          medium: Memory
+          sizeLimit: 4GiB
         name: transcode
       - name: tv
         nfs:
