@@ -135,7 +135,7 @@ metadata:
   namespace: default
 spec:
   hostnames:
-  - k8s-audiobookshelf.vanwyhe.xyz
+  - books.vanwyhe.xyz
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

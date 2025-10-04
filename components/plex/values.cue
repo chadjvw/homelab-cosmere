@@ -25,8 +25,10 @@ import (
 			}
 		}
 	}
+
 	securityContext: privileged: true
 	securityContext: supplementalGroups: [100]
+
 	persistence: {
 		config: {
 			existingClaim: "plex-config"
@@ -45,5 +47,8 @@ import (
 			hostPath:     "/dev/dri"
 		}
 	}
+
+	route: main: hostnames: ["plex.vanwyhe.xyz"]
+
 	service: main: ports: http: port: 32400
 }

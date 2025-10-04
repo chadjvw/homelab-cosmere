@@ -25,5 +25,7 @@ import (
 		}
 	}
 
+	route: main: hostnames: ["noms.vanwyhe.xyz"]
+
 	service: main: ports: http: port: 9000
 }

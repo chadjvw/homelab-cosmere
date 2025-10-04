@@ -117,7 +117,7 @@ metadata:
   namespace: default
 spec:
   hostnames:
-  - k8s-mealie.vanwyhe.xyz
+  - noms.vanwyhe.xyz
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

@@ -23,5 +23,7 @@ import (
 		books: media.books
 	}
 
+	route: main: hostnames: ["books.vanwyhe.xyz"]
+
 	service: main: ports: http: port: 80
 }
