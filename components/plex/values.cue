@@ -16,8 +16,7 @@ import (
 			limits: "gpu.intel.com/i915":   "1"
 		}
 		env: {
-			VERSION:      "latest"
-			ADVERTISE_IP: "https://plex.vanwyhe.xyz"
+			VERSION: "latest"
 			PLEX_CLAIM: valueFrom: secretKeyRef: {
 				name: "plex-claim-token"
 				key:  "PLEX_CLAIM"

@@ -66,8 +66,6 @@ spec:
       automountServiceAccountToken: true
       containers:
       - env:
-        - name: ADVERTISE_IP
-          value: https://plex.vanwyhe.xyz
         - name: PGID
           value: "1000"
         - name: PLEX_CLAIM
