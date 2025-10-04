@@ -7,7 +7,7 @@ import (
 #Values: app.#ExternalAppTemplate & {
 	controllers: main: containers: main: {
 		image: {
-			repository: "ghcr.io/advplyr/audiobookshelf"
+			repository: "docker pull ghcr.io/sct/overseerr"
 			tag:        "1.34.0"
 		}
 	}
