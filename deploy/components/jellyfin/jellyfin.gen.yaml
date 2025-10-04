@@ -151,7 +151,7 @@ metadata:
   namespace: default
 spec:
   hostnames:
-  - jellyfin.vanwyhe.xyz
+  - k8s-jellyfin.vanwyhe.xyz
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
