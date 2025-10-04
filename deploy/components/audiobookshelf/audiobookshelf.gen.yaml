@@ -88,8 +88,8 @@ spec:
         image: ghcr.io/advplyr/audiobookshelf:2.29.0
         name: main
         volumeMounts:
-        - mountPath: /media/books
-          name: books
+        - mountPath: /audiobooks
+          name: audiobooks
         - mountPath: /config
           name: config
         - mountPath: /metadata
@@ -101,7 +101,7 @@ spec:
       hostPID: false
       serviceAccountName: default
       volumes:
-      - name: books
+      - name: audiobooks
         nfs:
           path: /mnt/mongo/data/media/books
           server: truenas.vanwyhe.xyz
