@@ -7,7 +7,7 @@ Component: {
 		metadata: namespace: Namespace
 		metadata: name:      "books-ext-dns"
 		spec: {
-			dnsName: "k8s-books.vanwyhe.xyz"
+			dnsName: "books.vanwyhe.xyz"
 			ttl:     300
 			targets: ["home.vanwyhe.xyz"]
 		}

@@ -13,7 +13,7 @@ Component: #Kubernetes & {
 			spec: {
 				secretName: "vanwyhe.xyz-tls"
 				issuerRef: {
-					name: "letsencrypt-staging"
+					name: "letsencrypt-prod"
 					kind: "ClusterIssuer"
 				}
 				commonName: "vanwyhe.xyz"
@@ -29,7 +29,7 @@ Component: #Kubernetes & {
 			spec: {
 				secretName: "int.vanwyhe.xyz-tls"
 				issuerRef: {
-					name: "letsencrypt-staging"
+					name: "letsencrypt-prod"
 					kind: "ClusterIssuer"
 				}
 				commonName: "int.vanwyhe.xyz"
