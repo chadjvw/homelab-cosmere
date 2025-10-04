@@ -7,9 +7,14 @@ package media
 #NasNfsMount: {
 	enabled: bool | *true
 	type:    string | *"nfs"
-	server:  string | *"nas.int.vanwyhe.xyz"
+	server:  string | *"truenas.vanwyhe.xyz"
 	path:    string
 	globalMounts: [#NfsMountPath]
+}
+
+books: #NasNfsMount & {
+	path: "/mnt/mongo/data/media/books"
+	globalMounts: [{path: "/media/books"}]
 }
 
 tv: #NasNfsMount & {

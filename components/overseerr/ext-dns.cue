@@ -5,7 +5,7 @@ Component: {
 
 	Resources: DNSEntry: dns: {
 		metadata: namespace: Namespace
-		metadata: dnsHost:   "jellyfin"
+		metadata: dnsHost:   "req"
 		metadata: name:      "\(metadata.dnsHost)-ext-dns"
 		spec: {
 			dnsName: "k8s-\(metadata.dnsHost).vanwyhe.xyz"

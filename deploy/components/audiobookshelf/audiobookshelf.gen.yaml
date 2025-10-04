@@ -2,30 +2,30 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app.kubernetes.io/instance: jellyfin
+    app.kubernetes.io/instance: audiobookshelf
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: jellyfin
-    app.kubernetes.io/service: jellyfin
+    app.kubernetes.io/name: audiobookshelf
+    app.kubernetes.io/service: audiobookshelf
     helm.sh/chart: app-template-4.3.0
-  name: jellyfin
+  name: audiobookshelf
   namespace: default
 spec:
   externalTrafficPolicy: Local
   ports:
   - name: http
-    port: 8096
+    port: 80
     protocol: TCP
-    targetPort: 8096
+    targetPort: 80
   selector:
     app.kubernetes.io/controller: main
-    app.kubernetes.io/instance: jellyfin
-    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/instance: audiobookshelf
+    app.kubernetes.io/name: audiobookshelf
   type: LoadBalancer
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-cache
+  name: audiobookshelf-config
   namespace: default
 spec:
   accessModes:
@@ -38,14 +38,14 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jellyfin-data
+  name: audiobookshelf-metadata
   namespace: default
 spec:
   accessModes:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 10Gi
   storageClassName: org.democratic-csi.iscsi
 ---
 apiVersion: apps/v1
@@ -53,11 +53,11 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/controller: main
-    app.kubernetes.io/instance: jellyfin
+    app.kubernetes.io/instance: audiobookshelf
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/name: audiobookshelf
     helm.sh/chart: app-template-4.3.0
-  name: jellyfin
+  name: audiobookshelf
   namespace: default
 spec:
   replicas: 1
@@ -65,16 +65,16 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/controller: main
-      app.kubernetes.io/instance: jellyfin
-      app.kubernetes.io/name: jellyfin
+      app.kubernetes.io/instance: audiobookshelf
+      app.kubernetes.io/name: audiobookshelf
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app.kubernetes.io/controller: main
-        app.kubernetes.io/instance: jellyfin
-        app.kubernetes.io/name: jellyfin
+        app.kubernetes.io/instance: audiobookshelf
+        app.kubernetes.io/name: audiobookshelf
     spec:
       automountServiceAccountToken: true
       containers:
@@ -87,26 +87,13 @@ spec:
           value: America/Denver
         image: docker.io/kennethreitz/httpbin:latest
         name: main
-        resources:
-          limits:
-            gpu.intel.com/i915: "1"
-          requests:
-            gpu.intel.com/i915: "1"
         volumeMounts:
-        - mountPath: /config/cache
-          name: cache
+        - mountPath: /media/books
+          name: books
         - mountPath: /config
           name: config
-        - mountPath: /dev/dri
-          name: dri
-        - mountPath: /media/movies
-          name: movies
-        - mountPath: /media/music
-          name: music
-        - mountPath: /transcode
-          name: transcode
-        - mountPath: /media/tv
-          name: tv
+        - mountPath: /metadata
+          name: metadata
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
@@ -114,39 +101,25 @@ spec:
       hostPID: false
       serviceAccountName: default
       volumes:
-      - name: cache
-        persistentVolumeClaim:
-          claimName: jellyfin-cache
+      - name: books
+        nfs:
+          path: /mnt/mongo/data/media/books
+          server: truenas.vanwyhe.xyz
       - name: config
         persistentVolumeClaim:
-          claimName: jellyfin-data
-      - hostPath:
-          path: /dev/dri
-          type: Directory
-        name: dri
-      - name: movies
-        nfs:
-          path: /mnt/mongo/data/media/movies
-          server: truenas.vanwyhe.xyz
-      - name: music
-        nfs:
-          path: /mnt/mongo/data/media/music
-          server: truenas.vanwyhe.xyz
-      - emptyDir: {}
-        name: transcode
-      - name: tv
-        nfs:
-          path: /mnt/mongo/data/media/tv
-          server: truenas.vanwyhe.xyz
+          claimName: audiobookshelf-config
+      - name: metadata
+        persistentVolumeClaim:
+          claimName: audiobookshelf-metadata
 ---
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  dnsHost: jellyfin
-  name: jellyfin-ext-dns
+  dnsHost: books
+  name: books-ext-dns
   namespace: default
 spec:
-  dnsName: k8s-jellyfin.vanwyhe.xyz
+  dnsName: k8s-books.vanwyhe.xyz
   targets:
   - home.vanwyhe.xyz
   ttl: 300
@@ -155,15 +128,15 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   labels:
-    app.kubernetes.io/instance: jellyfin
+    app.kubernetes.io/instance: audiobookshelf
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/name: audiobookshelf
     helm.sh/chart: app-template-4.3.0
-  name: jellyfin
+  name: audiobookshelf
   namespace: default
 spec:
   hostnames:
-  - k8s-jellyfin.vanwyhe.xyz
+  - k8s-audiobookshelf.vanwyhe.xyz
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
@@ -174,7 +147,7 @@ spec:
   - backendRefs:
     - group: ""
       kind: Service
-      name: jellyfin
+      name: audiobookshelf
       namespace: default
-      port: 8096
+      port: 80
       weight: 1

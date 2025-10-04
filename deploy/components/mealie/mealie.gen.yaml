@@ -1,0 +1,135 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: mealie
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: mealie
+    app.kubernetes.io/service: mealie
+    helm.sh/chart: app-template-4.3.0
+  name: mealie
+  namespace: default
+spec:
+  externalTrafficPolicy: Local
+  ports:
+  - name: http
+    port: 9000
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app.kubernetes.io/controller: main
+    app.kubernetes.io/instance: mealie
+    app.kubernetes.io/name: mealie
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mealie-data
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: org.democratic-csi.iscsi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/controller: main
+    app.kubernetes.io/instance: mealie
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: mealie
+    helm.sh/chart: app-template-4.3.0
+  name: mealie
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/controller: main
+      app.kubernetes.io/instance: mealie
+      app.kubernetes.io/name: mealie
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/controller: main
+        app.kubernetes.io/instance: mealie
+        app.kubernetes.io/name: mealie
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - env:
+        - name: ALLOW_SIGNUP
+          value: "false"
+        - name: BASE_URL
+          value: https://noms.vanwyhe.xyz
+        - name: PGID
+          value: "1000"
+        - name: PUID
+          value: "1000"
+        - name: TOKEN_TIME
+          value: "2160"
+        - name: TZ
+          value: America/Denver
+        image: docker.io/kennethreitz/httpbin:latest
+        name: main
+        volumeMounts:
+        - mountPath: /app/data
+          name: data
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: false
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+      serviceAccountName: default
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: mealie-data
+---
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  dnsHost: books
+  name: books-ext-dns
+  namespace: default
+spec:
+  dnsName: k8s-books.vanwyhe.xyz
+  targets:
+  - home.vanwyhe.xyz
+  ttl: 300
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  labels:
+    app.kubernetes.io/instance: mealie
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: mealie
+    helm.sh/chart: app-template-4.3.0
+  name: mealie
+  namespace: default
+spec:
+  hostnames:
+  - k8s-mealie.vanwyhe.xyz
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: external
+    namespace: kube-system
+    sectionName: https
+  rules:
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: mealie
+      namespace: default
+      port: 9000
+      weight: 1
