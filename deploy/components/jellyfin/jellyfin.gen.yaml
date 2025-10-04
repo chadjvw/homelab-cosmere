@@ -87,6 +87,11 @@ spec:
           value: America/Denver
         image: ghcr.io/jellyfin/jellyfin:10.10.7
         name: main
+        resources:
+          limits:
+            gpu.intel.com/i915: "1"
+          requests:
+            gpu.intel.com/i915: "1"
         volumeMounts:
         - mountPath: /config/cache
           name: cache
@@ -139,6 +144,7 @@ kind: HTTPRoute
 metadata:
   annotations:
     external-dns.alpha.kubernetes.io/hostname: home.vanwyhe.xyz
+    external-dns.alpha.kubernetes.io/ingress-hostname-source: annotation-only
   labels:
     app.kubernetes.io/instance: jellyfin
     app.kubernetes.io/managed-by: Helm

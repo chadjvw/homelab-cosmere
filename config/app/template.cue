@@ -39,7 +39,10 @@ package app
 
 #ExternalAppTemplate: #AppTemplate & {
 	route: main: {
-		annotations: "external-dns.alpha.kubernetes.io/hostname": "home.vanwyhe.xyz"
+		annotations: {
+			"external-dns.alpha.kubernetes.io/hostname":                "home.vanwyhe.xyz"
+			"external-dns.alpha.kubernetes.io/ingress-hostname-source": "annotation-only"
+		}
 		hostnames: ["{{ .Release.Name }}.vanwyhe.xyz"]
 		parentRefs: [{
 			name: "external"
