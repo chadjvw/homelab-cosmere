@@ -78,7 +78,7 @@ spec:
           value: "2160"
         - name: TZ
           value: America/Denver
-        image: docker.io/kennethreitz/httpbin:latest
+        image: ghcr.io/mealie-recipes/mealie:v3.3.1
         name: main
         volumeMounts:
         - mountPath: /app/data
