@@ -25,7 +25,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: overseerr-data
+  name: overseerr-config
   namespace: default
 spec:
   accessModes:

@@ -5,7 +5,7 @@ import "homelab.cosmere/config/csi"
 Component: Resources: PersistentVolumeClaim: {
 	config: {
 		apiVersion: "v1"
-		metadata: name: "overseerr-data"
+		metadata: name: "overseerr-config"
 		spec: {
 			accessModes: ["ReadWriteOnce"]
 			resources: requests: storage: "1Gi"
