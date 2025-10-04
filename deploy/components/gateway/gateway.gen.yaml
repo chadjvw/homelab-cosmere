@@ -33,7 +33,6 @@ kind: Gateway
 metadata:
   annotations:
     dns.gardener.cloud/dnsnames: '*'
-    dns.gardener.cloud/targets: home.vanwyhe.xyz
   name: external
   namespace: kube-system
 spec:
@@ -55,6 +54,10 @@ spec:
       certificateRefs:
       - kind: Secret
         name: vanwyhe.xyz-tls
+status:
+  addresses:
+  - type: Hostname
+    value: home.vanwyhe.xyz
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
