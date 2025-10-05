@@ -108,8 +108,7 @@ Component: #Kubernetes & {
 						tls: certificateRefs: [{
 							kind: "Secret"
 							name: "int.vanwyhe.xyz-tls"
-						},
-						]
+						}]
 					}]
 				}
 			}
