@@ -77,6 +77,10 @@ spec:
         volumeMounts:
         - mountPath: /config
           name: config
+        - mountPath: /downloads
+          name: downloads
+        - mountPath: /tv
+          name: tv
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
@@ -87,6 +91,14 @@ spec:
       - name: config
         persistentVolumeClaim:
           claimName: sonarr-config
+      - name: downloads
+        nfs:
+          path: /mnt/mongo/data/torrents
+          server: truenas.vanwyhe.xyz
+      - name: tv
+        nfs:
+          path: /mnt/mongo/data/media/tv
+          server: truenas.vanwyhe.xyz
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute

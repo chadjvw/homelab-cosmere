@@ -31,9 +31,15 @@ import (
 		config: {
 			existingClaim: "plex-config"
 		}
-		tv:     media.tv
-		movies: media.movies
-		music:  media.music
+		tv: media.tv & {
+			globalMounts: [{path: "/media/tv"}]
+		}
+		movies: media.movies & {
+			globalMounts: [{path: "/media/movies"}]
+		}
+		music: media.music & {
+			globalMounts: [{path: "/media/music"}]
+		}
 		transcode: {
 			enabled:   true
 			medium:    "Memory"
