@@ -8,7 +8,7 @@ import (
 #Values: app.#ExternalAppTemplate & {
 	controllers: main: containers: main: {
 		image: {
-			repository: "ghcr.io/jellyfin/jellyfin"
+			repository: "ghcr.io/linuxserver/jellyfin"
 			tag:        "10.10.7"
 		}
 		resources: {
