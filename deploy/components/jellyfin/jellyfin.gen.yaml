@@ -144,10 +144,32 @@ spec:
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  name: jellyfin-ext-dns
+  name: jellyfin-ext-lol-dns
   namespace: default
 spec:
-  dnsName: k8s-jellyfin.vanwyhe.xyz
+  dnsName: jellyfin.vw4.lol
+  targets:
+  - home.vanwyhe.xyz
+  ttl: 300
+---
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  name: jellyfin-ext-xyz-dns
+  namespace: default
+spec:
+  dnsName: jellyfin.vanwyhe.xyz
+  targets:
+  - home.vanwyhe.xyz
+  ttl: 300
+---
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  name: jf-ext-lol-dns
+  namespace: default
+spec:
+  dnsName: jf.vw4.lol
   targets:
   - home.vanwyhe.xyz
   ttl: 300
@@ -165,6 +187,8 @@ metadata:
 spec:
   hostnames:
   - jellyfin.vanwyhe.xyz
+  - jellyfin.vw4.lol
+  - jf.vw4.lol
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

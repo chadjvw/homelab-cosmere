@@ -50,7 +50,7 @@ import (
 		}
 	}
 
-	route: main: hostnames: ["jellyfin.vanwyhe.xyz"]
+	route: main: hostnames: ["jellyfin.vanwyhe.xyz", "jellyfin.vw4.lol", "jf.vw4.lol"]
 
 	service: main: ports: http: port: 8096
 }

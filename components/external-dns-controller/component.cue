@@ -22,7 +22,7 @@ Component: #Helm & {
 		spec: {
 			type: "cloudflare-dns"
 			secretRef: name: "external-dns-cloudflare-api-token"
-			domains: include: ["vanwyhe.xyz"]
+			domains: include: ["vanwyhe.xyz", "vw4.lol"]
 		}
 	}
 }

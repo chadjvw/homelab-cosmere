@@ -133,10 +133,21 @@ spec:
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  name: plex-ext-dns
+  name: plex-ext-lol-dns
   namespace: default
 spec:
-  dnsName: k8s-plex.vanwyhe.xyz
+  dnsName: plex.vw4.lol
+  targets:
+  - home.vanwyhe.xyz
+  ttl: 300
+---
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  name: plex-ext-xyz-dns
+  namespace: default
+spec:
+  dnsName: plex.vanwyhe.xyz
   targets:
   - home.vanwyhe.xyz
   ttl: 300
@@ -173,6 +184,7 @@ metadata:
 spec:
   hostnames:
   - plex.vanwyhe.xyz
+  - plex.vw4.lol
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

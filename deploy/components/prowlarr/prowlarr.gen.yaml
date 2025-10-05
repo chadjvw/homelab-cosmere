@@ -101,6 +101,8 @@ metadata:
 spec:
   hostnames:
   - prowlarr.int.vanwyhe.xyz
+  - prowlarr.i.vw4.lol
+  - prowlarr.int.vw4.lol
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

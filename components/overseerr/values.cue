@@ -19,7 +19,7 @@ import (
 		}
 	}
 
-	route: main: hostnames: ["req.vanwyhe.xyz"]
+	route: main: hostnames: ["req.vanwyhe.xyz", "req.vw4.lol"]
 
 	service: main: ports: http: port: 5055
 }

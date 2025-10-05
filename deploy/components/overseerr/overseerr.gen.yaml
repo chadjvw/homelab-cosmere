@@ -91,10 +91,21 @@ spec:
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  name: req-ext-dns
+  name: req-ext-lol-dns
   namespace: default
 spec:
-  dnsName: k8s-req.vanwyhe.xyz
+  dnsName: req.vw4.lol
+  targets:
+  - home.vanwyhe.xyz
+  ttl: 300
+---
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  name: req-ext-xyz-dns
+  namespace: default
+spec:
+  dnsName: req.vanwyhe.xyz
   targets:
   - home.vanwyhe.xyz
   ttl: 300
@@ -112,6 +123,7 @@ metadata:
 spec:
   hostnames:
   - req.vanwyhe.xyz
+  - req.vw4.lol
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

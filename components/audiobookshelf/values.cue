@@ -26,7 +26,7 @@ import (
 		}
 	}
 
-	route: main: hostnames: ["books.vanwyhe.xyz"]
+	route: main: hostnames: ["books.vanwyhe.xyz", "books.vw4.lol"]
 
 	service: main: ports: http: port: 80
 }

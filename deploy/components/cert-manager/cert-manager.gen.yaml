@@ -14272,6 +14272,7 @@ spec:
       selector:
         dnsZones:
         - vanwyhe.xyz
+        - vw4.lol
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -14293,6 +14294,7 @@ spec:
       selector:
         dnsZones:
         - vanwyhe.xyz
+        - vw4.lol
 ---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret

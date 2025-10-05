@@ -1,7 +1,9 @@
 package holos
 
-import ("homelab.cosmere/config/app"
-	"homelab.cosmere/config/media")
+import (
+	"homelab.cosmere/config/app"
+	"homelab.cosmere/config/media"
+)
 
 #Values: app.#InternalAppTemplate & {
 	controllers: main: containers: main: {
