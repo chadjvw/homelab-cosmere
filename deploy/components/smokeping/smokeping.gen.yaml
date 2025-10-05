@@ -119,6 +119,8 @@ metadata:
 spec:
   hostnames:
   - smokeping.int.vanwyhe.xyz
+  - smokeping.i.vw4.lol
+  - smokeping.int.vw4.lol
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

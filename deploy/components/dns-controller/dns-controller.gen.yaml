@@ -1052,6 +1052,7 @@ spec:
   domains:
     include:
     - vanwyhe.xyz
+    - vw4.lol
   secretRef:
     name: external-dns-cloudflare-api-token
   type: cloudflare-dns

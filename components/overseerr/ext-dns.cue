@@ -3,13 +3,23 @@ package holos
 Component: {
 	Namespace: string
 
-	Resources: DNSEntry: dns: {
+	Resources: DNSEntry: {"xyz-dns": {
 		metadata: namespace: Namespace
-		metadata: name:      "req-ext-dns"
+		metadata: name:      "req-ext-xyz-dns"
 		spec: {
-			dnsName: "k8s-req.vanwyhe.xyz"
+			dnsName: "req.vanwyhe.xyz"
 			ttl:     300
 			targets: ["home.vanwyhe.xyz"]
+		}
+	}
+		"lol-dns": {
+			metadata: namespace: Namespace
+			metadata: name:      "req-ext-lol-dns"
+			spec: {
+				dnsName: "req.vw4.lol"
+				ttl:     300
+				targets: ["home.vanwyhe.xyz"]
+			}
 		}
 	}
 }

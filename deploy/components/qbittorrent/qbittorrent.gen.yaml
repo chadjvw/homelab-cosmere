@@ -121,6 +121,8 @@ metadata:
 spec:
   hostnames:
   - qbit.int.vanwyhe.xyz
+  - qbit.i.vw4.lol
+  - qbit.int.vw4.lol
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

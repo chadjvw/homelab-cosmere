@@ -113,6 +113,8 @@ metadata:
 spec:
   hostnames:
   - sonarr.int.vanwyhe.xyz
+  - sonarr.i.vw4.lol
+  - sonarr.int.vw4.lol
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway

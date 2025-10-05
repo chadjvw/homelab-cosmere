@@ -13,7 +13,7 @@ package app
 		}
 	}
 	route: main: {
-		hostnames: [string]
+		hostnames: [...string]
 		parentRefs: [{
 			name:        "internal" | "external"
 			namespace:   "kube-system"
@@ -30,7 +30,7 @@ package app
 
 #InternalAppTemplate: #AppTemplate & {
 	route: main: {
-		hostnames: ["{{ .Release.Name }}.int.vanwyhe.xyz"]
+		hostnames: ["{{ .Release.Name }}.int.vanwyhe.xyz", "{{ .Release.Name }}.i.vw4.lol", "{{ .Release.Name }}.int.vw4.lol"]
 		parentRefs: [{
 			name: "internal"
 		}]
@@ -39,7 +39,6 @@ package app
 
 #ExternalAppTemplate: #AppTemplate & {
 	route: main: {
-		hostnames: [string]
 		parentRefs: [{
 			name: "external"
 		}]

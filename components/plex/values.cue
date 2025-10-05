@@ -54,7 +54,7 @@ import (
 		}
 	}
 
-	route: main: hostnames: ["plex.vanwyhe.xyz"]
+	route: main: hostnames: ["plex.vanwyhe.xyz", "plex.vw4.lol"]
 
 	service: main: ports: http: port: 32400
 }

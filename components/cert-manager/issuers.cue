@@ -11,7 +11,7 @@ Component: Resources: ClusterIssuer: {
 					key:  "api-token"
 				}
 			}
-			selector: dnsZones: ["vanwyhe.xyz"]
+			selector: dnsZones: ["vanwyhe.xyz", "vw4.lol"]
 		}]
 	}
 
