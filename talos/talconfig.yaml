@@ -134,11 +134,17 @@ nodes:
     controlPlane: true
     installDiskSelector:
       model: INTEL*
+    nodeLabels:
+      # https://www.techpowerup.com/gpu-specs/hd-graphics-630.c2962
+      "intel-igpu": "hd-graphics-630"
   - hostname: nalthis
     ipAddress: 10.0.10.14
     controlPlane: true
     installDiskSelector:
       busPath: /pci0000:00/0000:00:17.0/ata1/host1/target1:0:0/1:0:0:0
+    nodeLabels:
+      "intel-igpu": "hd-graphics-630"
+      "attached-usb": "zwave"
   - hostname: scadrial 
     ipAddress: 10.0.10.12
     controlPlane: true
@@ -161,3 +167,6 @@ nodes:
           - talos.auditd.disabled=1 # Less security, faster puter
           - i915.enable_guc=3 # Meteor Lake CPU / iGPU
         systemExtensions: *extensions
+    nodeLabels:
+      # https://www.techpowerup.com/gpu-specs/graphics-24eu-mobile.c4344
+      "intel-igpu": "intel-graphics-24eu"
