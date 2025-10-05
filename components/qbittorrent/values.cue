@@ -20,12 +20,15 @@ import ("homelab.cosmere/config/app"
 		downloads: media.torrents
 	}
 
-	service: main: ports: {
-		http: port:    9092
-		torrent: port: 51413
-		"torrent-udp": {
-			port:     51413
-			protocol: "UDP"
+	service: main: {
+		annotations: "lbipam.cilium.io/ips": "10.0.40.8"
+		ports: {
+			http: port:    9092
+			torrent: port: 51413
+			"torrent-udp": {
+				port:     51413
+				protocol: "UDP"
+			}
 		}
 	}
 }
