@@ -16,6 +16,14 @@ spec:
     port: 9092
     protocol: TCP
     targetPort: 9092
+  - name: torrent
+    port: 51413
+    protocol: TCP
+    targetPort: 51413
+  - name: torrent-udp
+    port: 51413
+    protocol: UDP
+    targetPort: 51413
   selector:
     app.kubernetes.io/controller: main
     app.kubernetes.io/instance: qbit
@@ -70,13 +78,19 @@ spec:
           value: "1000"
         - name: PUID
           value: "1000"
+        - name: TORRENTING_PORT
+          value: "51413"
         - name: TZ
           value: America/Denver
-        image: ghcr.io/linuxserver/smokeping:5.1.2
+        - name: WEBUI_PORT
+          value: "9092"
+        image: ghcr.io/linuxserver/qbittorrent:5.1.2
         name: main
         volumeMounts:
         - mountPath: /config
           name: config
+        - mountPath: /downloads
+          name: downloads
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
@@ -87,6 +101,10 @@ spec:
       - name: config
         persistentVolumeClaim:
           claimName: qbittorrent-config
+      - name: downloads
+        nfs:
+          path: /mnt/mongo/data/torrents
+          server: truenas.vanwyhe.xyz
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute

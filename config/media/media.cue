@@ -9,25 +9,25 @@ package media
 	type:    string | *"nfs"
 	server:  string | *"truenas.vanwyhe.xyz"
 	path:    string
-	globalMounts: [#NfsMountPath]
+	globalMounts?: [#NfsMountPath]
 }
 
 books: #NasNfsMount & {
 	path: "/mnt/mongo/data/media/books"
-	globalMounts: [{path: "/media/books"}]
 }
 
 tv: #NasNfsMount & {
 	path: "/mnt/mongo/data/media/tv"
-	globalMounts: [{path: "/media/tv"}]
 }
 
 movies: #NasNfsMount & {
 	path: "/mnt/mongo/data/media/movies"
-	globalMounts: [{path: "/media/movies"}]
 }
 
 music: #NasNfsMount & {
 	path: "/mnt/mongo/data/media/music"
-	globalMounts: [{path: "/media/music"}]
+}
+
+torrents: #NasNfsMount & {
+	path: "/mnt/mongo/data/torrents"
 }

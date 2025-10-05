@@ -1,6 +1,7 @@
 package holos
 
-import "homelab.cosmere/config/app"
+import ("homelab.cosmere/config/app"
+	"homelab.cosmere/config/media")
 
 #Values: app.#InternalAppTemplate & {
 	controllers: main: containers: main: {
@@ -9,7 +10,12 @@ import "homelab.cosmere/config/app"
 			tag:        "4.0.15"
 		}
 	}
-	persistence: config: existingClaim: "sonarr-config"
+
+	persistence: {
+		config: existingClaim: "sonarr-config"
+		tv:        media.tv
+		downloads: media.torrents
+	}
 
 	service: main: ports: http: port: 8989
 }
