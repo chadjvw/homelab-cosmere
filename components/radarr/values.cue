@@ -5,10 +5,8 @@ import "homelab.cosmere/config/app"
 #Values: app.#InternalAppTemplate & {
 	controllers: main: containers: main: {
 		image: {
-			// repository: "ghcr.io/linuxserver/radarr"
-			// tag:        "5.27.5"
-			repository: "docker.io/kennethreitz/httpbin"
-			tag:        "latest"
+			repository: "ghcr.io/linuxserver/radarr"
+			tag:        "5.27.5"
 		}
 	}
 

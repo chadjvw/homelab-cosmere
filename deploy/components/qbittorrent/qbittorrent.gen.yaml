@@ -72,7 +72,7 @@ spec:
           value: "1000"
         - name: TZ
           value: America/Denver
-        image: docker.io/kennethreitz/httpbin:latest
+        image: ghcr.io/linuxserver/smokeping:5.1.2
         name: main
         volumeMounts:
         - mountPath: /config
