@@ -15,8 +15,6 @@
   ],
   enabled: true,
   rebaseWhen: "conflicted",
-  onboarding: false,
-  requireConfig: "ignored",
   "pre-commit": {
     enabled: false,
   },
