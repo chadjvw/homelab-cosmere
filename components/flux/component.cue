@@ -13,11 +13,11 @@ Component: #Kustomize & {
 			metadata: namespace: Namespace
 			spec: {
 				interval: "10m"
+				url:      "oci://ghcr.io/fluxcd/flux-manifests"
 				ref: {
 					// renovate: datasource=github-releases depName=fluxcd/flux2
 					tag: "v2.6.4"
 				}
-				url: "oci://ghcr.io/fluxcd/flux-manifests"
 			}
 		}
 		default: {

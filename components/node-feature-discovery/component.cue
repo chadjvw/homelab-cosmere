@@ -8,8 +8,8 @@ Component: #Helm & {
 	EnableHooks: true
 	Chart: {
 		release: "node-feature-discovery"
-		name:    "oci://registry.k8s.io/nfd/charts/node-feature-discovery"
 		version: "0.18.0"
+		name:    "oci://registry.k8s.io/nfd/charts/node-feature-discovery"
 	}
 
 	KustomizeConfig: Kustomization: namespace: Namespace

@@ -7,9 +7,9 @@ Component: #Helm & {
 	Namespace:   "monitoring"
 	EnableHooks: true
 	Chart: {
-		name:    "oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack"
-		version: "77.5.0"
 		release: "prometheus"
+		version: "77.5.0"
+		name:    "oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack"
 	}
 
 	Values: #Values

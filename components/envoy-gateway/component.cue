@@ -7,10 +7,9 @@ Component: #Helm & {
 	Namespace:   "kube-system"
 	EnableHooks: true
 	Chart: {
-		name: "oci://docker.io/envoyproxy/gateway-helm"
-		// renovate: datasource=docker depName=envoyproxy/gateway-helm
+		release: "envoy-gateway"
 		version: "1.5.1"
-		release: Name
+		name:    "oci://docker.io/envoyproxy/gateway-helm"
 	}
 
 	Resources: {
