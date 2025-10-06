@@ -4,7 +4,7 @@
     {
       customType: "regex",
       description: ["Process helm chart dependencies in cue components"],
-      managerFilePatterns: ["^components/.*\\.cue$"],
+      managerFilePatterns: ["components/**/*.cue"],
       matchStrings: [
         'Chart:\\s{\\s+name:\\s+"(?<depName>.*)"\\s+version:\\s+"(?<currentValue>.*)"\\s+(release:.*)?\\s+repository:.*\\s+name:.*\\s+url:\\s+"(?<registryUrl>.*)"',
       ],
@@ -13,7 +13,7 @@
     {
       customType: "regex",
       description: ["Process oci helm chart dependencies in cue components"],
-      managerFilePatterns: ["^components/.*\\.cue$"],
+      managerFilePatterns: ["components/**/*.cue"],
       matchStrings: [
         'Chart:\\s{\\s+release:\\s+"(?<depName>.*)"\\s+version:\\s+"(?<currentValue>.*)"\\s+name:\\s+"(?<registryUrl>.*)""',
       ],
@@ -22,7 +22,7 @@
     {
       customType: "regex",
       description: ["Process docker image dependencies in cue components"],
-      managerFilePatterns: ["^components/.*\\.cue$"],
+      managerFilePatterns: ["components/**/*.cue"],
       matchStrings: [
         'image:\\s*{\\s+repository:\\s*"(?<depName>[^"]+)"\\s+tag:\\s*"(?<currentValue>[^"]+)"',
       ],
@@ -32,8 +32,8 @@
       customType: "regex",
       description: "Process annotated dependencies",
       managerFilePatterns: [
-        "\\.cue$",
-        "\\.yaml$",
+        "*.cue",
+        "*.yaml",
       ],
       matchStrings: [
         // # renovate: datasource=github-releases depName=k3s-io/k3s
