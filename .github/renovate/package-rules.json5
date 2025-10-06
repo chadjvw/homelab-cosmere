@@ -9,8 +9,14 @@
     {
       description: "Avoid old lidarr images",
       matchDatasources: ["docker"],
-      matchPackageNames: "lscr.io/linuxserver/lidarr",
+      matchPackageNames: "ghcr.io/linuxserver/lidarr",
       allowedVersions: "<=8.0",
+    },
+    {
+      description: "Avoid old qbittorrent images",
+      matchDatasources: ["docker"],
+      matchPackageNames: "ghcr.io/linuxserver/qbittorrent",
+      allowedVersions: "<=14.0",
     },
     {
       matchManagers: ["github-actions"],
