@@ -7,7 +7,7 @@
     ":semanticCommits",
     ":semanticCommitTypeAll(chore)",
     ":skipStatusChecks",
-    // "schedule:weekly",
+    "schedule:weekly",
     "github>chadjvw/homelab-cosmere//.github/renovate/package-rules.json5",
     "github>chadjvw/homelab-cosmere//.github/renovate/commit-message.json5",
     "github>chadjvw/homelab-cosmere//.github/renovate/semantic-commits.json5",
@@ -18,7 +18,7 @@
   "pre-commit": {
     enabled: false,
   },
-  ignorePaths: ["deploy/**", "components/**/vendor/**"],
+  ignorePaths: ["deploy/**", "components/**/vendor/**", "cue.mod/**"],
   kubernetes: {
     managerFilePatterns: ["/\\.yaml$/"],
   },
