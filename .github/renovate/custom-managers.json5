@@ -15,7 +15,7 @@
       description: ["Process docker image/helm oci dependencies in cue components"],
       managerFilePatterns: ["components/**/*.cue"],
       matchStrings: [
-        'Chart:\\s{\\s+release:.*\\s+version:\\s+"(?<currentValue>.*)"\\s+name:\\s+"(?<depName>.*)"',
+        'Chart:\\s{\\s+release:.*\\s+version:\\s+"(?<currentValue>.*)"\\s+name:\\s+"oci:\\/\\/(?<depName>.*)"',
         'image:\\s*{\\s+repository:\\s*"(?<depName>[^"]+)"\\s+tag:\\s*"(?<currentValue>[^"]+)"',
       ],
       datasourceTemplate: "docker",
