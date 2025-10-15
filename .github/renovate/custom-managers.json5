@@ -26,6 +26,8 @@
       managerFilePatterns: [
         "*.cue",
         "*.yaml",
+        "**/*.cue",
+        "**/*.yaml",
       ],
       matchStrings: [
         // # renovate: datasource=github-releases depName=k3s-io/k3s
