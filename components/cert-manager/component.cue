@@ -8,7 +8,7 @@ Component: #Helm & {
 	EnableHooks: true
 	Chart: {
 		release: "cert-manager"
-		version: "v1.18.2"
+		version: "v1.19.0"
 		name:    "oci://quay.io/jetstack/charts/cert-manager"
 	}
 
