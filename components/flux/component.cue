@@ -16,7 +16,7 @@ Component: #Kustomize & {
 				url:      "oci://ghcr.io/fluxcd/flux-manifests"
 				ref: {
 					// renovate: datasource=docker depName=ghcr.io/fluxcd/flux-manifests
-					tag: "v2.6.4"
+					tag: "v2.7.2"
 				}
 			}
 		}
