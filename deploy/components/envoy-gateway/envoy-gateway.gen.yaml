@@ -44902,8 +44902,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway
   namespace: kube-system
 ---
@@ -44917,8 +44917,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-gateway-helm-certgen
   namespace: kube-system
 ---
@@ -44932,8 +44932,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-gateway-helm-certgen
   namespace: kube-system
 rules:
@@ -44953,8 +44953,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-gateway-helm-infra-manager
   namespace: kube-system
 rules:
@@ -45011,8 +45011,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-gateway-helm-leader-election-role
   namespace: kube-system
 rules:
@@ -45058,8 +45058,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-gateway-helm-certgen:kube-system
 rules:
 - apiGroups:
@@ -45221,8 +45221,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-gateway-helm-certgen
   namespace: kube-system
 roleRef:
@@ -45241,8 +45241,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-gateway-helm-infra-manager
   namespace: kube-system
 roleRef:
@@ -45261,8 +45261,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-gateway-helm-leader-election-rolebinding
   namespace: kube-system
 roleRef:
@@ -45284,8 +45284,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-gateway-helm-certgen:kube-system
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -45335,7 +45335,7 @@ data:
                     - imagePullPolicy: IfNotPresent
                       name: envoy-ratelimit
         shutdownManager:
-          image: docker.io/envoyproxy/gateway:v1.5.1
+          image: docker.io/envoyproxy/gateway:v1.5.3
       type: Kubernetes
 kind: ConfigMap
 metadata:
@@ -45343,8 +45343,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-config
   namespace: kube-system
 ---
@@ -45355,9 +45355,9 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
+    app.kubernetes.io/version: v1.5.3
     control-plane: envoy-gateway
-    helm.sh/chart: gateway-helm-1.5.1
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway
   namespace: kube-system
 spec:
@@ -45389,9 +45389,9 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
+    app.kubernetes.io/version: v1.5.3
     control-plane: envoy-gateway
-    helm.sh/chart: gateway-helm-1.5.1
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway
   namespace: kube-system
 spec:
@@ -45423,7 +45423,7 @@ spec:
               fieldPath: metadata.namespace
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: cluster.local
-        image: docker.io/envoyproxy/gateway:v1.5.1
+        image: docker.io/envoyproxy/gateway:v1.5.3
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -45494,8 +45494,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-gateway-helm-certgen
   namespace: kube-system
 spec:
@@ -45519,7 +45519,7 @@ spec:
               fieldPath: metadata.namespace
         - name: KUBERNETES_CLUSTER_DOMAIN
           value: cluster.local
-        image: docker.io/envoyproxy/gateway:v1.5.1
+        image: docker.io/envoyproxy/gateway:v1.5.3
         imagePullPolicy: IfNotPresent
         name: envoy-gateway-certgen
         securityContext:
@@ -45631,8 +45631,8 @@ metadata:
     app.kubernetes.io/instance: envoy-gateway
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: gateway-helm
-    app.kubernetes.io/version: v1.5.1
-    helm.sh/chart: gateway-helm-1.5.1
+    app.kubernetes.io/version: v1.5.3
+    helm.sh/chart: gateway-helm-1.5.3
   name: envoy-gateway-topology-injector.kube-system
 webhooks:
 - admissionReviewVersions:
