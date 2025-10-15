@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: external-dns-management
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: dns-controller-manager
-    helm.sh/chart: dns-controller-manager-v0.28.0
+    helm.sh/chart: dns-controller-manager-v0.29.0
   name: dnsannotations.dns.gardener.cloud
 spec:
   group: dns.gardener.cloud
@@ -144,7 +144,7 @@ metadata:
     app.kubernetes.io/instance: external-dns-management
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: dns-controller-manager
-    helm.sh/chart: dns-controller-manager-v0.28.0
+    helm.sh/chart: dns-controller-manager-v0.29.0
   name: dnsentries.dns.gardener.cloud
 spec:
   group: dns.gardener.cloud
@@ -406,7 +406,7 @@ metadata:
     app.kubernetes.io/instance: external-dns-management
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: dns-controller-manager
-    helm.sh/chart: dns-controller-manager-v0.28.0
+    helm.sh/chart: dns-controller-manager-v0.29.0
   name: dnshostedzonepolicies.dns.gardener.cloud
 spec:
   group: dns.gardener.cloud
@@ -535,7 +535,7 @@ metadata:
     app.kubernetes.io/instance: external-dns-management
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: dns-controller-manager
-    helm.sh/chart: dns-controller-manager-v0.28.0
+    helm.sh/chart: dns-controller-manager-v0.29.0
   name: dnsproviders.dns.gardener.cloud
 spec:
   group: dns.gardener.cloud
@@ -785,7 +785,7 @@ metadata:
     app.kubernetes.io/instance: external-dns-management
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: dns-controller-manager
-    helm.sh/chart: dns-controller-manager-v0.28.0
+    helm.sh/chart: dns-controller-manager-v0.29.0
   name: dns-controller-manager
   namespace: default
 ---
@@ -796,7 +796,7 @@ metadata:
     app.kubernetes.io/instance: external-dns-management
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: dns-controller-manager
-    helm.sh/chart: dns-controller-manager-v0.28.0
+    helm.sh/chart: dns-controller-manager-v0.29.0
   name: dns-controller-manager
   namespace: default
 rules:
@@ -839,7 +839,7 @@ metadata:
     app.kubernetes.io/instance: external-dns-management
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: dns-controller-manager
-    helm.sh/chart: dns-controller-manager-v0.28.0
+    helm.sh/chart: dns-controller-manager-v0.29.0
   name: dns-controller-manager
 rules:
 - apiGroups:
@@ -934,7 +934,7 @@ metadata:
     app.kubernetes.io/instance: external-dns-management
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: dns-controller-manager
-    helm.sh/chart: dns-controller-manager-v0.28.0
+    helm.sh/chart: dns-controller-manager-v0.29.0
   name: dns-controller-manager
   namespace: default
 roleRef:
@@ -953,7 +953,7 @@ metadata:
     app.kubernetes.io/instance: external-dns-management
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: dns-controller-manager
-    helm.sh/chart: dns-controller-manager-v0.28.0
+    helm.sh/chart: dns-controller-manager-v0.29.0
   name: dns-controller-manager
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -971,7 +971,7 @@ metadata:
     app.kubernetes.io/instance: external-dns-management
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: dns-controller-manager
-    helm.sh/chart: dns-controller-manager-v0.28.0
+    helm.sh/chart: dns-controller-manager-v0.29.0
   name: dns-controller-manager
   namespace: default
 spec:
@@ -1005,7 +1005,7 @@ spec:
         - --lease-duration=30s
         - --server-port-http=8080
         - --ttl=300
-        image: europe-docker.pkg.dev/gardener-project/releases/dns-controller-manager:v0.28.0
+        image: europe-docker.pkg.dev/gardener-project/releases/dns-controller-manager:v0.29.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
