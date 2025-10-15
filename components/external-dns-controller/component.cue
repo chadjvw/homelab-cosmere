@@ -9,7 +9,7 @@ Component: #Helm & {
 	Chart: {
 
 		release: "external-dns-management"
-		version: "v0.28.0"
+		version: "v0.29.0"
 		name:    "oci://europe-docker.pkg.dev/gardener-project/releases/charts/dns-controller-manager"
 	}
 
