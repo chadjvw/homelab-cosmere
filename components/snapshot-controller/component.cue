@@ -8,8 +8,8 @@ Component: #Helm & {
 	EnableHooks: true
 	Chart: {
 		release: "snapshot-controller"
-		name:    "oci://ghcr.io/democratic-csi/charts/snapshot-controller"
 		version: "0.3.0"
+		name:    "oci://ghcr.io/democratic-csi/charts/snapshot-controller"
 	}
 
 	KustomizeConfig: Kustomization: namespace: Namespace

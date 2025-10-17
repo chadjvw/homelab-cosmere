@@ -41,4 +41,8 @@ Platform: Components: {
 		name: "radarr"
 		path: "components/radarr"
 	}
+	zwavejs: {
+		name: "zwavejs"
+		path: "components/zwavejs"
+	}
 }

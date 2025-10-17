@@ -6,20 +6,25 @@ import (
 )
 
 #Values: app.#ExternalAppTemplate & {
-	controllers: main: containers: main: {
-		image: {
-			repository: "ghcr.io/linuxserver/plex"
-			tag:        "1.42.2"
+	controllers: main: {
+		pod: nodeSelector: {
+			"intel-igpu": "intel-graphics-24eu"
 		}
-		resources: {
-			requests: "gpu.intel.com/i915": "1"
-			limits: "gpu.intel.com/i915":   "1"
-		}
-		env: {
-			VERSION: "latest"
-			PLEX_CLAIM: valueFrom: secretKeyRef: {
-				name: "plex-claim-token"
-				key:  "PLEX_CLAIM"
+		containers: main: {
+			image: {
+				repository: "ghcr.io/linuxserver/plex"
+				tag:        "1.42.2"
+			}
+			resources: {
+				requests: "gpu.intel.com/i915": "1"
+				limits: "gpu.intel.com/i915":   "1"
+			}
+			env: {
+				VERSION: "latest"
+				PLEX_CLAIM: valueFrom: secretKeyRef: {
+					name: "plex-claim-token"
+					key:  "PLEX_CLAIM"
+				}
 			}
 		}
 	}
