@@ -15,10 +15,6 @@ import (
 				repository: "ghcr.io/linuxserver/jellyfin"
 				tag:        "10.10.7"
 			}
-			resources: {
-				requests: "gpu.intel.com/i915": "1"
-				limits: "gpu.intel.com/i915":   "1"
-			}
 		}
 	}
 

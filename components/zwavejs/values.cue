@@ -32,10 +32,9 @@ import "homelab.cosmere/config/app"
 			globalMounts: [{path: "/usr/src/app/store"}]
 		}
 		zwave: {
-			enabled:      true
-			type:         "hostPath"
-			hostPathType: "CharDevice"
-			hostPath:     "/dev/serial/by-id/usb-Silicon_Labs_Zooz_ZST10_700_Z-Wave_Stick_0001-if00-port"
+			enabled:  true
+			type:     "hostPath"
+			hostPath: "/dev/serial/by-id/usb-Silicon_Labs_Zooz_ZST10_700_Z-Wave_Stick_0001-if00-port"
 			globalMounts: [{path: "/dev/zwave"}]
 		}
 	}

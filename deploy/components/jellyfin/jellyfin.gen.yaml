@@ -87,11 +87,6 @@ spec:
           value: America/Denver
         image: ghcr.io/linuxserver/jellyfin:10.10.7
         name: main
-        resources:
-          limits:
-            gpu.intel.com/i915: "1"
-          requests:
-            gpu.intel.com/i915: "1"
         volumeMounts:
         - mountPath: /config/cache
           name: cache
