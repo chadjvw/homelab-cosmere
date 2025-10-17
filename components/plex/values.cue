@@ -15,10 +15,6 @@ import (
 				repository: "ghcr.io/linuxserver/plex"
 				tag:        "1.42.2"
 			}
-			resources: {
-				requests: "gpu.intel.com/i915": "1"
-				limits: "gpu.intel.com/i915":   "1"
-			}
 			env: {
 				VERSION: "latest"
 				PLEX_CLAIM: valueFrom: secretKeyRef: {
