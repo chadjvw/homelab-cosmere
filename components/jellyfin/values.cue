@@ -6,16 +6,22 @@ import (
 )
 
 #Values: app.#ExternalAppTemplate & {
-	controllers: main: containers: main: {
-		image: {
-			repository: "ghcr.io/linuxserver/jellyfin"
-			tag:        "10.10.7"
+	controllers: main: {
+		pod: nodeSelector: {
+			"intel-igpu": "intel-graphics-24eu"
 		}
-		resources: {
-			requests: "gpu.intel.com/i915": "1"
-			limits: "gpu.intel.com/i915":   "1"
+		containers: main: {
+			image: {
+				repository: "ghcr.io/linuxserver/jellyfin"
+				tag:        "10.10.7"
+			}
+			resources: {
+				requests: "gpu.intel.com/i915": "1"
+				limits: "gpu.intel.com/i915":   "1"
+			}
 		}
 	}
+
 	securityContext: privileged: true
 	securityContext: supplementalGroups: [100]
 	persistence: {
