@@ -83,7 +83,7 @@ spec:
         volumeMounts:
         - mountPath: /usr/src/app/store
           name: config
-        - mountPath: /dev/zwave
+        - mountPath: /dev/serial/by-id
           name: zwave
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
@@ -98,7 +98,7 @@ spec:
         persistentVolumeClaim:
           claimName: zwavejs-config
       - hostPath:
-          path: /dev/serial/by-id/usb-Silicon_Labs_Zooz_ZST10_700_Z-Wave_Stick_0001-if00-port
+          path: /dev/serial/by-id
           type: Directory
         name: zwave
 ---
