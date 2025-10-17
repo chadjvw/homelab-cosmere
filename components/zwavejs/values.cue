@@ -3,19 +3,14 @@ package holos
 import "homelab.cosmere/config/app"
 
 #Values: app.#InternalAppTemplate & {
-	// defaultPodOptions: nodeSelector: {
-	// 	"attached-usb": "zwave"
-	// }
 	controllers: main: {
 		pod: nodeSelector: {
 			"attached-usb": "zwave"
 		}
 		containers: main: {
 			image: {
-				// repository: "docker.io/zwavejs/zwave-js-ui"
-				// tag:        "11.5.0"
-				repository: "docker.io/kennethreitz/httpbin"
-				tag:        "latest"
+				repository: "docker.io/zwavejs/zwave-js-ui"
+				tag:        "11.5.0"
 			}
 			env: {
 				ZWAVEJS_EXTERNAL_CONFIG: "/usr/src/app/store/.config-db"
