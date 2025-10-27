@@ -13,7 +13,7 @@ import (
 		containers: main: {
 			image: {
 				repository: "ghcr.io/linuxserver/jellyfin"
-				tag:        "10.10.7"
+				tag:        "10.11.0"
 			}
 		}
 	}
