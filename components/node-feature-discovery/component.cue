@@ -8,7 +8,7 @@ Component: #Helm & {
 	EnableHooks: true
 	Chart: {
 		release: "node-feature-discovery"
-		version: "0.18.1"
+		version: "0.18.2"
 		name:    "oci://registry.k8s.io/nfd/charts/node-feature-discovery"
 	}
 
