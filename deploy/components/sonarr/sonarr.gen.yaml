@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/service: sonarr
-    helm.sh/chart: app-template-4.3.0
+    helm.sh/chart: app-template-4.4.0
   name: sonarr
   namespace: default
 spec:
@@ -43,7 +43,7 @@ metadata:
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: sonarr
-    helm.sh/chart: app-template-4.3.0
+    helm.sh/chart: app-template-4.4.0
   name: sonarr
   namespace: default
 spec:
@@ -107,7 +107,7 @@ metadata:
     app.kubernetes.io/instance: sonarr
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: sonarr
-    helm.sh/chart: app-template-4.3.0
+    helm.sh/chart: app-template-4.4.0
   name: sonarr
   namespace: default
 spec:
