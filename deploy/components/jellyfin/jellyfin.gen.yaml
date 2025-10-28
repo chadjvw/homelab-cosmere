@@ -85,7 +85,7 @@ spec:
           value: "1000"
         - name: TZ
           value: America/Denver
-        image: ghcr.io/linuxserver/jellyfin:10.11.0
+        image: ghcr.io/linuxserver/jellyfin:10.11.1
         name: main
         volumeMounts:
         - mountPath: /config/cache
