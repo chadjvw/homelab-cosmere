@@ -32,7 +32,7 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 20Gi
   storageClassName: org.democratic-csi.iscsi
 ---
 apiVersion: v1
@@ -45,7 +45,7 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 20Gi
   storageClassName: org.democratic-csi.iscsi
 ---
 apiVersion: apps/v1
