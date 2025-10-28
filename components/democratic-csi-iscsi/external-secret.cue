@@ -1,6 +1,7 @@
 package holos
 
-import ("encoding/yaml"
+import (
+	"encoding/yaml"
 	"homelab.cosmere/config/csi"
 )
 

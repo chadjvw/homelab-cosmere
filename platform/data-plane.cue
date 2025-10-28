@@ -37,5 +37,8 @@ Platform: Components: {
 		name: "intel-device-plugins-gpu"
 		path: "components/intel-device-plugins-gpu"
 	}
-
+	"generic-device-plugin": {
+		name: "generic-device-plugin"
+		path: "components/generic-device-plugin"
+	}
 }
