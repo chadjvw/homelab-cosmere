@@ -39,10 +39,8 @@ import (
 			globalMounts: [{path: "/media/music"}]
 		}
 		transcode: {
-			enabled:   true
-			medium:    "Memory"
-			sizeLimit: "4Gi"
-			type:      "emptyDir"
+			enabled: true
+			type:    "emptyDir"
 		}
 		dri: {
 			enabled:      true
