@@ -15,6 +15,7 @@ import "homelab.cosmere/config/app"
 			env: {
 				ZWAVEJS_EXTERNAL_CONFIG: "/usr/src/app/store/.config-db"
 			}
+			resources: limits: "squat.ai/zwave": 1
 		}
 	}
 
@@ -25,13 +26,6 @@ import "homelab.cosmere/config/app"
 		config: {
 			existingClaim: "zwavejs-config"
 			globalMounts: [{path: "/usr/src/app/store"}]
-		}
-		zwave: {
-			enabled:      true
-			type:         "hostPath"
-			hostPathType: "Directory"
-			hostPath:     "/dev/serial/by-id"
-			globalMounts: [{path: "/dev/serial/by-id"}]
 		}
 	}
 

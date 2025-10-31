@@ -29,7 +29,7 @@ Component: #Kustomize & {
 					effect:   "NoSchedule"
 				}]
 				containers: [{
-					name:  "generic-device-plugin"
+					name: "generic-device-plugin"
 					// renovate: datasource=docker depName=ghcr.io/squat/generic-device-plugin
 					image: "ghcr.io/squat/generic-device-plugin:f4a6475"
 					args: [
