@@ -129,9 +129,7 @@ spec:
         nfs:
           path: /mnt/mongo/data/media/music
           server: truenas.vanwyhe.xyz
-      - emptyDir:
-          medium: Memory
-          sizeLimit: 4Gi
+      - emptyDir: {}
         name: transcode
       - name: tv
         nfs:
