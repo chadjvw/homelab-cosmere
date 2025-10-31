@@ -80,11 +80,12 @@ spec:
           value: /usr/src/app/store/.config-db
         image: docker.io/zwavejs/zwave-js-ui:11.5.2
         name: main
+        resources:
+          limits:
+            squat.ai/zwave: 1
         volumeMounts:
         - mountPath: /usr/src/app/store
           name: config
-        - mountPath: /dev/serial/by-id
-          name: zwave
       dnsPolicy: ClusterFirst
       enableServiceLinks: false
       hostIPC: false
@@ -97,10 +98,6 @@ spec:
       - name: config
         persistentVolumeClaim:
           claimName: zwavejs-config
-      - hostPath:
-          path: /dev/serial/by-id
-          type: Directory
-        name: zwave
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
