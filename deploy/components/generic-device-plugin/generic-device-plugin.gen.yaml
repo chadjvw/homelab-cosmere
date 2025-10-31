@@ -1,3 +1,4 @@
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   labels:
@@ -14,10 +15,15 @@ spec:
         app.kubernetes.io/name: generic-device-plugin
     spec:
       containers:
-        args:
-        - '--device={"name": "zwave", "groups": [{"paths": [{"path": "/dev/serial/by-id/usb-Silicon_Labs_Zooz_ZST10_700_Z-Wave_Stick_0001-if00-port0"}]}]}'
-        image: ghcr.io/squat/generic-device-plugin
-        tag: f4a6475
+      - args:
+        - --device
+        - |
+          name: zwave
+          groups:
+            - paths:
+                - path: /dev/serial/by-id/usb-Silicon_Labs_Zooz_ZST10_700_Z-Wave_Stick_0001-if00-port0
+        image: ghcr.io/squat/generic-device-plugin:f4a6475
+        name: generic-device-plugin
       priorityClassName: system-node-critical
       tolerations:
       - effect: NoExecute

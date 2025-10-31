@@ -1,21 +1,22 @@
 package holos
 
+import "encoding/yaml"
+
 holos: Component.BuildPlan
 
-Component: #Kubernetes & {
+Component: #Kustomize & {
 	Name:      "generic-device-plugin"
 	Namespace: "kube-system"
 
-	Resources: DaemonSet: "generic-device-plugin": {
+	Resources: DaemonSet: (Name): {
 		metadata: {
-			name:      "generic-device-plugin"
-			namespace: "kube-system"
-			labels: "app.kubernetes.io/name": "generic-device-plugin"
+			namespace: Namespace
+			labels: "app.kubernetes.io/name": Name
 		}
 
 		spec: {
-			selector: matchLabels: "app.kubernetes.io/name": "generic-device-plugin"
-			template: metadata: labels: "app.kubernetes.io/name": "generic-device-plugin"
+			selector: matchLabels: "app.kubernetes.io/name": Name
+			template: metadata: labels: "app.kubernetes.io/name": Name
 
 			template: spec: {
 				priorityClassName: "system-node-critical"
@@ -26,13 +27,17 @@ Component: #Kubernetes & {
 					operator: "Exists"
 					effect:   "NoSchedule"
 				}]
-				containers: {
-					image: "ghcr.io/squat/generic-device-plugin"
-					tag:   "f4a6475"
+				containers: [{
+					name:  "generic-device-plugin"
+					image: "ghcr.io/squat/generic-device-plugin:f4a6475"
 					args: [
-						"--device={\"name\": \"zwave\", \"groups\": [{\"paths\": [{\"path\": \"/dev/serial/by-id/usb-Silicon_Labs_Zooz_ZST10_700_Z-Wave_Stick_0001-if00-port0\"}]}]}",
+						"--device",
+						yaml.Marshal({
+							name: "zwave"
+							groups: [{paths: [{path: "/dev/serial/by-id/usb-Silicon_Labs_Zooz_ZST10_700_Z-Wave_Stick_0001-if00-port0"}]}]
+						}),
 					]
-				}
+				}]
 			}
 		}
 	}

@@ -9,3 +9,8 @@ package v1
 	apiVersion: "apps/v1"
 	kind:       "StatefulSet"
 }
+
+#DaemonSet: {
+	apiVersion: "apps/v1"
+	kind:       "DaemonSet"
+}
