@@ -78,7 +78,7 @@ spec:
           value: "2160"
         - name: TZ
           value: America/Denver
-        image: ghcr.io/mealie-recipes/mealie:v3.3.2
+        image: ghcr.io/mealie-recipes/mealie:v3.4.0
         name: main
         volumeMounts:
         - mountPath: /app/data
