@@ -45,4 +45,12 @@ Platform: Components: {
 		name: "zwavejs"
 		path: "components/zwavejs"
 	}
+	"home-assistant": {
+		name: "home-assistant"
+		path: "components/home-assistant"
+	}
+	"node-red": {
+		name: "node-red"
+		path: "components/node-red"
+	}
 }
