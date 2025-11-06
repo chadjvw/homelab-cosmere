@@ -8,8 +8,8 @@ package app
 			TZ:   string | *"America/Denver"
 		}
 		image: {
-			repository: string
-			tag:        string
+			repository: string | *"docker.io/kennethreitz/httpbin"
+			tag:        string | *"latest"
 		}
 	}
 	route: main: {
