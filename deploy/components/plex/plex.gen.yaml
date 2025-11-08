@@ -81,6 +81,10 @@ spec:
           value: latest
         image: ghcr.io/linuxserver/plex:1.42.2
         name: main
+        securityContext:
+          privileged: true
+          supplementalGroups:
+          - 100
         volumeMounts:
         - mountPath: /config
           name: config
@@ -194,3 +198,5 @@ spec:
       namespace: default
       port: 32400
       weight: 1
+    timeouts:
+      request: 1h

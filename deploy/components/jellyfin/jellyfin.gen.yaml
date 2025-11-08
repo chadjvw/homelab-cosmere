@@ -87,6 +87,10 @@ spec:
           value: America/Denver
         image: ghcr.io/linuxserver/jellyfin:10.11.1
         name: main
+        securityContext:
+          privileged: true
+          supplementalGroups:
+          - 100
         volumeMounts:
         - mountPath: /config/cache
           name: cache
@@ -198,3 +202,5 @@ spec:
       namespace: default
       port: 8096
       weight: 1
+    timeouts:
+      request: 1h

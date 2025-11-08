@@ -16,11 +16,10 @@ import "homelab.cosmere/config/app"
 				ZWAVEJS_EXTERNAL_CONFIG: "/usr/src/app/store/.config-db"
 			}
 			resources: limits: "squat.ai/zwave": 1
+			securityContext: privileged:               true
+			securityContext: allowPrivilegeEscalation: true
 		}
 	}
-
-	securityContext: privileged:               true
-	securityContext: allowPrivilegeEscalation: true
 
 	persistence: {
 		config: {

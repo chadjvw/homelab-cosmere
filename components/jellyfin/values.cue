@@ -15,11 +15,11 @@ import (
 				repository: "ghcr.io/linuxserver/jellyfin"
 				tag:        "10.11.1"
 			}
+			securityContext: privileged: true
+			securityContext: supplementalGroups: [100]
 		}
 	}
 
-	securityContext: privileged: true
-	securityContext: supplementalGroups: [100]
 	persistence: {
 		config: {
 			existingClaim: "jellyfin-data"
@@ -50,7 +50,31 @@ import (
 		}
 	}
 
-	route: main: hostnames: ["jellyfin.vanwyhe.xyz", "jellyfin.vw4.lol", "jf.vw4.lol"]
+	route: main: {
+		hostnames: ["jellyfin.vanwyhe.xyz", "jellyfin.vw4.lol", "jf.vw4.lol"]
+		parentRefs: [{
+			name:        "external"
+			namespace:   "kube-system"
+			sectionName: "https"
+		}]
+		rules: [
+			{
+				backendRefs: [
+					{
+						group:     ""
+						kind:      "Service"
+						name:      "jellyfin"
+						namespace: "default"
+						port:      8096
+						weight:    1
+					},
+				]
+				timeouts: {
+					request: "1h"
+				}
+			},
+		]
+	}
 
 	service: main: ports: http: port: 8096
 }
