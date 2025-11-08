@@ -21,4 +21,8 @@ Platform: Components: {
 		name: "external-secrets"
 		path: "components/external-secrets"
 	}
+	descheduler: {
+		name: "descheduler"
+		path: "components/descheduler"
+	}
 }
