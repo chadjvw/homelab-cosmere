@@ -22,11 +22,10 @@ import (
 					key:  "PLEX_CLAIM"
 				}
 			}
+			securityContext: privileged: true
+			securityContext: supplementalGroups: [100]
 		}
 	}
-
-	securityContext: privileged: true
-	securityContext: supplementalGroups: [100]
 
 	persistence: {
 		config: {
@@ -53,7 +52,31 @@ import (
 		}
 	}
 
-	route: main: hostnames: ["plex.vanwyhe.xyz", "plex.vw4.lol"]
+	route: main: {
+		hostnames: ["plex.vanwyhe.xyz", "plex.vw4.lol"]
+		parentRefs: [{
+			name:        "external"
+			namespace:   "kube-system"
+			sectionName: "https"
+		}]
+		rules: [
+			{
+				backendRefs: [
+					{
+						group:     ""
+						kind:      "Service"
+						name:      "plex"
+						namespace: "default"
+						port:      32400
+						weight:    1
+					},
+				]
+				timeouts: {
+					request: "1h"
+				}
+			},
+		]
+	}
 
 	service: main: ports: http: port: 32400
 }

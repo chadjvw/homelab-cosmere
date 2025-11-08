@@ -83,6 +83,9 @@ spec:
         resources:
           limits:
             squat.ai/zwave: 1
+        securityContext:
+          allowPrivilegeEscalation: true
+          privileged: true
         volumeMounts:
         - mountPath: /usr/src/app/store
           name: config

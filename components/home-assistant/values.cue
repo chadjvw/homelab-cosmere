@@ -9,9 +9,8 @@ import "homelab.cosmere/config/app"
 			// repository: "ghcr.io/home-assistant/home-assistant"
 			// tag:        "2025.11.0"
 		}
+		securityContext: privileged: true
 	}
-
-	securityContext: privileged: true
 
 	persistence: {
 		config: existingClaim: "home-assistant-config"
