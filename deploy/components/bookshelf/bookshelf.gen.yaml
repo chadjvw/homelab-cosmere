@@ -22,6 +22,19 @@ spec:
     app.kubernetes.io/name: bookshelf
   type: LoadBalancer
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bookshelf-audio-config
+  namespace: default
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: org.democratic-csi.iscsi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
