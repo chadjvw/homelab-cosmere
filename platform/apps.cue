@@ -53,4 +53,8 @@ Platform: Components: {
 		name: "node-red"
 		path: "components/node-red"
 	}
+	bookshelf: {
+		name: "bookshelf"
+		path: "components/bookshelf"
+	}
 }
