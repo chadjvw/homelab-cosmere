@@ -6,7 +6,7 @@ import "homelab.cosmere/config/app"
 	controllers: main: containers: main: {
 		image: {
 			repository: "ghcr.io/linuxserver/prowlarr"
-			tag:        "2.1.5"
+			tag:        "2.3.0"
 		}
 	}
 	persistence: config: existingClaim: "prowlarr-config"
