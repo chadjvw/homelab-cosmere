@@ -9,7 +9,7 @@ import (
 	controllers: main: containers: main: {
 		image: {
 			repository: "ghcr.io/linuxserver/radarr"
-			tag:        "5.28.0"
+			tag:        "6.0.4"
 		}
 	}
 
