@@ -86,7 +86,7 @@ spec:
           value: America/Denver
         - name: WEBUI_PORT
           value: "9092"
-        image: ghcr.io/linuxserver/qbittorrent:5.1.2
+        image: ghcr.io/linuxserver/qbittorrent:5.1.4
         name: main
         volumeMounts:
         - mountPath: /config
