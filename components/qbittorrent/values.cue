@@ -9,7 +9,7 @@ import (
 	controllers: main: containers: main: {
 		image: {
 			repository: "ghcr.io/linuxserver/qbittorrent"
-			tag:        "5.1.2"
+			tag:        "5.1.4"
 		}
 		env: {
 			WEBUI_PORT:      9092
