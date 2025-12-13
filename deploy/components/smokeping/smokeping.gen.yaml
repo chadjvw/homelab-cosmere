@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smokeping
     app.kubernetes.io/service: smokeping
-    helm.sh/chart: app-template-4.4.0
+    helm.sh/chart: app-template-4.5.0
   name: smokeping
   namespace: default
 spec:
@@ -56,7 +56,7 @@ metadata:
     app.kubernetes.io/instance: smokeping
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smokeping
-    helm.sh/chart: app-template-4.4.0
+    helm.sh/chart: app-template-4.5.0
   name: smokeping
   namespace: default
 spec:
@@ -113,7 +113,7 @@ metadata:
     app.kubernetes.io/instance: smokeping
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: smokeping
-    helm.sh/chart: app-template-4.4.0
+    helm.sh/chart: app-template-4.5.0
   name: smokeping
   namespace: default
 spec:

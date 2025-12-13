@@ -38,6 +38,7 @@ jobs:
         uses: holos-run/holos-action@v1
         with:
           version: v0.105.1
+          command: holos render platform --concurrency 0
    
       - name: Commit changes and push
         shell: bash

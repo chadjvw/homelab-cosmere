@@ -7,7 +7,7 @@ Component: #Helm & {
 	Namespace: "default"
 	Chart: {
 		name:    "app-template"
-		version: "4.4.0"
+		version: "4.5.0"
 		release: "audiobookshelf"
 		repository: {
 			name: "bjw-s"
