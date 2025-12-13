@@ -9,7 +9,7 @@ import (
 	controllers: main: containers: main: {
 		image: {
 			repository: "ghcr.io/linuxserver/sonarr"
-			tag:        "4.0.15"
+			tag:        "4.0.16"
 		}
 	}
 
