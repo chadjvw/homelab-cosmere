@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: audiobookshelf
     app.kubernetes.io/service: audiobookshelf
-    helm.sh/chart: app-template-4.4.0
+    helm.sh/chart: app-template-4.5.0
   name: audiobookshelf
   namespace: default
 spec:
@@ -56,7 +56,7 @@ metadata:
     app.kubernetes.io/instance: audiobookshelf
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: audiobookshelf
-    helm.sh/chart: app-template-4.4.0
+    helm.sh/chart: app-template-4.5.0
   name: audiobookshelf
   namespace: default
 spec:
@@ -85,7 +85,7 @@ spec:
           value: "1000"
         - name: TZ
           value: America/Denver
-        image: ghcr.io/advplyr/audiobookshelf:2.30.0
+        image: ghcr.io/advplyr/audiobookshelf:2.10.0
         name: main
         volumeMounts:
         - mountPath: /audiobooks
@@ -141,7 +141,7 @@ metadata:
     app.kubernetes.io/instance: audiobookshelf
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: audiobookshelf
-    helm.sh/chart: app-template-4.4.0
+    helm.sh/chart: app-template-4.5.0
   name: audiobookshelf
   namespace: default
 spec:

@@ -8,7 +8,7 @@ Component: #Helm & {
 	EnableHooks: true
 	Chart: {
 		release: "external-dns-management"
-		version: "v0.30.0"
+		version: "v0.33.0"
 		name:    "oci://europe-docker.pkg.dev/gardener-project/releases/charts/dns-controller-manager"
 	}
 

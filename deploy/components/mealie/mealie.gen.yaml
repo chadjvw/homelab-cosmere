@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: mealie
     app.kubernetes.io/service: mealie
-    helm.sh/chart: app-template-4.4.0
+    helm.sh/chart: app-template-4.5.0
   name: mealie
   namespace: default
 spec:
@@ -43,7 +43,7 @@ metadata:
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: mealie
-    helm.sh/chart: app-template-4.4.0
+    helm.sh/chart: app-template-4.5.0
   name: mealie
   namespace: default
 spec:
@@ -78,7 +78,7 @@ spec:
           value: "2160"
         - name: TZ
           value: America/Denver
-        image: ghcr.io/mealie-recipes/mealie:v3.5.0
+        image: ghcr.io/mealie-recipes/mealie:v3.7.0
         name: main
         volumeMounts:
         - mountPath: /app/data
@@ -123,7 +123,7 @@ metadata:
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: mealie
-    helm.sh/chart: app-template-4.4.0
+    helm.sh/chart: app-template-4.5.0
   name: mealie
   namespace: default
 spec:
