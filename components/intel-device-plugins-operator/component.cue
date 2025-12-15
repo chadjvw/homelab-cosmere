@@ -8,7 +8,7 @@ Component: #Helm & {
 	EnableHooks: true
 	Chart: {
 		name:    "intel-device-plugins-operator"
-		version: "0.34.0"
+		version: "0.34.1"
 		repository: {
 			name: "intel"
 			url:  "https://intel.github.io/helm-charts/"
