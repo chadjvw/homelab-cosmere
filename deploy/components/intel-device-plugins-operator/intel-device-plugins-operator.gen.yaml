@@ -775,6 +775,16 @@ spec:
                   The list can contain IDs in the form of '0x1234,0x49a4,0x50b4'.
                   Cannot be used together with DenyIDs.
                 type: string
+              bypathMode:
+                description: |-
+                  ByPathMode changes how plugin handles the DRM by-path/ directory mounting for GPU devices.
+                  See GPU plugin documentation for detailed description of the modes.
+                  If left empty, it defaults to 'single'.
+                enum:
+                - none
+                - single
+                - all
+                type: string
               denyIDs:
                 description: |-
                   DenyIDs is a comma-separated list of PCI IDs of GPU devices that should only be denied by the plugin.
@@ -1916,6 +1926,7 @@ rules:
   - iaadeviceplugins/finalizers
   - qatdeviceplugins/finalizers
   - sgxdeviceplugins/finalizers
+  - npudeviceplugins/finalizers
   verbs:
   - update
 - apiGroups:
@@ -1928,6 +1939,7 @@ rules:
   - iaadeviceplugins/status
   - qatdeviceplugins/status
   - sgxdeviceplugins/status
+  - npudeviceplugins/status
   verbs:
   - get
   - patch
@@ -2065,7 +2077,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: intel/intel-deviceplugin-operator:0.34.0
+        image: intel/intel-deviceplugin-operator:0.34.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -2245,6 +2257,26 @@ webhooks:
     - UPDATE
     resources:
     - iaadeviceplugins
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: inteldeviceplugins-webhook-service
+      namespace: node-feature-discovery
+      path: /mutate-deviceplugin-intel-com-v1-npudeviceplugin
+  failurePolicy: Fail
+  name: mnpudeviceplugin.kb.io
+  rules:
+  - apiGroups:
+    - deviceplugin.intel.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - npudeviceplugins
   sideEffects: None
 - admissionReviewVersions:
   - v1
@@ -2432,6 +2464,26 @@ webhooks:
     - UPDATE
     resources:
     - iaadeviceplugins
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: inteldeviceplugins-webhook-service
+      namespace: node-feature-discovery
+      path: /validate-deviceplugin-intel-com-v1-npudeviceplugin
+  failurePolicy: Fail
+  name: vnpudeviceplugin.kb.io
+  rules:
+  - apiGroups:
+    - deviceplugin.intel.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - npudeviceplugins
   sideEffects: None
 - admissionReviewVersions:
   - v1
