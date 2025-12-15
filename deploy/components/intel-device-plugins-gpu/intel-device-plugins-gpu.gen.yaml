@@ -5,9 +5,10 @@ metadata:
   namespace: node-feature-discovery
 spec:
   allowIDs: ""
+  bypathMode: single
   denyIDs: ""
   enableMonitoring: true
-  image: intel/intel-gpu-plugin:0.34.0
+  image: intel/intel-gpu-plugin:0.34.1
   logLevel: 2
   nodeSelector:
     intel.feature.node.kubernetes.io/gpu: "true"
