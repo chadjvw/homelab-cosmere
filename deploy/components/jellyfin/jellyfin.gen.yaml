@@ -85,7 +85,7 @@ spec:
           value: "1000"
         - name: TZ
           value: America/Denver
-        image: ghcr.io/linuxserver/jellyfin:10.11.4
+        image: ghcr.io/linuxserver/jellyfin:10.11.5
         name: main
         securityContext:
           privileged: true
