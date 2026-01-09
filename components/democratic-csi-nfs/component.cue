@@ -8,7 +8,7 @@ Component: #Helm & {
 	EnableHooks: true
 	Chart: {
 		release: "democratic-csi"
-		version: "0.15.0"
+		version: "0.15.1"
 		name:    "oci://ghcr.io/democratic-csi/charts/democratic-csi"
 	}
 
