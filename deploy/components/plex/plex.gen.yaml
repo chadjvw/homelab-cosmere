@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: plex
     app.kubernetes.io/service: plex
-    helm.sh/chart: app-template-4.5.0
+    helm.sh/chart: app-template-4.6.0
   name: plex
   namespace: default
 spec:
@@ -43,7 +43,7 @@ metadata:
     app.kubernetes.io/instance: plex
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: plex
-    helm.sh/chart: app-template-4.5.0
+    helm.sh/chart: app-template-4.6.0
   name: plex
   namespace: default
 spec:
@@ -175,7 +175,7 @@ metadata:
     app.kubernetes.io/instance: plex
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: plex
-    helm.sh/chart: app-template-4.5.0
+    helm.sh/chart: app-template-4.6.0
   name: plex
   namespace: default
 spec:
