@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: jellyfin
     app.kubernetes.io/service: jellyfin
-    helm.sh/chart: app-template-4.5.0
+    helm.sh/chart: app-template-4.6.0
   name: jellyfin
   namespace: default
 spec:
@@ -56,7 +56,7 @@ metadata:
     app.kubernetes.io/instance: jellyfin
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: jellyfin
-    helm.sh/chart: app-template-4.5.0
+    helm.sh/chart: app-template-4.6.0
   name: jellyfin
   namespace: default
 spec:
@@ -178,7 +178,7 @@ metadata:
     app.kubernetes.io/instance: jellyfin
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: jellyfin
-    helm.sh/chart: app-template-4.5.0
+    helm.sh/chart: app-template-4.6.0
   name: jellyfin
   namespace: default
 spec:
