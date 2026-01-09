@@ -7,7 +7,7 @@ Component: #Helm & {
 	Namespace: "default"
 	Chart: {
 		name:    "app-template"
-		version: "4.5.0"
+		version: "4.6.0"
 		release: "smokeping"
 		repository: {
 			name: "bjw-s"
