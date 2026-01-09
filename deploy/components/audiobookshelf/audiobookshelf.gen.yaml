@@ -85,7 +85,7 @@ spec:
           value: "1000"
         - name: TZ
           value: America/Denver
-        image: ghcr.io/advplyr/audiobookshelf:2.31.0
+        image: ghcr.io/advplyr/audiobookshelf:2.32.1
         name: main
         volumeMounts:
         - mountPath: /audiobooks
