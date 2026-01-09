@@ -9,7 +9,7 @@ import (
 	controllers: main: containers: main: {
 		image: {
 			repository: "ghcr.io/advplyr/audiobookshelf"
-			tag:        "2.31.0"
+			tag:        "2.32.1"
 		}
 	}
 
