@@ -1,7 +1,7 @@
 ---
 clusterName: cosmere
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.11.5
+talosVersion: v1.12.1
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.34.1
 endpoint: https://10.0.10.13:6443
@@ -35,11 +35,14 @@ controlPlane:
         - security=none # Less security, faster puter
         - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
         - talos.auditd.disabled=1 # Less security, faster puter
+        # https://docs.siderolabs.com/talos/v1.12/configure-your-talos-cluster/system-configuration/performance-tuning
+        - cpufreq.default_governor=performance
+        - intel_idle.max_cstate=0
       systemExtensions: &extensions
-          officialExtensions:
-            - siderolabs/iscsi-tools
-            - siderolabs/i915
-            - siderolabs/intel-ucode
+        officialExtensions:
+          - siderolabs/iscsi-tools
+          - siderolabs/i915
+          - siderolabs/intel-ucode
   patches:
     # Enable K8s Talos API Access
     - |-
@@ -59,9 +62,9 @@ controlPlane:
 patches:
   # disable kubeproxy for cilium
   - |-
-     cluster:
-       proxy:
-         disabled: true
+    cluster:
+      proxy:
+        disabled: true
 
   # Configure containerd
   - |-
@@ -165,7 +168,7 @@ nodes:
     nodeLabels:
       "intel-igpu": "hd-graphics-630"
       "attached-usb": "zwave"
-  - hostname: scadrial 
+  - hostname: scadrial
     ipAddress: 10.0.10.12
     controlPlane: true
     installDiskSelector:
@@ -186,6 +189,9 @@ nodes:
           - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
           - talos.auditd.disabled=1 # Less security, faster puter
           - i915.enable_guc=3 # Meteor Lake CPU / iGPU
+          # https://docs.siderolabs.com/talos/v1.12/configure-your-talos-cluster/system-configuration/performance-tuning
+          - cpufreq.default_governor=performance
+          - intel_idle.max_cstate=0
         systemExtensions: *extensions
     nodeLabels:
       # https://www.techpowerup.com/gpu-specs/graphics-24eu-mobile.c4344
