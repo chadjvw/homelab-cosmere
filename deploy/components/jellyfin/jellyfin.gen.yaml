@@ -111,8 +111,6 @@ spec:
       hostIPC: false
       hostNetwork: false
       hostPID: false
-      nodeSelector:
-        intel-igpu: intel-graphics-24eu
       serviceAccountName: default
       volumes:
       - name: cache
