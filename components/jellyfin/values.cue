@@ -7,9 +7,9 @@ import (
 
 #Values: app.#ExternalAppTemplate & {
 	controllers: main: {
-		pod: nodeSelector: {
-			"intel-igpu": "intel-graphics-24eu"
-		}
+		// pod: nodeSelector: {
+		// 	"intel-igpu": "intel-graphics-24eu"
+		// }
 		containers: main: {
 			image: {
 				repository: "ghcr.io/linuxserver/jellyfin"
