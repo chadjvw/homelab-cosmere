@@ -23,7 +23,31 @@ import (
 		audiobooks: media.books
 	}
 
-	route: main: hostnames: ["books.vanwyhe.xyz", "books.vw4.lol"]
+	route: main: {
+		hostnames: ["books.vanwyhe.xyz", "books.vw4.lol"]
+		parentRefs: [{
+			name:        "external"
+			namespace:   "kube-system"
+			sectionName: "https"
+		}]
+		rules: [
+			{
+				backendRefs: [
+					{
+						group:     ""
+						kind:      "Service"
+						name:      "audiobookshelf"
+						namespace: "default"
+						port:      80
+						weight:    1
+					},
+				]
+				timeouts: {
+					request: "1h"
+				}
+			},
+		]
+	}
 
 	service: main: ports: http: port: 80
 }

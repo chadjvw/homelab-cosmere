@@ -162,3 +162,5 @@ spec:
       namespace: default
       port: 80
       weight: 1
+    timeouts:
+      request: 1h
