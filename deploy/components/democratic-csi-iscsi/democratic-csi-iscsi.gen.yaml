@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: org.democratic-csi.iscsi
 parameters:
   detachedVolumesFromSnapshots: "false"
@@ -22,7 +22,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: democratic-csi-controller-sa
   namespace: storage
 ---
@@ -33,7 +33,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: democratic-csi-node-sa
   namespace: storage
 ---
@@ -44,7 +44,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: democratic-csi-controller-cr
 rules:
 - apiGroups:
@@ -271,7 +271,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: democratic-csi-node-cr
 rules:
 - apiGroups:
@@ -316,7 +316,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: democratic-csi-controller-rb
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -334,7 +334,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: democratic-csi-node-rb
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -354,7 +354,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: democratic-csi
   namespace: storage
 ---
@@ -367,7 +367,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: democratic-csi-controller
   namespace: storage
 spec:
@@ -382,7 +382,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configmap: 27d5709f6648fe2cbceee9df76c7c94b653208bff8254c4df16fd04c4ca88302
+        checksum/configmap: b40713b9919dc1b18ee291a481638c8b3545530633beddd440b3fd125db26e15
       labels:
         app.kubernetes.io/component: controller-linux
         app.kubernetes.io/csi-role: controller
@@ -558,7 +558,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: democratic-csi-node
   namespace: storage
 spec:
@@ -572,7 +572,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configmap: 27d5709f6648fe2cbceee9df76c7c94b653208bff8254c4df16fd04c4ca88302
+        checksum/configmap: b40713b9919dc1b18ee291a481638c8b3545530633beddd440b3fd125db26e15
       labels:
         app.kubernetes.io/component: node-linux
         app.kubernetes.io/csi-role: node
@@ -727,7 +727,7 @@ spec:
         name: plugins-dir
       - hostPath:
           path: /var/lib/kubelet/plugins_registry
-          type: Directory
+          type: DirectoryOrCreate
         name: registration-dir
       - hostPath:
           path: /var/lib/kubelet
@@ -833,7 +833,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: org.democratic-csi.iscsi
   namespace: storage
 parameters:
@@ -846,7 +846,7 @@ metadata:
     app.kubernetes.io/instance: democratic-csi
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: democratic-csi
-    helm.sh/chart: democratic-csi-0.15.0
+    helm.sh/chart: democratic-csi-0.15.1
   name: org.democratic-csi.iscsi
 spec:
   attachRequired: true
