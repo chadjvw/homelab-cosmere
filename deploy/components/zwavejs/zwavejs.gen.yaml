@@ -78,7 +78,7 @@ spec:
           value: America/Denver
         - name: ZWAVEJS_EXTERNAL_CONFIG
           value: /usr/src/app/store/.config-db
-        image: docker.io/zwavejs/zwave-js-ui:11.9.1
+        image: docker.io/zwavejs/zwave-js-ui:11.10.1
         name: main
         resources:
           limits:
