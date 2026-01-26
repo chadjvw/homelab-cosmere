@@ -523,7 +523,7 @@ spec:
           value: unix:///csi-data/csi.sock
         - name: PROXY_TO
           value: unix:///csi-data/csi.sock.internal
-        image: docker.io/democraticcsi/csi-grpc-proxy:v0.5.6
+        image: ghcr.io/democratic-csi/csi-grpc-proxy:v0.5.7
         name: csi-proxy
         volumeMounts:
         - mountPath: /csi-data
@@ -657,7 +657,7 @@ spec:
           value: unix:///csi-data/csi.sock
         - name: PROXY_TO
           value: unix:///csi-data/csi.sock.internal
-        image: docker.io/democraticcsi/csi-grpc-proxy:v0.5.6
+        image: ghcr.io/democratic-csi/csi-grpc-proxy:v0.5.7
         name: csi-proxy
         volumeMounts:
         - mountPath: /csi-data
