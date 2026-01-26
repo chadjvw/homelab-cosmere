@@ -13,7 +13,7 @@ import (
 		containers: main: {
 			image: {
 				repository: "ghcr.io/linuxserver/jellyfin"
-				tag:        "10.11.5"
+				tag:        "10.11.6"
 			}
 			securityContext: privileged: true
 			securityContext: supplementalGroups: [100]
