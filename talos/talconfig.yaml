@@ -1,9 +1,9 @@
 ---
 clusterName: cosmere
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.12.1
+talosVersion: v1.12.2
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.34.1
+kubernetesVersion: v1.35.0
 endpoint: https://10.0.10.13:6443
 allowSchedulingOnMasters: true
 additionalApiServerCertSans: &sans
@@ -56,8 +56,10 @@ controlPlane:
               - system-upgrade
     # Disable default API server admission plugins.
     - |-
-      - op: remove
-        path: /cluster/apiServer/admissionControl
+      cluster:
+        apiServer:
+          admissionControl:
+            $$patch: delete
 
 patches:
   # disable kubeproxy for cilium
