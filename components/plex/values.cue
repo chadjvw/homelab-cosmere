@@ -13,7 +13,7 @@ import (
 		containers: main: {
 			image: {
 				repository: "ghcr.io/linuxserver/plex"
-				tag:        "1.42.2"
+				tag:        "1.43.0"
 			}
 			env: {
 				VERSION: "latest"
