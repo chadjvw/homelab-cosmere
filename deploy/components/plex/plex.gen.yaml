@@ -79,7 +79,7 @@ spec:
           value: America/Denver
         - name: VERSION
           value: latest
-        image: ghcr.io/linuxserver/plex:1.42.2
+        image: ghcr.io/linuxserver/plex:1.43.0
         name: main
         securityContext:
           privileged: true
