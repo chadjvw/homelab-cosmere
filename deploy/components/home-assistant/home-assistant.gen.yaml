@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: home-assistant
     app.kubernetes.io/service: home-assistant
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: home-assistant
   namespace: default
 spec:
@@ -43,7 +43,7 @@ metadata:
     app.kubernetes.io/instance: home-assistant
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: home-assistant
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: home-assistant
   namespace: default
 spec:
@@ -97,7 +97,7 @@ metadata:
     app.kubernetes.io/instance: home-assistant
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: home-assistant
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: home-assistant
   namespace: default
 spec:

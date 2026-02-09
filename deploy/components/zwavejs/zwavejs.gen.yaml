@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: zwavejs
     app.kubernetes.io/service: zwavejs
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: zwavejs
   namespace: default
 spec:
@@ -47,7 +47,7 @@ metadata:
     app.kubernetes.io/instance: zwavejs
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: zwavejs
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: zwavejs
   namespace: default
 spec:
@@ -109,7 +109,7 @@ metadata:
     app.kubernetes.io/instance: zwavejs
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: zwavejs
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: zwavejs
   namespace: default
 spec:

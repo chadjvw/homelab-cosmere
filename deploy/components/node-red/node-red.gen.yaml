@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: node-red
     app.kubernetes.io/service: node-red
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: node-red
   namespace: default
 spec:
@@ -43,7 +43,7 @@ metadata:
     app.kubernetes.io/instance: node-red
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: node-red
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: node-red
   namespace: default
 spec:
@@ -95,7 +95,7 @@ metadata:
     app.kubernetes.io/instance: node-red
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: node-red
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: node-red
   namespace: default
 spec:

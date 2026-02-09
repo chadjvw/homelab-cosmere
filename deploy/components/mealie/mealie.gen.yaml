@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: mealie
     app.kubernetes.io/service: mealie
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: mealie
   namespace: default
 spec:
@@ -43,7 +43,7 @@ metadata:
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: mealie
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: mealie
   namespace: default
 spec:
@@ -123,7 +123,7 @@ metadata:
     app.kubernetes.io/instance: mealie
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: mealie
-    helm.sh/chart: app-template-4.6.0
+    helm.sh/chart: app-template-4.6.2
   name: mealie
   namespace: default
 spec:
