@@ -7,7 +7,7 @@ Component: #Helm & {
 	Namespace: "default"
 	Chart: {
 		name:    "app-template"
-		version: "4.6.0"
+		version: "4.6.2"
 		release: "node-red"
 		repository: {
 			name: "bjw-s"
