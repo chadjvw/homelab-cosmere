@@ -8,7 +8,7 @@ Component: #Helm & {
 	EnableHooks: true
 	Chart: {
 		release: "envoy-gateway"
-		version: "1.6.2"
+		version: "1.7.0"
 		name:    "oci://docker.io/envoyproxy/gateway-helm"
 	}
 
