@@ -10,7 +10,7 @@ import "homelab.cosmere/config/app"
 		containers: main: {
 			image: {
 				repository: "docker.io/zwavejs/zwave-js-ui"
-				tag:        "11.10.1"
+				tag:        "11.11.0"
 			}
 			env: {
 				ZWAVEJS_EXTERNAL_CONFIG: "/usr/src/app/store/.config-db"
