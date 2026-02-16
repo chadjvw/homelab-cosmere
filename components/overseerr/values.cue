@@ -8,7 +8,7 @@ import (
 	controllers: main: containers: main: {
 		image: {
 			repository: "ghcr.io/sct/overseerr"
-			tag:        "1.34.0"
+			tag:        "1.35.0"
 		}
 	}
 
