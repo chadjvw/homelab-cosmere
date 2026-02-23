@@ -8,7 +8,7 @@ Component: #Helm & {
 	EnableHooks: true
 	Chart: {
 		name:    "descheduler"
-		version: "0.34.0"
+		version: "0.35.0"
 		repository: {
 			name: "descheduler"
 			url:  "https://kubernetes-sigs.github.io/descheduler/"
