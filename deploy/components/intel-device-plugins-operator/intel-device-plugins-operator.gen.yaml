@@ -312,6 +312,13 @@ spec:
           spec:
             description: DsaDevicePluginSpec defines the desired state of DsaDevicePlugin.
             properties:
+              driver:
+                default: idxd
+                description: Driver name used for the DSA devices.
+                enum:
+                - idxd
+                - vfio-pci
+                type: string
               image:
                 description: Image is a container image with DSA device plugin executable.
                 type: string
@@ -777,7 +784,7 @@ spec:
                 type: string
               bypathMode:
                 description: |-
-                  ByPathMode changes how plugin handles the DRM by-path/ directory mounting for GPU devices.
+                  ByPathMode changes how plugin handles the DRM by-path/-dir mounting for GPU devices.
                   See GPU plugin documentation for detailed description of the modes.
                   If left empty, it defaults to 'single'.
                 enum:
@@ -1623,8 +1630,9 @@ spec:
             description: SgxDevicePluginSpec defines the desired state of SgxDevicePlugin.
             properties:
               dcapInfraResources:
-                description: DcapInfraResources flag enables two special resources
-                  for Intel DCAP infrastructure containers.
+                description: |-
+                  Deprecated: DcapInfraResources flag enables two special resources for Intel DCAP infrastructure containers.
+                  This is will be removed/modified in the future.
                 type: boolean
               enclaveLimit:
                 description: EnclaveLimit is a number of containers that can share
@@ -2077,7 +2085,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        image: intel/intel-deviceplugin-operator:0.34.1
+        image: intel/intel-deviceplugin-operator:0.35.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
