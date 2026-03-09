@@ -8,7 +8,7 @@ import (
 	controllers: main: containers: main: {
 		image: {
 			repository: "ghcr.io/mealie-recipes/mealie"
-			tag:        "v3.11.0"
+			tag:        "v3.12.0"
 		}
 		env: {
 			ALLOW_SIGNUP: false
