@@ -10,3 +10,4 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: org.democratic-csi.iscsi
+  volumeName: pvc-54cf9182-c25d-40c0-8f6d-b1112e0e466b
