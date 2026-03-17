@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: default
+  namespace: flux-system
+spec:
+  interval: 1m
+  ref:
+    tag: main
+  url: oci://ghcr.io/chadjvw/homelab/cosmere

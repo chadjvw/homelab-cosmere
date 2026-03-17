@@ -1,0 +1,101 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: plex
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: plex
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              PGID: 1000
+              PUID: 1000
+              TZ: America/Denver
+              VERSION: latest
+              PLEX_CLAIM:
+                valueFrom:
+                  secretKeyRef:
+                    name: plex-claim-token
+                    key: PLEX_CLAIM
+            image:
+              repository: ghcr.io/linuxserver/plex
+              tag: "1.43.0"
+            securityContext:
+              privileged: true
+              supplementalGroups:
+                - 100
+    persistence:
+      config:
+        existingClaim: plex-config
+      tv:
+        enabled: true
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/media/tv
+        globalMounts:
+          - path: /media/tv
+      movies:
+        enabled: true
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/media/movies
+        globalMounts:
+          - path: /media/movies
+      music:
+        enabled: true
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/media/music
+        globalMounts:
+          - path: /media/music
+      transcode:
+        enabled: true
+        type: emptyDir
+      dri:
+        enabled: true
+        type: hostPath
+        hostPathType: Directory
+        hostPath: /dev/dri
+    service:
+      main:
+        controller: main
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 32400
+    route:
+      main:
+        hostnames:
+          - plex.vanwyhe.xyz
+          - plex.vw4.lol
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: Gateway
+            name: external
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - group: ""
+                kind: Service
+                name: plex
+                namespace: default
+                port: 32400
+                weight: 1
+            timeouts:
+              request: 1h

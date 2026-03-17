@@ -1,0 +1,24 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: external-dns-controller
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: external-dns-management
+  chart:
+    spec:
+      chart: dns-controller-manager
+      version: v0.36.0
+      sourceRef:
+        kind: HelmRepository
+        name: gardener
+        namespace: flux-system
+      interval: 12h
+  values:
+    createCRDs: true
+    vpa:
+      enabled: false
+    configuration:
+      ttl: 300

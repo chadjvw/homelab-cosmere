@@ -3,12 +3,12 @@
   customManagers: [
     {
       customType: "regex",
-      description: ["Process helm chart dependencies in cue components"],
-      managerFilePatterns: ["components/**/*.cue"],
+      description: "Process docker image tags in HelmRelease values",
+      managerFilePatterns: ["apps/**/*.yaml"],
       matchStrings: [
-        'Chart:\\s{\\s+name:\\s+"(?<depName>.*)"\\s+version:\\s+"(?<currentValue>.*)"\\s+(release:.*)?\\s+repository:.*\\s+name:.*\\s+url:\\s+"(?<registryUrl>.*)"',
+        "repository:\\s+(?<depName>[^\\s]+)\\s+tag:\\s+\"?(?<currentValue>[^\\s\"]+)\"?",
       ],
-      datasourceTemplate: "helm",
+      datasourceTemplate: "docker",
     },
     {
       customType: "regex",

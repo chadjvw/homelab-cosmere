@@ -1,0 +1,54 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: overseerr
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: overseerr
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              PGID: 1000
+              PUID: 1000
+              TZ: America/Denver
+            image:
+              repository: ghcr.io/sct/overseerr
+              tag: "1.35.0"
+    persistence:
+      config:
+        existingClaim: overseerr-config
+        globalMounts:
+          - path: /app/config
+    service:
+      main:
+        controller: main
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 5055
+    route:
+      main:
+        hostnames:
+          - req.vanwyhe.xyz
+          - req.vw4.lol
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: Gateway
+            name: external
+            namespace: kube-system
+            sectionName: https

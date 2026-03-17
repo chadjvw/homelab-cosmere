@@ -1,0 +1,21 @@
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  name: req-ext-xyz-dns
+  namespace: default
+spec:
+  dnsName: req.vanwyhe.xyz
+  ttl: 300
+  targets:
+    - home.vanwyhe.xyz
+---
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  name: req-ext-lol-dns
+  namespace: default
+spec:
+  dnsName: req.vw4.lol
+  ttl: 300
+  targets:
+    - home.vanwyhe.xyz

@@ -1,0 +1,54 @@
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPClusterConfig
+metadata:
+  name: cilium-bgp
+spec:
+  bgpInstances:
+    - name: node
+      localASN: 64513
+      peers:
+        - name: opnsense
+          peerASN: 64512
+          peerAddress: 10.0.10.1
+          peerConfigRef:
+            name: cilium-peer-v2
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeerConfig
+metadata:
+  name: cilium-peer-v2
+spec:
+  gracefulRestart:
+    enabled: true
+    restartTimeSeconds: 15
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: bgp
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPAdvertisement
+metadata:
+  name: bgp-advertisements
+  labels:
+    advertise: bgp
+spec:
+  advertisements:
+    - advertisementType: Service
+      service:
+        addresses:
+          - LoadBalancerIP
+      selector:
+        matchExpressions:
+          - key: io.cilium/bgp
+            operator: NotIn
+            values: ["deny", "false"]
+          - key: io.cilium/internal
+            operator: NotIn
+            values: ["true"]
+      attributes:
+        communities:
+          standard:
+            - "64512"
