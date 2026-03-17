@@ -9,6 +9,9 @@ spec:
   releaseName: democratic-csi
   install:
     createNamespace: true
+    disableWait: true
+  upgrade:
+    disableWait: true
   chart:
     spec:
       chart: democratic-csi
