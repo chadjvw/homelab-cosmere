@@ -1,0 +1,64 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: headlamp
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: headlamp
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        initContainers:
+          flux-plugin:
+            image:
+              repository: ghcr.io/headlamp-k8s/headlamp-plugin-flux
+              tag: latest
+            securityContext:
+              runAsUser: 0
+              runAsNonRoot: false
+            command: ["/bin/sh", "-c"]
+            args:
+              - mkdir -p /build/plugins && cp -r /plugins/* /build/plugins/ && chown -R 100:101 /build
+        containers:
+          main:
+            image:
+              repository: ghcr.io/headlamp-k8s/headlamp
+              tag: v0.40.1
+            args:
+              - -plugins-dir=/build/plugins
+            env:
+              TZ: America/Denver
+    persistence:
+      plugins:
+        type: emptyDir
+        globalMounts:
+          - path: /build/plugins
+    service:
+      main:
+        controller: main
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 4466
+    route:
+      main:
+        hostnames:
+          - k8s.int.vanwyhe.xyz
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: Gateway
+            name: internal
+            namespace: kube-system
+            sectionName: https
