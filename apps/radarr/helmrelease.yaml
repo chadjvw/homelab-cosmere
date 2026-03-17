@@ -37,7 +37,7 @@ spec:
         server: truenas.vanwyhe.xyz
         path: /mnt/mongo/data/media/movies
         globalMounts:
-          - path: /media/movies
+          - path: /movies
       downloads:
         enabled: true
         type: nfs
