@@ -10,6 +10,7 @@ spec:
     requests:
       storage: 1Gi
   storageClassName: org.democratic-csi.iscsi
+  volumeName: pvc-3a5d5f26-dfe4-41e0-aa92-d0e022ad3e8f
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -23,3 +24,4 @@ spec:
     requests:
       storage: 10Gi
   storageClassName: org.democratic-csi.iscsi
+  volumeName: pvc-ba655247-1927-4a96-bc97-7a83bf2de730
