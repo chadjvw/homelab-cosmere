@@ -1,0 +1,29 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vanwyhe.xyz
+  namespace: kube-system
+spec:
+  secretName: vanwyhe.xyz-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: vanwyhe.xyz
+  dnsNames:
+    - vanwyhe.xyz
+    - "*.vanwyhe.xyz"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: int.vanwyhe.xyz
+  namespace: kube-system
+spec:
+  secretName: int.vanwyhe.xyz-tls
+  issuerRef:
+    name: letsencrypt-production
+    kind: ClusterIssuer
+  commonName: int.vanwyhe.xyz
+  dnsNames:
+    - int.vanwyhe.xyz
+    - "*.int.vanwyhe.xyz"

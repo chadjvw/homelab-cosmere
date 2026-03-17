@@ -1,0 +1,13 @@
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSProvider
+metadata:
+  name: dns-provider-cloudflare
+  namespace: default
+spec:
+  type: cloudflare-dns
+  secretRef:
+    name: external-dns-cloudflare-api-token
+  domains:
+    include:
+      - vanwyhe.xyz
+      - vw4.lol

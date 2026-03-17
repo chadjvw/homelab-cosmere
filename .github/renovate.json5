@@ -13,13 +13,16 @@
     "github>chadjvw/homelab-cosmere//.github/renovate/semantic-commits.json5",
     "github>chadjvw/homelab-cosmere//.github/renovate/custom-managers.json5",
   ],
-  enabled: true,
+  enabled: false,
   rebaseWhen: "conflicted",
   "pre-commit": {
     enabled: false,
   },
-  ignorePaths: ["deploy/**", "components/**/vendor/**", "cue.mod/**"],
+  ignorePaths: ["deploy/**"],
+  flux: {
+    managerFilePatterns: ["/apps/.+/helmrelease\\.yaml$/", "/repos/.+\\.yaml$/"],
+  },
   kubernetes: {
-    managerFilePatterns: ["/\\.yaml$/"],
+    managerFilePatterns: ["/apps/.+\\.yaml$/"],
   },
 }

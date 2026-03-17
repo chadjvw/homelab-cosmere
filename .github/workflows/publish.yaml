@@ -1,17 +1,20 @@
 ---
-name: Publish ./deploy as OCI
+name: Publish as OCI
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'deploy/**'
+      - 'apps/**'
+      - 'gitops/**'
+      - 'repos/**'
+      - 'flux/**'
   workflow_dispatch:
 
 permissions:
-  packages: write  # needed for ghcr.io access
-  contents: write  # needed for committing changes to PR
+  packages: write
+  contents: read
 
 env:
   OCI_REPO: "oci://ghcr.io/chadjvw/homelab/cosmere"
@@ -39,6 +42,6 @@ jobs:
       - name: Push artifact
         run: |
           flux push artifact $OCI_REPO:main \
-            --path="./deploy" \
+            --path="./" \
             --source="$(git config --get remote.origin.url)" \
             --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)"
