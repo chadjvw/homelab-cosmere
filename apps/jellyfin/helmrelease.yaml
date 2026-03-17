@@ -19,6 +19,10 @@ spec:
   values:
     controllers:
       main:
+        pod:
+          securityContext:
+            supplementalGroups:
+              - 100
         containers:
           main:
             env:
@@ -30,8 +34,6 @@ spec:
               tag: "10.11.6"
             securityContext:
               privileged: true
-              supplementalGroups:
-                - 100
     persistence:
       config:
         existingClaim: jellyfin-data

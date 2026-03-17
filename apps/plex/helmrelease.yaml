@@ -19,6 +19,10 @@ spec:
   values:
     controllers:
       main:
+        pod:
+          securityContext:
+            supplementalGroups:
+              - 100
         containers:
           main:
             env:
@@ -36,8 +40,6 @@ spec:
               tag: "1.43.0"
             securityContext:
               privileged: true
-              supplementalGroups:
-                - 100
     persistence:
       config:
         existingClaim: plex-config
