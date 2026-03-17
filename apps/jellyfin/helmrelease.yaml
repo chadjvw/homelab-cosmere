@@ -48,21 +48,21 @@ spec:
         server: truenas.vanwyhe.xyz
         path: /mnt/mongo/data/media/tv
         globalMounts:
-          - path: /tv
+          - path: /media/tv
       movies:
         enabled: true
         type: nfs
         server: truenas.vanwyhe.xyz
         path: /mnt/mongo/data/media/movies
         globalMounts:
-          - path: /movies
+          - path: /media/movies
       music:
         enabled: true
         type: nfs
         server: truenas.vanwyhe.xyz
         path: /mnt/mongo/data/media/music
         globalMounts:
-          - path: /music
+          - path: /media/music
       transcode:
         enabled: true
         type: emptyDir
