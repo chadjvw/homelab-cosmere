@@ -31,7 +31,7 @@ spec:
               ZWAVEJS_EXTERNAL_CONFIG: /usr/src/app/store/.config-db
             image:
               repository: docker.io/zwavejs/zwave-js-ui
-              tag: "11.12.0"
+              tag: "11.14.0"
             resources:
               limits:
                 squat.ai/zwave: 1
