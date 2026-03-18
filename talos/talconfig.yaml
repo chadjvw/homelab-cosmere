@@ -38,11 +38,14 @@ controlPlane:
         # https://docs.siderolabs.com/talos/v1.12/configure-your-talos-cluster/system-configuration/performance-tuning
         - cpufreq.default_governor=performance
         - intel_idle.max_cstate=0
+        # https://github.com/democratic-csi/democratic-csi?tab=readme-ov-file#nvmeof
+        - nvme_core.multipath=N
       systemExtensions: &extensions
         officialExtensions:
           - siderolabs/iscsi-tools
           - siderolabs/i915
           - siderolabs/intel-ucode
+          - siderolabs/nvme-cli
   patches:
     # Enable K8s Talos API Access
     - |-
@@ -194,6 +197,7 @@ nodes:
           # https://docs.siderolabs.com/talos/v1.12/configure-your-talos-cluster/system-configuration/performance-tuning
           - cpufreq.default_governor=performance
           - intel_idle.max_cstate=0
+          - nvme_core.multipath=N
         systemExtensions: *extensions
     nodeLabels:
       # https://www.techpowerup.com/gpu-specs/graphics-24eu-mobile.c4344
