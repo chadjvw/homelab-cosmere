@@ -48,7 +48,7 @@ spec:
     loadBalancer:
       acceleration: best-effort
       algorithm: maglev
-      mode: snat
+      mode: dsr
     operator:
       enabled: true
       rollOutPods: true
