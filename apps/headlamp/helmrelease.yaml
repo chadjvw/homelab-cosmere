@@ -39,6 +39,7 @@ spec:
               tag: v0.40.1
             args:
               - -plugins-dir=/build/plugins
+              - -in-cluster
             env:
               TZ: America/Denver
     persistence:
