@@ -9,59 +9,50 @@ spec:
   releaseName: headlamp
   chart:
     spec:
-      chart: app-template
-      version: 4.6.2
+      chart: headlamp
+      version: "0.x"
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: headlamp
         namespace: flux-system
       interval: 12h
   values:
-    defaultPodOptions:
-      serviceAccountName: headlamp
-    controllers:
-      main:
-        initContainers:
-          flux-plugin:
-            image:
-              repository: ghcr.io/headlamp-k8s/headlamp-plugin-flux
-              tag: latest
-            securityContext:
-              runAsUser: 0
-              runAsNonRoot: false
-            command: ["/bin/sh", "-c"]
-            args:
-              - mkdir -p /build/plugins && cp -r /plugins/* /build/plugins/ && chown -R 100:101 /build
-        containers:
-          main:
-            image:
-              repository: ghcr.io/headlamp-k8s/headlamp
-              tag: v0.40.1
-            args:
-              - -plugins-dir=/build/plugins
-              - -in-cluster
-            env:
-              TZ: America/Denver
-    persistence:
-      plugins:
-        type: emptyDir
-        globalMounts:
-          - path: /build/plugins
+    clusterRoleBinding:
+      create: true
+      clusterRoleName: cluster-admin
+    env:
+      - name: TZ
+        value: America/Denver
+    config:
+      pluginsDir: /headlamp/plugins
+    initContainers:
+      - name: flux-plugin
+        image: ghcr.io/headlamp-k8s/headlamp-plugin-flux:latest
+        securityContext:
+          runAsUser: 0
+          runAsNonRoot: false
+        command: ["/bin/sh", "-c"]
+        args:
+          - cp -r /plugins/. /headlamp/plugins/ && chown -R 100:101 /headlamp/plugins
+        volumeMounts:
+          - name: plugins
+            mountPath: /headlamp/plugins
+    volumes:
+      - name: plugins
+        emptyDir: {}
+    volumeMounts:
+      - name: plugins
+        mountPath: /headlamp/plugins
     service:
-      main:
-        controller: main
-        type: LoadBalancer
-        externalTrafficPolicy: Local
-        ports:
-          http:
-            port: 4466
-    route:
-      main:
-        hostnames:
-          - k8s.int.vanwyhe.xyz
-        parentRefs:
-          - group: gateway.networking.k8s.io
-            kind: Gateway
-            name: internal
-            namespace: kube-system
-            sectionName: https
+      type: ClusterIP
+      port: 80
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - group: gateway.networking.k8s.io
+          kind: Gateway
+          name: internal
+          namespace: kube-system
+          sectionName: https
+      hostnames:
+        - k8s.int.vanwyhe.xyz
