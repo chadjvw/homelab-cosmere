@@ -27,7 +27,7 @@ spec:
               TZ: America/Denver
             image:
               repository: ghcr.io/linuxserver/sonarr
-              tag: "4.0.16"
+              tag: "4.0.17"
     persistence:
       config:
         existingClaim: sonarr-config
