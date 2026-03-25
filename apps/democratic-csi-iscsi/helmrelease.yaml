@@ -55,7 +55,7 @@ spec:
         image:
           registry: ghcr.io/democratic-csi/democratic-csi
           pullPolicy: Always
-          tag: next
+          tag: v1.9.5
     controller:
       driver:
         logLevel: debug
@@ -63,4 +63,4 @@ spec:
         image:
           registry: ghcr.io/democratic-csi/democratic-csi
           pullPolicy: Always
-          tag: next
+          tag: v1.9.5
