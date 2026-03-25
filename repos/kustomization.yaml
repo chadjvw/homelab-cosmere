@@ -15,4 +15,6 @@ resources:
   - kubelet-csr-approver.yaml
   - metrics-server.yaml
   - nfd.yaml
+  - cnpg.yaml
+  - immich.yaml
   - prometheus-community.yaml
