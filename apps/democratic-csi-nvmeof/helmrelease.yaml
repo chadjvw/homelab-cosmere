@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 1h
   targetNamespace: storage
-  releaseName: democratic-csi
+  releaseName: democratic-csi-nvmeof
   install:
     createNamespace: true
     disableWait: true
