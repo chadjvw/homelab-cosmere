@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#MISE description="Check YAML formatting, validate Flux kustomizations, and verify manifests against K8s schemas"
+set -euo pipefail
+
+yamlfmt -lint .
+
+flux-local test --enable-helm --all-namespaces --sources default=./ --path flux/
+
+find apps/ infra/ observability/ gitops/ repos/ flux/ bootstrap/ -name '*.yaml' \
+  | xargs kubeconform \
+    -schema-location default \
+    -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+    -ignore-missing-schemas \
+    -summary

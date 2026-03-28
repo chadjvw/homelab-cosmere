@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Format all YAML files with yamlfmt"
+set -euo pipefail
+
+yamlfmt .

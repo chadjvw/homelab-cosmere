@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Score rendered manifests with kube-score (informational, non-blocking)"
+set -euo pipefail
+
+flux-local build . --all-namespaces | kube-score score -
