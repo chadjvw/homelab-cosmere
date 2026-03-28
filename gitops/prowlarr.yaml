@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./apps/media/prowlarr
+  path: ./apps/prowlarr
   prune: false # re-enable after HelmRelease is healthy
   sourceRef:
     kind: OCIRepository
