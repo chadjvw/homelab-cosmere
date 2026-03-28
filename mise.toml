@@ -4,4 +4,30 @@ flux2 = "latest"
 gh = "latest"
 "github:budimanjojo/talhelper" = "latest"
 helm = "latest"
+kubeconform = "latest"
+kube-score = "latest"
 talosctl = "latest"
+yamlfmt = "latest"
+"pipx:flux-local" = "latest"
+
+[tasks.format]
+description = "Format all YAML files with yamlfmt"
+run = "yamlfmt ."
+
+[tasks.validate]
+description = "Check YAML formatting, validate Flux kustomizations, and verify manifests against K8s schemas"
+run = """
+yamlfmt -lint -dry-run .
+flux-local test --enable-helm --all-namespaces
+kubeconform \
+  -schema-location default \
+  -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
+  -ignore-missing-schemas \
+  -summary \
+  -recursive \
+  apps/ gitops/ repos/ flux/ bootstrap/
+"""
+
+[tasks.score]
+description = "Score rendered manifests with kube-score (informational, non-blocking)"
+run = "flux-local build . --all-namespaces | kube-score score -"
