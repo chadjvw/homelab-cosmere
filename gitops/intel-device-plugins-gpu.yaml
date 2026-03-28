@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./apps/intel-device-plugins-gpu
+  path: ./infra/intel-device-plugins-gpu
   prune: false # re-enable after HelmRelease is healthy
   sourceRef:
     kind: OCIRepository

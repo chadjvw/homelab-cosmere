@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./apps/democratic-csi-nvmeof
+  path: ./infra/democratic-csi-nvmeof
   prune: false # re-enable after HelmRelease is healthy
   sourceRef:
     kind: OCIRepository

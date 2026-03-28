@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./apps/envoy-gateway
+  path: ./infra/envoy-gateway
   prune: false # re-enable after HelmRelease is healthy
   sourceRef:
     kind: OCIRepository

@@ -12,7 +12,6 @@ spec:
       sectionName: https
   hostnames:
     - auth.vanwyhe.xyz
-    - auth.vw4.lol
   rules:
     - backendRefs:
         - name: authentik-server

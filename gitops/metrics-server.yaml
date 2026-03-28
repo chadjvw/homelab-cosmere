@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./apps/metrics-server
+  path: ./infra/metrics-server
   prune: false # re-enable after HelmRelease is healthy
   sourceRef:
     kind: OCIRepository

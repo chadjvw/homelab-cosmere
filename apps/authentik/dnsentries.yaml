@@ -8,14 +8,3 @@ spec:
   ttl: 300
   targets:
     - home.vanwyhe.xyz
----
-apiVersion: dns.gardener.cloud/v1alpha1
-kind: DNSEntry
-metadata:
-  name: auth-ext-lol-dns
-  namespace: default
-spec:
-  dnsName: auth.vw4.lol
-  ttl: 300
-  targets:
-    - home.vanwyhe.xyz

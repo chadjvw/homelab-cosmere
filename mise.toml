@@ -25,7 +25,7 @@ kubeconform \
   -ignore-missing-schemas \
   -summary \
   -recursive \
-  apps/ gitops/ repos/ flux/ bootstrap/
+  apps/ infra/ observability/ gitops/ repos/ flux/ bootstrap/
 """
 
 [tasks.score]
