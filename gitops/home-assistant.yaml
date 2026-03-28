@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./apps/home/home-assistant
+  path: ./apps/home-assistant
   prune: false # re-enable after HelmRelease is healthy
   sourceRef:
     kind: OCIRepository
