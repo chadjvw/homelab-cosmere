@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: readmeabook-config
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: org.democratic-csi.nvmeof
+  resources:
+    requests:
+      storage: 2Gi
