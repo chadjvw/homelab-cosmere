@@ -10,6 +10,8 @@ on:
       - main
     paths:
       - 'apps/**'
+      - 'infra/**'
+      - 'observability/**'
       - 'gitops/**'
       - 'repos/**'
       - 'flux/**'

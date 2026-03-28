@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./apps/jellyfin
+  path: ./apps/media/jellyfin
   prune: false # re-enable after HelmRelease is healthy
   sourceRef:
     kind: OCIRepository

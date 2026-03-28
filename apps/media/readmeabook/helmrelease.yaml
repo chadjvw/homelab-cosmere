@@ -29,7 +29,7 @@ spec:
             # renovate: datasource=docker depName=ghcr.io/kikootwo/readmeabook
             image:
               repository: ghcr.io/kikootwo/readmeabook
-              tag: latest
+              tag: v1.1.7
             env:
               TZ: America/Denver
               PUBLIC_URL: https://readmeabook.int.vanwyhe.xyz
