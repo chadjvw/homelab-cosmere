@@ -53,12 +53,10 @@ spec:
                   secretKeyRef:
                     name: immich-database-app
                     key: password
-
     immich:
       persistence:
         library:
           existingClaim: immich-library
-
     valkey:
       enabled: true
       controllers:
@@ -73,7 +71,6 @@ spec:
           type: persistentVolumeClaim
           size: 1Gi
           storageClass: org.democratic-csi.nvmeof
-
     server:
       enabled: true
       route:
@@ -97,7 +94,6 @@ spec:
                   weight: 1
               timeouts:
                 request: 1h
-
     machine-learning:
       enabled: true
       controllers:

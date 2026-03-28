@@ -1,6 +1,4 @@
----
 name: Validate
-
 on:
   pull_request:
     branches:
@@ -16,19 +14,15 @@ on:
       - 'repos/**'
       - 'flux/**'
       - 'bootstrap/**'
-
 permissions:
   contents: read
-
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup mise
         uses: jdx/mise-action@v2
-
       - name: Validate
         run: mise run validate

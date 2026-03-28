@@ -50,13 +50,10 @@ spec:
             secretKeyRef:
               name: authentik-secret-key
               key: secret-key
-
     authentik:
       log_level: info
-
     postgresql:
       enabled: false
-
     redis:
       enabled: true
       master:
