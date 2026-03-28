@@ -4,5 +4,6 @@ metadata:
   name: intel
   namespace: flux-system
 spec:
+  type: oci
   interval: 12h
-  url: https://intel.github.io/helm-charts/
+  url: oci://ghcr.io/intel/helm-charts
