@@ -22,17 +22,26 @@ spec:
         pod:
           securityContext:
             fsGroup: 1000
-            runAsUser: 1000
-            runAsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
             env:
-              PGID: 1000
-              PUID: 1000
               TZ: America/Denver
             image:
-              repository: ghcr.io/seerr-team/seerr
+              repository: seerr-team/seerr
               tag: "v3.1.0"
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              privileged: false
+              runAsUser: 1000
+              runAsGroup: 1000
+              seccompProfile:
+                type: RuntimeDefault
     persistence:
       config:
         existingClaim: overseerr-config
