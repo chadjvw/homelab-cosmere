@@ -1,5 +1,5 @@
 [tools]
-python = "3.13"
+uv = "latest"
 doppler = "latest"
 flux2 = "latest"
 gh = "latest"
@@ -11,3 +11,6 @@ kustomize = "latest"
 talosctl = "latest"
 yamlfmt = "latest"
 "pipx:flux-local" = "latest"
+
+[settings]
+pipx.uvx = true
