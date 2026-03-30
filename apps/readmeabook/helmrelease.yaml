@@ -3,7 +3,6 @@ kind: HelmRelease
 metadata:
   name: readmeabook
   namespace: flux-system
-  # trigger CI 2
 spec:
   interval: 1h
   targetNamespace: default
@@ -30,7 +29,7 @@ spec:
             # renovate: datasource=docker depName=ghcr.io/kikootwo/readmeabook
             image:
               repository: ghcr.io/kikootwo/readmeabook
-              tag: v1.1.7
+              tag: 1.1.7
             env:
               TZ: America/Denver
               PUBLIC_URL: https://bookreq.vanwyhe.xyz
