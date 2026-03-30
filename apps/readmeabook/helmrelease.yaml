@@ -61,9 +61,7 @@ spec:
             main:
               - path: /config
       valkey-data:
-        type: persistentVolumeClaim
-        storageClass: org.democratic-csi.nvmeof
-        size: 1Gi
+        existingClaim: readmeabook-valkey-data
         advancedMounts:
           valkey:
             main:
@@ -90,3 +88,9 @@ spec:
             name: external
             namespace: kube-system
             sectionName: https
+        rules:
+          - backendRefs:
+              - group: ""
+                kind: Service
+                name: readmeabook
+                port: 3030
