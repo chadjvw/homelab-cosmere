@@ -92,7 +92,7 @@ spec:
           - backendRefs:
               - group: ""
                 kind: Service
-                name: readmeabook
+                name: readmeabook-main
                 namespace: default
                 port: 3030
                 weight: 1
