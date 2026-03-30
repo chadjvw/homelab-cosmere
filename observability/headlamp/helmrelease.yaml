@@ -25,6 +25,12 @@ spec:
         value: America/Denver
     config:
       pluginsDir: /headlamp/plugins
+      oidc:
+        clientID: "headlamp"
+        clientSecretName: headlamp-oidc
+        clientSecretKey: clientSecret
+        issuerURL: "https://auth.vanwyhe.xyz/application/o/headlamp/"
+        scopes: "openid email profile"
     initContainers:
       - name: flux-plugin
         image: ghcr.io/headlamp-k8s/headlamp-plugin-flux:latest
