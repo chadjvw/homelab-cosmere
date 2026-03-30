@@ -32,7 +32,7 @@ spec:
               tag: v1.1.7
             env:
               TZ: America/Denver
-              PUBLIC_URL: https://readmeabook.int.vanwyhe.xyz
+              PUBLIC_URL: https://bookreq.vanwyhe.xyz
               DATABASE_URL:
                 valueFrom:
                   secretKeyRef:
@@ -45,7 +45,7 @@ spec:
                   secretKeyRef:
                     name: readmeabook-secrets
                     key: config-encryption-key
-              DISABLE_LOCAL_LOGIN: "true"
+              DISABLE_LOCAL_LOGIN: "false"
       valkey:
         containers:
           main:
@@ -82,12 +82,11 @@ spec:
     route:
       main:
         hostnames:
-          - readmeabook.int.vanwyhe.xyz
-          - readmeabook.i.vw4.lol
-          - readmeabook.int.vw4.lol
+          - bookreq.vanwyhe.xyz
+          - bookreq.vw4.lol
         parentRefs:
           - group: gateway.networking.k8s.io
             kind: Gateway
-            name: internal
+            name: external
             namespace: kube-system
             sectionName: https

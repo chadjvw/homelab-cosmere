@@ -1,0 +1,21 @@
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  name: readmeabook-ext-xyz-dns
+  namespace: default
+spec:
+  dnsName: bookreq.vanwyhe.xyz
+  ttl: 300
+  targets:
+    - home.vanwyhe.xyz
+---
+apiVersion: dns.gardener.cloud/v1alpha1
+kind: DNSEntry
+metadata:
+  name: readmeabook-ext-lol-dns
+  namespace: default
+spec:
+  dnsName: bookreq.vw4.lol
+  ttl: 300
+  targets:
+    - home.vanwyhe.xyz
