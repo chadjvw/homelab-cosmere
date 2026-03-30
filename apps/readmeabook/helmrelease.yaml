@@ -3,6 +3,7 @@ kind: HelmRelease
 metadata:
   name: readmeabook
   namespace: flux-system
+  # trigger CI
 spec:
   interval: 1h
   targetNamespace: default
