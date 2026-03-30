@@ -10,7 +10,3 @@ kube-score = "latest"
 kustomize = "latest"
 talosctl = "latest"
 yamlfmt = "latest"
-"pipx:flux-local" = "latest"
-
-[settings]
-pipx.uvx = true
