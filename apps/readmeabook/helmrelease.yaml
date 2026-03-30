@@ -60,6 +60,24 @@ spec:
           main:
             main:
               - path: /config
+      books:
+        enabled: true
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/media/books
+        advancedMounts:
+          main:
+            main:
+              - path: /books
+      downloads:
+        enabled: true
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/torrents
+        advancedMounts:
+          main:
+            main:
+              - path: /downloads
       valkey-data:
         existingClaim: readmeabook-valkey-data
         advancedMounts:
