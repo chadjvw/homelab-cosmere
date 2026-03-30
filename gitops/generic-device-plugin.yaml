@@ -10,3 +10,5 @@ spec:
   sourceRef:
     kind: OCIRepository
     name: default
+  dependsOn:
+    - name: repos

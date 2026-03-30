@@ -12,5 +12,4 @@ spec:
     name: default
   dependsOn:
     - name: repos
-    - name: external-secrets
     - name: democratic-csi-iscsi
