@@ -93,4 +93,6 @@ spec:
               - group: ""
                 kind: Service
                 name: readmeabook
+                namespace: default
                 port: 3030
+                weight: 1
