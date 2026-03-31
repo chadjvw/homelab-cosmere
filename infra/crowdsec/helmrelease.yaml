@@ -20,7 +20,6 @@ spec:
       interval: 12h
   values:
     container_runtime: containerd
-
     config:
       config.yaml.local: |
         db_config:
@@ -61,7 +60,6 @@ spec:
           - type: ban
             duration: 4h
         on_success: break
-
     agent:
       isDeployment: true
       acquisition:
@@ -76,18 +74,10 @@ spec:
       env:
         - name: COLLECTIONS
           value: >-
-            crowdsecurity/base-http-scenarios
-            crowdsecurity/http-dos
-            crowdsecurity/http-cve
-            crowdsecurity/appsec-generic-rules
-            crowdsecurity/appsec-virtual-patching
-            crowdsecurity/linux
-            firix/authentik
-            yanis-kouidri/envoy
+            crowdsecurity/base-http-scenarios crowdsecurity/http-dos crowdsecurity/http-cve crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/linux firix/authentik yanis-kouidri/envoy
         - name: PARSERS
           value: >-
-            crowdsecurity/http-logs
-            crowdsecurity/cri-logs
+            crowdsecurity/http-logs crowdsecurity/cri-logs
         - name: DISABLE_LOCAL_API
           value: "true"
         - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
@@ -98,7 +88,6 @@ spec:
           enabled: true
           additionalLabels:
             release: kube-prometheus-stack
-
     lapi:
       storeCAPICredentialsInSecret: true
       storeLAPICscliCredentialsInSecret: true
@@ -106,8 +95,7 @@ spec:
         data:
           storageClassName: org.democratic-csi.nvmeof
         config:
-          storageClassName: org.democratic-csi.nvmeof
-          size: 512Mi
+          enabled: false
       env:
         - name: ENROLL_KEY
           valueFrom:
@@ -174,7 +162,6 @@ spec:
             runAsUser: 1000
             capabilities:
               drop: [ALL]
-
     appsec:
       enabled: true
       env:
