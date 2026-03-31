@@ -34,6 +34,7 @@ spec:
           storageClassName: org.democratic-csi.nvmeof
         config:
           storageClassName: org.democratic-csi.nvmeof
+          size: 512Mi
       env:
         - name: ENROLL_KEY
           valueFrom:
