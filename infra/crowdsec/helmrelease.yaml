@@ -20,7 +20,50 @@ spec:
       interval: 12h
   values:
     container_runtime: containerd
+
+    config:
+      config.yaml.local: |
+        db_config:
+          use_wal: true
+        api:
+          server:
+            auto_registration:
+              enabled: true
+              token: "${REGISTRATION_TOKEN}"
+              allowed_ranges:
+                - 127.0.0.1/32
+                - 10.0.10.0/24   # nodes, opnsense, local devices
+                - 10.0.30.0/24   # proxmox / VMs
+                - 10.0.40.0/24   # load balancer pool
+                - 10.244.0.0/22  # pods (3 nodes × /24)
+                - 10.96.0.0/12   # services
+      profiles.yaml: |
+        name: appsec_ip_remediation
+        filters:
+          - Alert.GetScope() == "Ip" && (Alert.GetScenario() contains "appsec" || Alert.GetScenario() contains "vpatch" || Alert.GetScenario() contains "generic-")
+        decisions:
+          - type: ban
+            duration: 4h
+        on_success: break
+        ---
+        name: default_ip_remediation
+        filters:
+          - Alert.Remediation == true && Alert.GetScope() == "Ip"
+        decisions:
+          - type: ban
+            duration: 4h
+        on_success: break
+        ---
+        name: default_range_remediation
+        filters:
+          - Alert.Remediation == true && Alert.GetScope() == "Range"
+        decisions:
+          - type: ban
+            duration: 4h
+        on_success: break
+
     agent:
+      isDeployment: true
       acquisition:
         - namespace: default
           podName: authentik-server-*
@@ -45,7 +88,20 @@ spec:
           value: >-
             crowdsecurity/http-logs
             crowdsecurity/cri-logs
+        - name: DISABLE_LOCAL_API
+          value: "true"
+        - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
+          value: "true"
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            release: kube-prometheus-stack
+
     lapi:
+      storeCAPICredentialsInSecret: true
+      storeLAPICscliCredentialsInSecret: true
       persistentVolume:
         data:
           storageClassName: org.democratic-csi.nvmeof
@@ -62,6 +118,27 @@ spec:
           value: "cosmere"
         - name: ENROLL_TAGS
           value: "k8s talos"
+        - name: REGISTRATION_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: crowdsec-secrets
+              key: registrationToken
+        - name: BOUNCER_KEY_envoy
+          valueFrom:
+            secretKeyRef:
+              name: crowdsec-secrets
+              key: envoyBouncerKey
+        - name: BOUNCER_KEY_opnsense
+          valueFrom:
+            secretKeyRef:
+              name: crowdsec-secrets
+              key: opnsenseBouncerKey
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            release: kube-prometheus-stack
       # Purge stale machine registrations before LAPI starts.
       # When LAPI restarts, agent/appsec pods hold cached credentials that no longer
       # match the DB entries. This init container deletes stale entries so agents
@@ -97,3 +174,26 @@ spec:
             runAsUser: 1000
             capabilities:
               drop: [ALL]
+
+    appsec:
+      enabled: true
+      env:
+        - name: COLLECTIONS
+          value: "crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules"
+        - name: DISABLE_LOCAL_API
+          value: "true"
+        - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
+          value: "true"
+      acquisitions:
+        - source: appsec
+          listen_addr: "0.0.0.0:7422"
+          appsec_configs:
+            - crowdsecurity/appsec-default
+          labels:
+            type: appsec
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            release: kube-prometheus-stack
