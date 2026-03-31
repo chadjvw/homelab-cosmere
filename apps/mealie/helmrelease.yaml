@@ -28,6 +28,16 @@ spec:
               ALLOW_SIGNUP: "false"
               BASE_URL: https://noms.vanwyhe.xyz
               TOKEN_TIME: 720
+              OIDC_AUTH_ENABLED: "true"
+              OIDC_SIGNUP_ENABLED: "false"
+              OIDC_PROVIDER_NAME: Authentik
+              OIDC_CLIENT_ID: mealie
+              OIDC_CONFIGURATION_URL: https://auth.vanwyhe.xyz/application/o/mealie/.well-known/openid-configuration
+              OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: mealie-oidc
+                    key: clientSecret
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v3.13.1
