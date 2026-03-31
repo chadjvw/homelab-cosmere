@@ -20,6 +20,10 @@ spec:
       interval: 12h
   values:
     container_runtime: containerd
+    secrets:
+      externalSecret:
+        name: crowdsec-secrets
+        registrationTokenKey: registrationToken
     config:
       config.yaml.local: |
         db_config:
@@ -100,11 +104,6 @@ spec:
           value: "cosmere"
         - name: ENROLL_TAGS
           value: "k8s talos"
-        - name: REGISTRATION_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: crowdsec-secrets
-              key: registrationToken
         - name: BOUNCER_KEY_envoy
           valueFrom:
             secretKeyRef:
