@@ -31,17 +31,19 @@ spec:
               OIDC_AUTH_ENABLED: "true"
               OIDC_SIGNUP_ENABLED: "false"
               OIDC_PROVIDER_NAME: Authentik
+              OIDC_USER_GROUP: users
+              OIDC_ADMIN_GROUP: admin
               OIDC_CLIENT_ID:
                 valueFrom:
                   secretKeyRef:
                     name: mealie-oidc
                     key: clientId
               OIDC_CONFIGURATION_URL: https://auth.vanwyhe.xyz/application/o/mealie/.well-known/openid-configuration
-              OIDC_CLIENT_SECRET:
-                valueFrom:
-                  secretKeyRef:
-                    name: mealie-oidc
-                    key: clientSecret
+              # OIDC_CLIENT_SECRET:
+              #   valueFrom:
+              #     secretKeyRef:
+              #       name: mealie-oidc
+              #       key: clientSecret
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v3.13.1
