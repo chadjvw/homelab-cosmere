@@ -22,12 +22,29 @@ spec:
     container_runtime: containerd
     agent:
       acquisition:
-        - namespace: "*"
-          podName: "*"
-          program: kubernetes
+        - namespace: default
+          podName: authentik-server-*
+          program: authentik
+          poll_without_inotify: true
+        - namespace: kube-system
+          podName: envoy-kube-system-*
+          program: envoy-gateway
+          poll_without_inotify: true
       env:
         - name: COLLECTIONS
-          value: "crowdsecurity/linux"
+          value: >-
+            crowdsecurity/base-http-scenarios
+            crowdsecurity/http-dos
+            crowdsecurity/http-cve
+            crowdsecurity/appsec-generic-rules
+            crowdsecurity/appsec-virtual-patching
+            crowdsecurity/linux
+            firix/authentik
+            yanis-kouidri/envoy
+        - name: PARSERS
+          value: >-
+            crowdsecurity/http-logs
+            crowdsecurity/cri-logs
     lapi:
       persistentVolume:
         data:
@@ -45,3 +62,38 @@ spec:
           value: "cosmere"
         - name: ENROLL_TAGS
           value: "k8s talos"
+      # Purge stale machine registrations before LAPI starts.
+      # When LAPI restarts, agent/appsec pods hold cached credentials that no longer
+      # match the DB entries. This init container deletes stale entries so agents
+      # re-register cleanly via their own init containers.
+      extraInitContainers:
+        - name: purge-stale-machines
+          image: crowdsecurity/crowdsec:v1.7.6
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c"]
+          args:
+            - |
+              DB=/var/lib/crowdsec/data/crowdsec.db
+              if [ ! -f "$DB" ]; then
+                echo "DB not found (first run) — skipping purge."
+                exit 0
+              fi
+              echo "Purging stale machine registrations to prevent agent/appsec crash-loops..."
+              sqlite3 "$DB" "DELETE FROM machines WHERE updated_at < datetime('now', '-5 minutes');" 2>/dev/null || \
+                echo "Table does not exist yet — skipping purge."
+              echo "Done. Agents will re-register via their init containers."
+          volumeMounts:
+            - name: crowdsec-db
+              mountPath: /var/lib/crowdsec/data
+          resources:
+            limits:
+              memory: 32Mi
+            requests:
+              cpu: 1m
+              memory: 16Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop: [ALL]
