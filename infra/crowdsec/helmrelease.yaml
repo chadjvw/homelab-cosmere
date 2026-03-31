@@ -73,21 +73,15 @@ spec:
           poll_without_inotify: true
       env:
         - name: COLLECTIONS
-          value: >-
-            crowdsecurity/base-http-scenarios crowdsecurity/http-dos crowdsecurity/http-cve crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/linux firix/authentik yanis-kouidri/envoy
+          value: "crowdsecurity/base-http-scenarios crowdsecurity/http-dos crowdsecurity/http-cve crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/linux firix/authentik yanis-kouidri/envoy"
         - name: PARSERS
-          value: >-
-            crowdsecurity/http-logs crowdsecurity/cri-logs
-        - name: DISABLE_LOCAL_API
-          value: "true"
-        - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
-          value: "true"
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-          additionalLabels:
-            release: kube-prometheus-stack
+          value: "crowdsecurity/http-logs crowdsecurity/cri-logs"
+          # metrics:
+          #   enabled: true
+          #   serviceMonitor:
+          #     enabled: true
+          #     additionalLabels:
+          #       release: kube-prometheus-stack
     lapi:
       storeCAPICredentialsInSecret: true
       storeLAPICscliCredentialsInSecret: true
@@ -167,10 +161,6 @@ spec:
       env:
         - name: COLLECTIONS
           value: "crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules"
-        - name: DISABLE_LOCAL_API
-          value: "true"
-        - name: CROWDSEC_BYPASS_DB_VOLUME_CHECK
-          value: "true"
       acquisitions:
         - source: appsec
           listen_addr: "0.0.0.0:7422"
@@ -178,9 +168,9 @@ spec:
             - crowdsecurity/appsec-default
           labels:
             type: appsec
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-          additionalLabels:
-            release: kube-prometheus-stack
+      # metrics:
+      #   enabled: true
+      #   serviceMonitor:
+      #     enabled: true
+      #     additionalLabels:
+      #       release: kube-prometheus-stack
