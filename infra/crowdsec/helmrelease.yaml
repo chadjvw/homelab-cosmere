@@ -29,6 +29,11 @@ spec:
         - name: COLLECTIONS
           value: "crowdsecurity/linux crowdsecurity/kubernetes"
     lapi:
+      persistentVolume:
+        data:
+          storageClassName: org.democratic-csi.nvmeof
+        config:
+          storageClassName: org.democratic-csi.nvmeof
       env:
         - name: ENROLL_KEY
           valueFrom:
