@@ -27,7 +27,7 @@ spec:
           program: kubernetes
       env:
         - name: COLLECTIONS
-          value: "crowdsecurity/linux crowdsecurity/kubernetes"
+          value: "crowdsecurity/linux"
     lapi:
       persistentVolume:
         data:
