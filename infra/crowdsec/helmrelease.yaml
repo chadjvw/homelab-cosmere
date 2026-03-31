@@ -20,6 +20,11 @@ spec:
       interval: 12h
   values:
     container_runtime: containerd
+    secrets:
+      externalSecret:
+        name: crowdsec-secrets
+        registrationTokenKey: registrationToken
+        csLapiSecretKey: csLapiSecret
     config:
       config.yaml.local: |
         db_config:
@@ -94,11 +99,6 @@ spec:
           storageClassName: org.democratic-csi.nvmeof
           size: 512Mi
       env:
-        - name: REGISTRATION_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: crowdsec-secrets
-              key: registrationToken
         - name: ENROLL_KEY
           valueFrom:
             secretKeyRef:
