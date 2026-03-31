@@ -28,6 +28,10 @@ spec:
       config.yaml.local: |
         db_config:
           use_wal: true
+          flush:
+            agents_autodelete:
+              cert: 60m
+              login_password: 60m
         api:
           server:
             auto_registration:
@@ -114,47 +118,12 @@ spec:
             secretKeyRef:
               name: crowdsec-secrets
               key: opnsenseBouncerKey
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-          additionalLabels:
-            release: kube-prometheus-stack
-      # Purge stale machine registrations before LAPI starts.
-      # When LAPI restarts, agent/appsec pods hold cached credentials that no longer
-      # match the DB entries. This init container deletes stale entries so agents
-      # re-register cleanly via their own init containers.
-      extraInitContainers:
-        - name: purge-stale-machines
-          image: crowdsecurity/crowdsec:v1.7.6
-          imagePullPolicy: IfNotPresent
-          command: ["sh", "-c"]
-          args:
-            - |
-              DB=/var/lib/crowdsec/data/crowdsec.db
-              if [ ! -f "$DB" ]; then
-                echo "DB not found (first run) — skipping purge."
-                exit 0
-              fi
-              echo "Purging stale machine registrations to prevent agent/appsec crash-loops..."
-              sqlite3 "$DB" "DELETE FROM machines WHERE updated_at < datetime('now', '-5 minutes');" 2>/dev/null || \
-                echo "Table does not exist yet — skipping purge."
-              echo "Done. Agents will re-register via their init containers."
-          volumeMounts:
-            - name: crowdsec-db
-              mountPath: /var/lib/crowdsec/data
-          resources:
-            limits:
-              memory: 32Mi
-            requests:
-              cpu: 1m
-              memory: 16Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-            runAsNonRoot: true
-            runAsUser: 1000
-            capabilities:
-              drop: [ALL]
+              # metrics:
+              #   enabled: true
+              #   serviceMonitor:
+              #     enabled: true
+              #     additionalLabels:
+              #       release: kube-prometheus-stack
     appsec:
       enabled: true
       env:
