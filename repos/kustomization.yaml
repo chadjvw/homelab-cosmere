@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - bjw-s.yaml
   - crowdsec.yaml
+  - crowdsec-bouncer.yaml
   - cilium.yaml
   - democratic-csi.yaml
   - descheduler.yaml
