@@ -108,11 +108,6 @@ spec:
           value: "cosmere"
         - name: ENROLL_TAGS
           value: "k8s talos"
-        - name: BOUNCER_KEY_envoy
-          valueFrom:
-            secretKeyRef:
-              name: crowdsec-secrets
-              key: envoyBouncerKey
         - name: BOUNCER_KEY_opnsense
           valueFrom:
             secretKeyRef:
