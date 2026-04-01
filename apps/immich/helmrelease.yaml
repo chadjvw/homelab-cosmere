@@ -25,6 +25,12 @@ spec:
   values:
     controllers:
       main:
+        pod:
+          securityContext:
+            runAsUser: 3002
+            runAsGroup: 3001
+            fsGroup: 3001
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
             # renovate: datasource=docker depName=ghcr.io/immich-app/immich-server
@@ -69,6 +75,7 @@ spec:
       persistence:
         data:
           type: persistentVolumeClaim
+          accessMode: ReadWriteOnce
           size: 1Gi
           storageClass: org.democratic-csi.nvmeof
     server:
@@ -106,5 +113,6 @@ spec:
       persistence:
         cache:
           type: persistentVolumeClaim
+          accessMode: ReadWriteOnce
           size: 10Gi
           storageClass: org.democratic-csi.nvmeof
