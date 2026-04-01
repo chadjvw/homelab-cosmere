@@ -11,3 +11,16 @@ spec:
       storage: 1Gi
   storageClassName: org.democratic-csi.iscsi
   volumeName: pvc-59d75163-377c-4b3a-9220-3f6e334b64c0
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prowlarr-config-nvmeof
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: org.democratic-csi.nvmeof

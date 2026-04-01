@@ -15,6 +15,19 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: smokeping-config-nvmeof
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: org.democratic-csi.nvmeof
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
   name: smokeping-data
   namespace: default
 spec:
@@ -25,3 +38,16 @@ spec:
       storage: 1Gi
   storageClassName: org.democratic-csi.iscsi
   volumeName: pvc-cc08a3a4-f507-43f3-ac7f-14c1eeef846a
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: smokeping-data-nvmeof
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: org.democratic-csi.nvmeof

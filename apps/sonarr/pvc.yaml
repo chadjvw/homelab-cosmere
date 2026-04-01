@@ -11,3 +11,16 @@ spec:
       storage: 5Gi
   storageClassName: org.democratic-csi.iscsi
   volumeName: pvc-6bd733e9-c5e1-4081-8ab1-4bc7bab26103
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarr-config-nvmeof
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: org.democratic-csi.nvmeof

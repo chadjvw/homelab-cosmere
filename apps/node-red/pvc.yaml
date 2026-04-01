@@ -11,3 +11,16 @@ spec:
       storage: 2Gi
   storageClassName: org.democratic-csi.iscsi
   volumeName: pvc-44624a04-37e2-4e4a-8704-ba7205a90a03
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: node-red-data-nvmeof
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: org.democratic-csi.nvmeof

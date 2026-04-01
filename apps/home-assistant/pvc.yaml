@@ -10,3 +10,16 @@ spec:
     requests:
       storage: 2Gi
   storageClassName: org.democratic-csi.iscsi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: home-assistant-config-nvmeof
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: org.democratic-csi.nvmeof

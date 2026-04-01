@@ -15,6 +15,19 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: jellyfin-data-nvmeof
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: org.democratic-csi.nvmeof
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
   name: jellyfin-cache
   namespace: default
 spec:
@@ -25,3 +38,16 @@ spec:
       storage: 20Gi
   storageClassName: org.democratic-csi.iscsi
   volumeName: pvc-3a913f4b-156c-4ac9-ac79-fdb2ca246202
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jellyfin-cache-nvmeof
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: org.democratic-csi.nvmeof

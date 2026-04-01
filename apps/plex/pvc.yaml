@@ -11,3 +11,16 @@ spec:
       storage: 40Gi
   storageClassName: org.democratic-csi.iscsi
   volumeName: pvc-201e87c9-f445-45bf-9c48-e925085b1b23
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plex-config-nvmeof
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 40Gi
+  storageClassName: org.democratic-csi.nvmeof
