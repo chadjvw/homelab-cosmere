@@ -30,9 +30,9 @@ spec:
               tag: "2.33.1"
     persistence:
       config:
-        existingClaim: audiobookshelf-config
+        existingClaim: audiobookshelf-config-nvmeof
       metadata:
-        existingClaim: audiobookshelf-metadata
+        existingClaim: audiobookshelf-metadata-nvmeof
       audiobooks:
         enabled: true
         type: nfs

@@ -36,10 +36,10 @@ spec:
               privileged: true
     persistence:
       config:
-        existingClaim: jellyfin-data
+        existingClaim: jellyfin-data-nvmeof
       cache:
         enabled: true
-        existingClaim: jellyfin-cache
+        existingClaim: jellyfin-cache-nvmeof
         globalMounts:
           - path: /config/cache
       tv:
