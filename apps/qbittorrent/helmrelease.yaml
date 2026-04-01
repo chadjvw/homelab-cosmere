@@ -32,7 +32,7 @@ spec:
               tag: "5.1.4"
     persistence:
       config:
-        existingClaim: qbittorrent-config
+        existingClaim: qbittorrent-config-nvmeof
       downloads:
         enabled: true
         type: nfs

@@ -50,14 +50,15 @@ info "HelmRelease status: Ready=${HR_STATUS} — ${HR_REASON}"
 
 # ── 2. find workload ──────────────────────────────────────────────────────────
 WORKLOAD_KIND=""
-WORKLOAD_NAME="$APP"
-if kubectl get deployment "$APP" -n "$NAMESPACE" &>/dev/null; then
+RELEASE_NAME=$(kubectl get helmrelease "$APP" -n "$HR_NS" -o jsonpath='{.spec.releaseName}')
+WORKLOAD_NAME="${RELEASE_NAME:-$APP}"
+[[ "$WORKLOAD_NAME" != "$APP" ]] && info "Helm release name differs: '$WORKLOAD_NAME' (HR: '$APP')"
+if kubectl get deployment "$WORKLOAD_NAME" -n "$NAMESPACE" &>/dev/null; then
     WORKLOAD_KIND="deployment"
-elif kubectl get statefulset "$APP" -n "$NAMESPACE" &>/dev/null; then
+elif kubectl get statefulset "$WORKLOAD_NAME" -n "$NAMESPACE" &>/dev/null; then
     WORKLOAD_KIND="statefulset"
 else
-    # Try with common suffixes (e.g. app-template names)
-    err "No deployment or statefulset named '$APP' found in namespace '$NAMESPACE'"
+    err "No deployment or statefulset named '$WORKLOAD_NAME' found in namespace '$NAMESPACE'"
 fi
 ok "Found $WORKLOAD_KIND/$WORKLOAD_NAME"
 

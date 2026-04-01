@@ -40,7 +40,7 @@ spec:
               allowPrivilegeEscalation: true
     persistence:
       config:
-        existingClaim: zwavejs-config
+        existingClaim: zwavejs-config-nvmeof
         globalMounts:
           - path: /usr/src/app/store
     service:

@@ -44,7 +44,7 @@ spec:
                 type: RuntimeDefault
     persistence:
       config:
-        existingClaim: overseerr-config
+        existingClaim: overseerr-config-nvmeof
         globalMounts:
           - path: /app/config
     service:

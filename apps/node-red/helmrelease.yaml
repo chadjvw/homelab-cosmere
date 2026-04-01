@@ -30,7 +30,7 @@ spec:
               TZ: America/Denver
     persistence:
       data:
-        existingClaim: node-red-data
+        existingClaim: node-red-data-nvmeof
     service:
       main:
         controller: main

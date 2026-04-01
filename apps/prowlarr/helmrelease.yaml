@@ -30,7 +30,7 @@ spec:
               tag: "2.3.0"
     persistence:
       config:
-        existingClaim: prowlarr-config
+        existingClaim: prowlarr-config-nvmeof
     service:
       main:
         controller: main

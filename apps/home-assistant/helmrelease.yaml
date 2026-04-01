@@ -33,7 +33,7 @@ spec:
               privileged: true
     persistence:
       config:
-        existingClaim: home-assistant-config
+        existingClaim: home-assistant-config-nvmeof
     service:
       main:
         controller: main

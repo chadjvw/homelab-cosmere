@@ -49,7 +49,7 @@ spec:
               tag: v3.13.1
     persistence:
       config:
-        existingClaim: mealie-data
+        existingClaim: mealie-data-nvmeof
         globalMounts:
           - path: /app/data
     service:
