@@ -42,7 +42,7 @@ spec:
               privileged: true
     persistence:
       config:
-        existingClaim: plex-config
+        existingClaim: plex-config-nvmeof
       tv:
         enabled: true
         type: nfs
