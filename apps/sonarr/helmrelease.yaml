@@ -30,7 +30,7 @@ spec:
               tag: "4.0.17"
     persistence:
       config:
-        existingClaim: sonarr-config
+        existingClaim: sonarr-config-nvmeof
       tv:
         enabled: true
         type: nfs
