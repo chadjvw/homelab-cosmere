@@ -197,19 +197,9 @@ echo "  3. git commit && git push"
 echo ""
 confirm "Changes committed and pushed to git?"
 
-# ── 9. resume HelmRelease ─────────────────────────────────────────────────────
-header "Resume HelmRelease"
-info "Flux will reconcile the new HR values and start the app with the NVMe-oF PVC."
-info "If prune is enabled, Flux will also garbage-collect the old iSCSI PVCs."
-confirm "Resume HelmRelease '$APP'?"
-flux resume hr "$APP" -n "$HR_NS"
-ok "HelmRelease '$APP' resumed"
-
-# ── 10. summary ───────────────────────────────────────────────────────────────
+# ── 9. summary ────────────────────────────────────────────────────────────────
 header "Done"
-ok "Migration complete for '$APP'"
+ok "Migration complete for '$APP' — HelmRelease left suspended"
 echo ""
-info "Verify the app is healthy:"
-echo "  kubectl get pods -n $NAMESPACE | grep $APP"
-echo "  kubectl get pvc  -n $NAMESPACE | grep $APP"
-echo "  flux get hr $APP -n $HR_NS"
+info "When ready to resume:"
+echo "  flux resume hr $APP -n $HR_NS"

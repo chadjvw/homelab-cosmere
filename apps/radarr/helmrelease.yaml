@@ -30,7 +30,7 @@ spec:
               tag: "6.0.4"
     persistence:
       config:
-        existingClaim: radarr-config
+        existingClaim: radarr-config-nvmeof
       movies:
         enabled: true
         type: nfs
