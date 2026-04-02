@@ -13,4 +13,4 @@ spec:
   dependsOn:
     - name: repos
     - name: external-secrets
-    - name: democratic-csi-iscsi
+    - name: democratic-csi-nvmeof
