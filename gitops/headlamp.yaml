@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 1h
   path: ./observability/headlamp
-  prune: false
+  prune: true
   sourceRef:
     kind: OCIRepository
     name: default

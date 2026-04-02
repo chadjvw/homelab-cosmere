@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 1h
   path: ./infra/metrics-server
-  prune: false # re-enable after HelmRelease is healthy
+  prune: true
   sourceRef:
     kind: OCIRepository
     name: default
