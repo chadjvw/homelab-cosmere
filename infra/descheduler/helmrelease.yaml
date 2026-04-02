@@ -19,46 +19,46 @@ spec:
   values:
     deschedulerPolicy:
       profiles:
-      - name: default
-        pluginConfig:
-        - args:
-            podProtections:
-              defaultDisabled:
-              - PodsWithLocalStorage
-              extraEnabled:
-              - PodsWithPVC
-          name: DefaultEvictor
-        - name: RemoveDuplicates
-        - args:
-            includingInitContainers: true
-            podRestartThreshold: 100
-          name: RemovePodsHavingTooManyRestarts
-        - args:
-            nodeAffinityType:
-            - requiredDuringSchedulingIgnoredDuringExecution
-          name: RemovePodsViolatingNodeAffinity
-        - name: RemovePodsViolatingNodeTaints
-        - name: RemovePodsViolatingInterPodAntiAffinity
-        - name: RemovePodsViolatingTopologySpreadConstraint
-        - args:
-            targetThresholds:
-              cpu: 70
-              memory: 85
-              pods: 70
-            thresholds:
-              cpu: 20
-              memory: 70
-              pods: 30
-          name: LowNodeUtilization
-        plugins:
-          balance:
-            enabled:
-            - RemoveDuplicates
-            - RemovePodsViolatingTopologySpreadConstraint
-            - LowNodeUtilization
-          deschedule:
-            enabled:
-            - RemovePodsHavingTooManyRestarts
-            - RemovePodsViolatingNodeTaints
-            - RemovePodsViolatingNodeAffinity
-            - RemovePodsViolatingInterPodAntiAffinity
+        - name: default
+          pluginConfig:
+            - args:
+                podProtections:
+                  defaultDisabled:
+                    - PodsWithLocalStorage
+                  extraEnabled:
+                    - PodsWithPVC
+              name: DefaultEvictor
+            - name: RemoveDuplicates
+            - args:
+                includingInitContainers: true
+                podRestartThreshold: 100
+              name: RemovePodsHavingTooManyRestarts
+            - args:
+                nodeAffinityType:
+                  - requiredDuringSchedulingIgnoredDuringExecution
+              name: RemovePodsViolatingNodeAffinity
+            - name: RemovePodsViolatingNodeTaints
+            - name: RemovePodsViolatingInterPodAntiAffinity
+            - name: RemovePodsViolatingTopologySpreadConstraint
+            - args:
+                targetThresholds:
+                  cpu: 70
+                  memory: 85
+                  pods: 70
+                thresholds:
+                  cpu: 20
+                  memory: 70
+                  pods: 30
+              name: LowNodeUtilization
+          plugins:
+            balance:
+              enabled:
+                - RemoveDuplicates
+                - RemovePodsViolatingTopologySpreadConstraint
+                - LowNodeUtilization
+            deschedule:
+              enabled:
+                - RemovePodsHavingTooManyRestarts
+                - RemovePodsViolatingNodeTaints
+                - RemovePodsViolatingNodeAffinity
+                - RemovePodsViolatingInterPodAntiAffinity
