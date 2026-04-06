@@ -31,7 +31,7 @@ spec:
               TZ: America/Denver
             image:
               repository: ghcr.io/linuxserver/jellyfin
-              tag: "10.11.7"
+              tag: "10.11.8"
             securityContext:
               privileged: true
     persistence:
