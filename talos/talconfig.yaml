@@ -195,6 +195,23 @@ nodes:
     controlplane: false
     installDiskSelector:
       model: QEMU HARDDISK
+    schematic:
+      customization:
+        extraKernelArgs:
+          - video=efifb:off
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/nonfree-kmod-nvidia-production
+            - siderolabs/nvidia-container-toolkit-production
+    patches:
+      - |-
+        machine:
+          kernel:
+            modules:
+              - name: nvidia
+              - name: nvidia_uvm
+              - name: nvidia_drm
+              - name: nvidia_modeset
     nodeLabels:
       "nvidia-gpu": "quadro-p2000"
   - hostname: braize

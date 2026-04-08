@@ -21,3 +21,4 @@ resources:
   - cnpg.yaml
   - immich.yaml
   - prometheus-community.yaml
+  - nvidia.yaml
