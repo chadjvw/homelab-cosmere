@@ -37,6 +37,10 @@ metadata:
 spec:
   advertisements:
     - advertisementType: PodCIDR
+      attributes:
+        communities:
+          standard:
+            - "64512"
     - advertisementType: Service
       service:
         addresses:
