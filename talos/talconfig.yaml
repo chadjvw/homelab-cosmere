@@ -40,7 +40,6 @@ controlPlane:
         - nvme_core.multipath=N
       systemExtensions: &extensions
         officialExtensions:
-          - siderolabs/iscsi-tools
           - siderolabs/i915
           - siderolabs/intel-ucode
           - siderolabs/nvme-cli
@@ -191,3 +190,35 @@ nodes:
     nodeLabels:
       # https://www.techpowerup.com/gpu-specs/graphics-24eu-mobile.c4344
       "intel-igpu": "intel-graphics-24eu"
+  - hostname: komashi
+    ipAddress: 10.0.30.102
+    controlplane: false
+    installDiskSelector:
+      model: QEMU HARDDISK
+    nodeLabels:
+      "nvidia-gpu": "quadro-p2000"
+  - hostname: braize
+    ipAddress: 10.0.30.103
+    controlplane: false
+    installDiskSelector:
+      model: QEMU HARDDISK
+  - hostname: ashyn
+    ipAddress: 10.0.30.104
+    controlplane: false
+    installDiskSelector:
+      model: QEMU HARDDISK
+  - hostname: canticle
+    ipAddress: 10.0.30.105
+    controlplane: false
+    installDiskSelector:
+      model: QEMU HARDDISK
+  - hostname: threnody
+    ipAddress: 10.0.30.106
+    controlplane: false
+    installDiskSelector:
+      model: QEMU HARDDISK
+  - hostname: taldain
+    ipAddress: 10.0.30.107
+    controlplane: false
+    installDiskSelector:
+      model: QEMU HARDDISK
