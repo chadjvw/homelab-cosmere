@@ -19,4 +19,10 @@ spec:
   values:
     nodeSelector:
       nvidia-gpu: quadro-p2000
-    runtimeClassName: nvidia
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: nvidia-gpu
+                  operator: Exists
