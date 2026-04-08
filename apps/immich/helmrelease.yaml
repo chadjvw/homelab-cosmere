@@ -105,11 +105,18 @@ spec:
       enabled: true
       controllers:
         main:
+          pod:
+            runtimeClassName: nvidia
+            nodeSelector:
+              nvidia-gpu: quadro-p2000
           containers:
             main:
               # renovate: datasource=docker depName=ghcr.io/immich-app/immich-machine-learning
               image:
-                tag: v2.6.3
+                tag: v2.6.3-cuda
+              resources:
+                limits:
+                  nvidia.com/gpu: 1
       persistence:
         cache:
           type: persistentVolumeClaim
