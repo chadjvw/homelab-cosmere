@@ -197,10 +197,11 @@ nodes:
       model: QEMU HARDDISK
     schematic:
       customization:
-        extraKernelArgs:
-          - video=efifb:off
         systemExtensions:
           officialExtensions:
+            - siderolabs/i915
+            - siderolabs/intel-ucode
+            - siderolabs/nvme-cli
             - siderolabs/nonfree-kmod-nvidia-production
             - siderolabs/nvidia-container-toolkit-production
     patches:
