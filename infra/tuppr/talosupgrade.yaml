@@ -1,0 +1,15 @@
+apiVersion: upgrades.home-operations.dev/v1alpha1
+kind: TalosUpgrade
+metadata:
+  name: talos
+spec:
+  # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+  talos:
+    version: v1.12.6
+  maintenance:
+    schedule: "0 2 * * 2" # 2am every Tuesday
+  healthChecks:
+    - description: All nodes are Ready
+      expression: "nodes.all(n, n.status.conditions.exists(c, c.type == 'Ready' && c.status == 'True'))"
+    - description: No pods are in a failed state
+      expression: "pods.all(p, p.status.phase != 'Failed')"

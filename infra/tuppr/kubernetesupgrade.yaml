@@ -1,0 +1,13 @@
+apiVersion: upgrades.home-operations.dev/v1alpha1
+kind: KubernetesUpgrade
+metadata:
+  name: kubernetes
+spec:
+  # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+  kubernetes:
+    version: v1.35.3
+  maintenance:
+    schedule: "0 2 * * 2" # 2am every Tuesday
+  healthChecks:
+    - description: All nodes are Ready
+      expression: "nodes.all(n, n.status.conditions.exists(c, c.type == 'Ready' && c.status == 'True'))"
