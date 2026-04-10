@@ -20,7 +20,7 @@
   },
   ignorePaths: ["deploy/**"],
   flux: {
-    managerFilePatterns: ["/apps/.+/helmrelease\\.yaml$/", "/repos/.+\\.yaml$/"],
+    managerFilePatterns: ["/apps/.+/helmrelease\\.yaml$/", "/infra/.+/helmrelease\\.yaml$/", "/repos/.+\\.yaml$/"],
   },
   kubernetes: {
     managerFilePatterns: ["/apps/.+\\.yaml$/"],
