@@ -87,4 +87,4 @@ spec:
     k8sServicePort: "7445"
     externalIPs:
       enabled: true
-    devices: "enp+,ens+"
+    devices: "enp+,ens+,eth+"
