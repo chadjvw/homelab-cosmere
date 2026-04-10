@@ -46,8 +46,8 @@
       ignoreTests: true,
     },
     {
-      description: "Auto-merge infra Helm chart patch updates",
-      matchFileNames: ["infra/**"],
+      description: "Auto-merge infra and apps Helm chart patch updates",
+      matchFileNames: ["infra/**", "apps/**"],
       matchManagers: ["flux"],
       matchUpdateTypes: ["patch"],
       automerge: true,
