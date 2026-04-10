@@ -12,6 +12,7 @@ resources:
   - gardener.yaml
   - grafana.yaml
   - headlamp.yaml
+  - home-operations.yaml
   - intel.yaml
   - jetstack.yaml
   - kubelet-csr-approver.yaml
