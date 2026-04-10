@@ -13,14 +13,14 @@ additionalApiServerCertSans: &sans
 additionalMachineCertSans: *sans
 cniConfig:
   name: none
-controlPlane:
+worker:
   machineSpec:
-    mode: metal
+    mode: nocloud
     arch: amd64
     secureboot: false
   schematic:
     customization:
-      extraKernelArgs:
+      extraKernelArgs: &kernelArgs
         - -init_on_alloc # Less security, faster puter
         - -init_on_free # Less security, faster puter
         - -selinux # Less security, faster puter
@@ -43,107 +43,28 @@ controlPlane:
           - siderolabs/i915
           - siderolabs/intel-ucode
           - siderolabs/nvme-cli
+controlPlane:
+  machineSpec:
+    mode: metal
+    arch: amd64
+    secureboot: false
+  schematic:
+    customization:
+      extraKernelArgs: *kernelArgs
+      systemExtensions: *extensions
   patches:
-    # Enable K8s Talos API Access
-    - |-
-      machine:
-        features:
-          kubernetesTalosAPIAccess:
-            enabled: true
-            allowedRoles:
-              - os:admin
-            allowedKubernetesNamespaces:
-              - system-upgrade
-    # Disable default API server admission plugins.
-    - |-
-      cluster:
-        apiServer:
-          admissionControl:
-            $$patch: delete
+    - "@./patches/controlplane-talos-api-access.yaml"
+    - "@./patches/controlplane-admission-control.yaml"
 patches:
-  # disable kubeproxy for cilium
-  - |-
-    cluster:
-      proxy:
-        disabled: true
-  # Configure containerd
-  - |-
-    machine:
-      files:
-        - op: create
-          path: /etc/cri/conf.d/20-customization.part
-          content: |
-            [plugins]
-              [plugins."io.containerd.grpc.v1.cri"]
-                enable_unprivileged_ports = true
-                enable_unprivileged_icmp = true
-            [plugins."io.containerd.grpc.v1.cri".containerd]
-              discard_unpacked_layers = false
-            [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
-              discard_unpacked_layers = false
-  # Disable search domain everywhere
-  - |-
-    machine:
-      network:
-        disableSearchDomain: true
-  # Enable Host DNS
-  - |-
-    machine:
-      features:
-        hostDNS:
-          enabled: true
-          resolveMemberNames: true
-          forwardKubeDNSToHost: false
-  # Configure kubelet
-  - |-
-    machine:
-      kubelet:
-        extraArgs:
-          rotate-server-certificates: "true"
-        nodeIP:
-          validSubnets:
-              - 10.0.0.0/16
-  # Enable cluster discovery
-  - |-
-    cluster:
-      discovery:
-        enabled: true
-        registries:
-          kubernetes:
-            disabled: true
-          service:
-            disabled: false
-  # Configure cluster scheduler
-  - |-
-    cluster:
-      scheduler:
-        config:
-          apiVersion: kubescheduler.config.k8s.io/v1
-          kind: KubeSchedulerConfiguration
-          profiles:
-            - schedulerName: default-scheduler
-              pluginConfig:
-                - name: PodTopologySpread
-                  args:
-                    defaultingType: List
-                    defaultConstraints:
-                      - maxSkew: 1
-                        topologyKey: kubernetes.io/hostname
-                        whenUnsatisfiable: ScheduleAnyway
-  # Configure NFS mount options
-  - |
-    machine:
-      files:
-        - op: overwrite
-          path: /etc/nfsmount.conf
-          permissions: 0o644
-          content: |
-            [ NFSMount_Global_Options ]
-            nfsvers=4.2
-            hard=True
-            noatime=True
-            nodiratime=True
-            nconnect=16
+  - "@./patches/cluster-proxy-disabled.yaml"
+  - "@./patches/containerd.yaml"
+  - "@./patches/network.yaml"
+  - "@./patches/features.yaml"
+  - "@./patches/kubelet.yaml"
+  - "@./patches/cluster-discovery.yaml"
+  - "@./patches/scheduler.yaml"
+  - "@./patches/sysctls.yaml"
+  - "@./patches/nfs.yaml"
 nodes:
   - hostname: roshar
     ipAddress: 10.0.10.13
@@ -192,11 +113,11 @@ nodes:
       "intel-igpu": "intel-graphics-24eu"
   - hostname: komashi
     ipAddress: 10.0.30.102
-    controlplane: false
     installDiskSelector:
       model: QEMU HARDDISK
     schematic:
       customization:
+        extraKernelArgs: *kernelArgs
         systemExtensions:
           officialExtensions:
             - siderolabs/i915
@@ -205,38 +126,26 @@ nodes:
             - siderolabs/nonfree-kmod-nvidia-production
             - siderolabs/nvidia-container-toolkit-production
     patches:
-      - |-
-        machine:
-          kernel:
-            modules:
-              - name: nvidia
-              - name: nvidia_uvm
-              - name: nvidia_drm
-              - name: nvidia_modeset
+      - "@./patches/komashi-nvidia-modules.yaml"
     nodeLabels:
       "nvidia-gpu": "quadro-p2000"
   - hostname: braize
     ipAddress: 10.0.30.103
-    controlplane: false
     installDiskSelector:
       model: QEMU HARDDISK
   - hostname: ashyn
     ipAddress: 10.0.30.104
-    controlplane: false
     installDiskSelector:
       model: QEMU HARDDISK
   - hostname: canticle
     ipAddress: 10.0.30.105
-    controlplane: false
     installDiskSelector:
       model: QEMU HARDDISK
   - hostname: threnody
     ipAddress: 10.0.30.106
-    controlplane: false
     installDiskSelector:
       model: QEMU HARDDISK
   - hostname: taldain
     ipAddress: 10.0.30.107
-    controlplane: false
     installDiskSelector:
       model: QEMU HARDDISK

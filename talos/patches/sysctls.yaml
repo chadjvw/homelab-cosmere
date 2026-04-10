@@ -1,0 +1,31 @@
+machine:
+  sysctls:
+    # Prevent inotify watch exhaustion from many file watchers (IDEs, build tools, Flux)
+    fs.inotify.max_user_instances: "8192"
+    fs.inotify.max_user_watches: "1048576"
+    # Use FQ (Fair Queuing) as the default qdisc — required for BBR to work correctly
+    net.core.default_qdisc: "fq"
+    # Increase NIC receive queue depth to absorb traffic bursts without dropping packets
+    net.core.netdev_max_backlog: "5000"
+    # Increase socket receive/send buffer maximums for high-throughput NFS (nconnect=16)
+    net.core.rmem_max: "134217728"
+    net.core.wmem_max: "134217728"
+    # Increase ARP table size to prevent exhaustion with many pods across many nodes
+    net.ipv4.neigh.default.gc_thresh1: "4096"
+    net.ipv4.neigh.default.gc_thresh2: "8192"
+    net.ipv4.neigh.default.gc_thresh3: "16384"
+    # Use BBR congestion control for better throughput on both LAN and NFS traffic
+    net.ipv4.tcp_congestion_control: "bbr"
+    # Enable TCP Fast Open for client and server — reduces latency on repeated connections
+    net.ipv4.tcp_fastopen: "3"
+    # Enable path MTU discovery to avoid fragmentation on cross-subnet traffic
+    net.ipv4.tcp_mtu_probing: "1"
+    # Don't reset congestion window after idle — keeps NFS/long-lived connections fast
+    net.ipv4.tcp_slow_start_after_idle: "0"
+    # Increase RPC slot table size to allow more concurrent NFS requests (pairs with nconnect=16)
+    sunrpc.tcp_max_slot_table_entries: "128"
+    sunrpc.tcp_slot_table_entries: "128"
+    # Required by Elasticsearch, OpenSearch, and some JVM apps for mmap memory regions
+    vm.max_map_count: "1677720"
+    # Never swap — kubelet evicts pods before this matters, swapping just adds latency
+    vm.swappiness: "0"
