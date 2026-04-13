@@ -43,7 +43,7 @@ spec:
                 - 10.0.10.0/24   # nodes, opnsense, local devices
                 - 10.0.30.0/24   # proxmox / VMs
                 - 10.0.40.0/24   # load balancer pool
-                - 10.244.0.0/22  # pods (3 nodes × /24)
+                - 10.244.0.0/16  # pods
                 - 10.96.0.0/12   # services
       profiles.yaml: |
         name: appsec_ip_remediation
