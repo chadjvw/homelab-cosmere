@@ -59,6 +59,7 @@ patches:
   - "@./patches/cluster-proxy-disabled.yaml"
   - "@./patches/containerd.yaml"
   - "@./patches/network.yaml"
+  - "@./patches/ntp.yaml"
   - "@./patches/features.yaml"
   - "@./patches/kubelet.yaml"
   - "@./patches/cluster-discovery.yaml"

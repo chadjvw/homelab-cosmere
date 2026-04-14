@@ -1,0 +1,4 @@
+machine:
+  time:
+    servers:
+      - 10.0.10.1
