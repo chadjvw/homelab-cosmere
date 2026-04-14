@@ -50,6 +50,26 @@ spec:
             secretKeyRef:
               name: authentik-secret-key
               key: secret-key
+        - name: AUTHENTIK_EMAIL__HOST
+          valueFrom:
+            secretKeyRef:
+              name: smtp-config-secret
+              key: smtp-host
+        - name: AUTHENTIK_EMAIL__USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: smtp-config-secret
+              key: smtp-username
+        - name: AUTHENTIK_EMAIL__PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: smtp-config-secret
+              key: smtp-password
+        - name: AUTHENTIK_EMAIL__FROM
+          valueFrom:
+            secretKeyRef:
+              name: smtp-config-secret
+              key: smtp-from
     authentik:
       log_level: info
     postgresql:
@@ -60,3 +80,7 @@ spec:
         persistence:
           storageClass: org.democratic-csi.nvmeof
           size: 1Gi
+    email:
+      port: 587
+      use_tls: true
+      timeout: 30
