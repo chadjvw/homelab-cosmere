@@ -14,8 +14,6 @@ additionalMachineCertSans: *sans
 cniConfig:
   name: none
 worker:
-  patches:
-    - "@./patches/routes-workers.yaml"
   machineSpec:
     mode: nocloud
     arch: amd64
@@ -47,7 +45,6 @@ worker:
           - siderolabs/nvme-cli
 controlPlane:
   patches:
-    - "@./patches/routes-controlplane.yaml"
     - "@./patches/controlplane-talos-api-access.yaml"
     - "@./patches/controlplane-admission-control.yaml"
   machineSpec:
