@@ -81,6 +81,6 @@ spec:
           storageClass: org.democratic-csi.nvmeof
           size: 1Gi
     email:
-      port: 587
-      use_tls: true
+      port: 465
+      use_ssl: true
       timeout: 30
