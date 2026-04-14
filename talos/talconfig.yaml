@@ -14,6 +14,8 @@ additionalMachineCertSans: *sans
 cniConfig:
   name: none
 worker:
+  patches:
+    - "@./patches/routes-workers.yaml"
   machineSpec:
     mode: nocloud
     arch: amd64
@@ -44,6 +46,10 @@ worker:
           - siderolabs/intel-ucode
           - siderolabs/nvme-cli
 controlPlane:
+  patches:
+    - "@./patches/routes-controlplane.yaml"
+    - "@./patches/controlplane-talos-api-access.yaml"
+    - "@./patches/controlplane-admission-control.yaml"
   machineSpec:
     mode: metal
     arch: amd64
@@ -52,9 +58,6 @@ controlPlane:
     customization:
       extraKernelArgs: *kernelArgs
       systemExtensions: *extensions
-  patches:
-    - "@./patches/controlplane-talos-api-access.yaml"
-    - "@./patches/controlplane-admission-control.yaml"
 patches:
   - "@./patches/cluster-proxy-disabled.yaml"
   - "@./patches/containerd.yaml"

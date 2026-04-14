@@ -1,0 +1,9 @@
+machine:
+  network:
+    interfaces:
+      - deviceSelector:
+          physical: true
+        dhcp: true
+        routes:
+          - network: 10.0.30.0/24
+            gateway: 10.0.10.1
