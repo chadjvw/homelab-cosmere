@@ -113,7 +113,7 @@ spec:
             main:
               image:
                 # renovate: datasource=docker depName=ghcr.io/immich-app/immich-machine-learning
-                tag: v2.6.3-cuda
+                tag: v2.7.5-cuda
               resources:
                 limits:
                   nvidia.com/gpu: 1
