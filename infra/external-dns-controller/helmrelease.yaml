@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: dns-controller-manager
-      version: v0.37.1
+      version: v0.38.0
       sourceRef:
         kind: HelmRepository
         name: gardener
