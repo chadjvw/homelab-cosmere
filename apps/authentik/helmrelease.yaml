@@ -72,6 +72,10 @@ spec:
               key: smtp-from
     authentik:
       log_level: info
+      email:
+        port: 465
+        use_ssl: true
+        timeout: 30
     postgresql:
       enabled: false
     redis:
@@ -80,7 +84,3 @@ spec:
         persistence:
           storageClass: org.democratic-csi.nvmeof
           size: 1Gi
-    email:
-      port: 465
-      use_ssl: true
-      timeout: 30
