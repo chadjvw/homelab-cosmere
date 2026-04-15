@@ -21,7 +21,6 @@ spec:
       main:
         containers:
           main:
-            # renovate: datasource=docker depName=ghcr.io/home-assistant/home-assistant
             image:
               repository: ghcr.io/home-assistant/home-assistant
               tag: "2025.4.4"
