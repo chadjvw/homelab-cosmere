@@ -19,6 +19,16 @@ spec:
   values:
     controllers:
       main:
+        pod:
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: intel-igpu
+                        operator: Exists
+          securityContext:
+            fsGroup: 1000
         containers:
           main:
             image:
@@ -26,8 +36,8 @@ spec:
               repository: arnaudcayrol/immich-selfie-timelapse
               tag: "2.2.1"
             securityContext:
-              runAsUser: 3002
-              runAsGroup: 3001
+              runAsUser: 1000
+              runAsGroup: 1000
             env:
               IMMICH_BASE_URL: http://immich-server:2283
               IMMICH_API_KEY:

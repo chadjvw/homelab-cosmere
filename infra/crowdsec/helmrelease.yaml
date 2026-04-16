@@ -72,17 +72,13 @@ spec:
     agent:
       isDeployment: false
       acquisition:
-        - namespace: default
-          podName: authentik-server-*
-          program: authentik
-          poll_without_inotify: true
         - namespace: kube-system
           podName: envoy-kube-system-*
           program: envoy
           poll_without_inotify: true
       env:
         - name: COLLECTIONS
-          value: "crowdsecurity/base-http-scenarios crowdsecurity/http-dos crowdsecurity/http-cve crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/linux firix/authentik yanis-kouidri/envoy"
+          value: "crowdsecurity/base-http-scenarios crowdsecurity/http-dos crowdsecurity/http-cve crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/linux yanis-kouidri/envoy"
         - name: PARSERS
           value: "crowdsecurity/http-logs crowdsecurity/cri-logs"
           # metrics:
