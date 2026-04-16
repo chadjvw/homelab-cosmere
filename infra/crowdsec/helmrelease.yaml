@@ -78,7 +78,7 @@ spec:
           poll_without_inotify: true
         - namespace: kube-system
           podName: envoy-kube-system-*
-          program: envoy-gateway
+          program: envoy
           poll_without_inotify: true
       env:
         - name: COLLECTIONS
