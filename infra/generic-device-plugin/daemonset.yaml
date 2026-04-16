@@ -15,8 +15,6 @@ spec:
         app.kubernetes.io/name: generic-device-plugin
     spec:
       priorityClassName: system-node-critical
-      nodeSelector:
-        attached-usb: zwave
       tolerations:
         - operator: Exists
           effect: NoExecute
