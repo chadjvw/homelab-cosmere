@@ -34,7 +34,7 @@ spec:
               tag: "11.16.0"
             resources:
               limits:
-                squat.ai/zwave: 1
+                devic.es/zwave: 1
             securityContext:
               privileged: true
               allowPrivilegeEscalation: true
