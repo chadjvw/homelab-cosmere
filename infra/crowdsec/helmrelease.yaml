@@ -70,7 +70,7 @@ spec:
             duration: 4h
         on_success: break
     agent:
-      isDeployment: true
+      isDeployment: false
       acquisition:
         - namespace: default
           podName: authentik-server-*
