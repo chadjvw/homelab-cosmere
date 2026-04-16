@@ -28,7 +28,7 @@ spec:
                       - key: intel-igpu
                         operator: Exists
           securityContext:
-            fsGroup: 1000
+            fsGroup: 3001
         containers:
           main:
             image:
@@ -36,8 +36,8 @@ spec:
               repository: arnaudcayrol/immich-selfie-timelapse
               tag: "2.2.1"
             securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
+              runAsUser: 3002
+              runAsGroup: 3001
             env:
               IMMICH_BASE_URL: http://immich-server:2283
               IMMICH_API_KEY:
