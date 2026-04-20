@@ -3,6 +3,7 @@ kind: CiliumBGPClusterConfig
 metadata:
   name: cilium-bgp
 spec:
+  nodeSelector: {}
   bgpInstances:
     - name: node
       localASN: 64513
