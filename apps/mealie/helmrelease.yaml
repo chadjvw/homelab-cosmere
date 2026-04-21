@@ -46,7 +46,7 @@ spec:
               #       key: clientSecret
             image:
               repository: ghcr.io/mealie-recipes/mealie
-              tag: v3.15.1
+              tag: v3.16.0
     persistence:
       config:
         existingClaim: mealie-data-nvmeof
