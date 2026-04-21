@@ -90,6 +90,15 @@ spec:
             runAsGroup: 999
             fsGroup: 999
             fsGroupChangePolicy: OnRootMismatch
+        initContainers:
+          fix-perms:
+            image:
+              repository: docker.io/busybox
+              tag: latest
+            command: ["sh", "-c", "chown -R 999:999 /data"]
+            securityContext:
+              runAsUser: 0
+              runAsNonRoot: false
         containers:
           main:
             # renovate: datasource=docker depName=docker.io/valkey/valkey
