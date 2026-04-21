@@ -26,8 +26,6 @@ spec:
       main:
         pod:
           securityContext:
-            runAsUser: 3002
-            runAsGroup: 3001
             fsGroup: 3001
             fsGroupChangePolicy: OnRootMismatch
         containers:
