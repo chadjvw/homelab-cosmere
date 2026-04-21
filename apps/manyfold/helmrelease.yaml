@@ -26,9 +26,9 @@ spec:
       main:
         pod:
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
+            runAsUser: 3002
+            runAsGroup: 3001
+            fsGroup: 3001
             fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
@@ -38,8 +38,8 @@ spec:
               tag: 0.137.0
             env:
               TZ: America/Denver
-              PUID: "1000"
-              PGID: "1000"
+              PUID: "3002"
+              PGID: "3001"
               DATABASE_URL:
                 valueFrom:
                   secretKeyRef:
