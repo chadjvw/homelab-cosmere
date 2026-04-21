@@ -110,7 +110,13 @@ spec:
         advancedMounts:
           main:
             main:
-              - path: /app/storage
+              - path: /usr/src/app/storage
+      tmp:
+        type: emptyDir
+        advancedMounts:
+          main:
+            main:
+              - path: /usr/src/app/tmp
       valkey-data:
         existingClaim: manyfold-valkey-data
         advancedMounts:
