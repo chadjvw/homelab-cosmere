@@ -1,0 +1,129 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: manyfold
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: manyfold
+  install:
+    createNamespace: true
+    disableWait: true
+  upgrade:
+    disableWait: true
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            # renovate: datasource=docker depName=ghcr.io/manyfold3d/manyfold
+            image:
+              repository: ghcr.io/manyfold3d/manyfold
+              tag: v0.137.0
+            env:
+              TZ: America/Denver
+              DATABASE_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: manyfold-database-app
+                    key: uri
+              REDIS_URL: redis://manyfold-valkey:6379
+              SECRET_KEY_BASE:
+                valueFrom:
+                  secretKeyRef:
+                    name: manyfold-secrets
+                    key: secret-key-base
+              OIDC_CLIENT_ID:
+                valueFrom:
+                  secretKeyRef:
+                    name: manyfold-secrets
+                    key: oidc-client-id
+              OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: manyfold-secrets
+                    key: oidc-client-secret
+              OIDC_ISSUER: https://auth.vanwyhe.xyz/application/o/manyfold/
+              PUBLIC_HOSTNAME: manyfold.vanwyhe.xyz
+              MULTIUSER: "enabled"
+              FORCE_OIDC: "true"
+              FEDERATION: "false"
+              SMTP_SERVER:
+                valueFrom:
+                  secretKeyRef:
+                    name: manyfold-secrets
+                    key: smtp-host
+              SMTP_USERNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: manyfold-secrets
+                    key: smtp-username
+              SMTP_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: manyfold-secrets
+                    key: smtp-password
+              SMTP_PORT: "465"
+              SMTP_TLS: "true"
+      valkey:
+        containers:
+          main:
+            # renovate: datasource=docker depName=docker.io/valkey/valkey
+            image:
+              repository: docker.io/valkey/valkey
+              tag: 9.0.3-alpine
+    persistence:
+      models:
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/media/3d-models
+        advancedMounts:
+          main:
+            main:
+              - path: /libraries
+      valkey-data:
+        existingClaim: manyfold-valkey-data
+        advancedMounts:
+          valkey:
+            main:
+              - path: /data
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 3214
+      valkey:
+        controller: valkey
+        ports:
+          redis:
+            port: 6379
+    route:
+      main:
+        hostnames:
+          - manyfold.vanwyhe.xyz
+          - manyfold.vw4.lol
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: Gateway
+            name: external
+            namespace: kube-system
+            sectionName: https
+        rules:
+          - backendRefs:
+              - group: ""
+                kind: Service
+                name: manyfold-main
+                namespace: default
+                port: 3214
+                weight: 1
