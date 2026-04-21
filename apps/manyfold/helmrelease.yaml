@@ -24,6 +24,12 @@ spec:
   values:
     controllers:
       main:
+        pod:
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
             # renovate: datasource=docker depName=ghcr.io/manyfold3d/manyfold
@@ -32,6 +38,8 @@ spec:
               tag: 0.137.0
             env:
               TZ: America/Denver
+              PUID: "1000"
+              PGID: "1000"
               DATABASE_URL:
                 valueFrom:
                   secretKeyRef:
@@ -76,6 +84,12 @@ spec:
               SMTP_PORT: "465"
               SMTP_TLS: "true"
       valkey:
+        pod:
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
+            fsGroup: 999
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
             # renovate: datasource=docker depName=docker.io/valkey/valkey
