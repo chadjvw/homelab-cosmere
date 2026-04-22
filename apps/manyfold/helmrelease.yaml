@@ -139,3 +139,13 @@ spec:
                 namespace: default
                 port: 3214
                 weight: 1
+            filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  set:
+                    - name: X-Forwarded-Proto
+                      value: https
+                    - name: X-Forwarded-Port
+                      value: "443"
+                    - name: X-Forwarded-Ssl
+                      value: "on"
