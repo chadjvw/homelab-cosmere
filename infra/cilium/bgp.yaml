@@ -15,17 +15,6 @@ spec:
             name: cilium-peer-v2
 ---
 apiVersion: cilium.io/v2
-kind: CiliumBGPBFDProfile
-metadata:
-  name: cilium-bfd
-spec:
-  receiveIntervalMilliseconds: 300
-  transmitIntervalMilliseconds: 300
-  detectMultiplier: 3
-  echoMode: false
-  passiveMode: false
----
-apiVersion: cilium.io/v2
 kind: CiliumBGPPeerConfig
 metadata:
   name: cilium-peer-v2
@@ -33,8 +22,6 @@ spec:
   gracefulRestart:
     enabled: true
     restartTimeSeconds: 15
-  bfdProfileRef:
-    name: cilium-bfd
   families:
     - afi: ipv4
       safi: unicast
