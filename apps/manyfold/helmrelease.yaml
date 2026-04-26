@@ -38,6 +38,7 @@ spec:
               TZ: America/Denver
               PUID: "3002"
               PGID: "3001"
+              HTTPS_ONLY: "true"
               DATABASE_URL:
                 valueFrom:
                   secretKeyRef:
