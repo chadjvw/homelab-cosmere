@@ -71,7 +71,7 @@ spec:
             main:
               image:
                 # renovate: datasource=docker depName=docker.io/valkey/valkey
-                tag: 9.0.3-alpine
+                tag: 9.0.4-alpine
       persistence:
         data:
           type: persistentVolumeClaim
