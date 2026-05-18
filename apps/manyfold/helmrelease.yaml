@@ -33,7 +33,7 @@ spec:
             # renovate: datasource=docker depName=ghcr.io/manyfold3d/manyfold
             image:
               repository: ghcr.io/manyfold3d/manyfold
-              tag: 0.139.3
+              tag: 0.140.1
             env:
               TZ: America/Denver
               PUID: "3002"
