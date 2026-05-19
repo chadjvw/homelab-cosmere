@@ -53,7 +53,8 @@ spec:
               EMERGENCY_ACCESS_ALLOWED: "true"
               SENDS_ALLOWED: "true"
               ORG_CREATION_USERS: "none"
-              ROCKET_PORT: "8080"
+              ROCKET_PORT: "8443"
+              ROCKET_TLS: '{certs="/tls/tls.crt",key="/tls/tls.key"}'
               LOG_LEVEL: warn
               SMTP_HOST:
                 valueFrom:
@@ -90,6 +91,12 @@ spec:
         path: /mnt/mongo/data/apps/vaultwarden
         globalMounts:
           - path: /data
+      tls:
+        type: secret
+        name: vaultwarden-tls
+        globalMounts:
+          - path: /tls
+            readOnly: true
       tmp:
         type: emptyDir
         globalMounts:
@@ -98,8 +105,8 @@ spec:
       main:
         controller: main
         ports:
-          http:
-            port: 8080
+          https:
+            port: 8443
     route:
       main:
         hostnames:

@@ -5,4 +5,6 @@ resources:
   - cnpg-cluster.yaml
   - externalsecret.yaml
   - backup-cronjob.yaml
+  - certificate.yaml
+  - backend-tls-policy.yaml
   - dnsentries.yaml

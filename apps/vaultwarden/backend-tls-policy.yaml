@@ -1,0 +1,14 @@
+apiVersion: gateway.networking.k8s.io/v1alpha3
+kind: BackendTLSPolicy
+metadata:
+  name: vaultwarden-backend-tls
+  namespace: default
+spec:
+  targetRefs:
+    - group: ""
+      kind: Service
+      name: vaultwarden-main
+      sectionName: https
+  validation:
+    wellKnownCACertificates: System
+    hostname: vault.vanwyhe.xyz
