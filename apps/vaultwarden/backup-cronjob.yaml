@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: vaultwarden-backup
+  namespace: default
+spec:
+  schedule: "0 3 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
+              image: ghcr.io/cloudnative-pg/postgresql:17
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -eu
+                  TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+                  DEST=/backup/$TIMESTAMP
+                  mkdir -p "$DEST"
+                  pg_dump "$DATABASE_URL" -Fc -f "$DEST/vaultwarden.dump"
+                  find /backup -maxdepth 1 -type d -name "2*" -mtime +30 | xargs --no-run-if-empty rm -rf
+                  echo "Backup complete: $DEST"
+              env:
+                - name: DATABASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: vaultwarden-database-app
+                      key: uri
+              volumeMounts:
+                - name: backup
+                  mountPath: /backup
+          volumes:
+            - name: backup
+              nfs:
+                server: truenas.vanwyhe.xyz
+                path: /mnt/mongo/data/backups/vaultwarden

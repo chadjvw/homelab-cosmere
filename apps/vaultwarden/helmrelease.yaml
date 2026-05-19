@@ -1,0 +1,112 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vaultwarden
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: vaultwarden
+  install:
+    createNamespace: true
+    disableWait: true
+  upgrade:
+    disableWait: true
+  chart:
+    spec:
+      chart: app-template
+      version: 4.6.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        pod:
+          securityContext:
+            fsGroup: 0
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          main:
+            # renovate: datasource=docker depName=ghcr.io/dani-garcia/vaultwarden
+            image:
+              repository: ghcr.io/dani-garcia/vaultwarden
+              tag: 1.33.2
+            env:
+              TZ: America/Denver
+              DOMAIN: https://vault.vanwyhe.xyz
+              DATABASE_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-database-app
+                    key: uri
+              ADMIN_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-secrets
+                    key: admin-token
+              SIGNUPS_ALLOWED: "false"
+              INVITATIONS_ALLOWED: "false"
+              SHOW_PASSWORD_HINT: "false"
+              EMERGENCY_ACCESS_ALLOWED: "true"
+              SENDS_ALLOWED: "true"
+              ORG_CREATION_USERS: "none"
+              ROCKET_PORT: "8080"
+              LOG_LEVEL: warn
+              SMTP_HOST:
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-smtp
+                    key: smtp-host
+              SMTP_USERNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-smtp
+                    key: smtp-username
+              SMTP_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-smtp
+                    key: smtp-password
+              SMTP_FROM:
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-smtp
+                    key: smtp-from
+              SMTP_PORT: "465"
+              SMTP_SECURITY: force_tls
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+    persistence:
+      data:
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/apps/vaultwarden
+        globalMounts:
+          - path: /data
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 8080
+    route:
+      main:
+        hostnames:
+          - vault.vanwyhe.xyz
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: Gateway
+            name: external
+            namespace: kube-system
+            sectionName: https
