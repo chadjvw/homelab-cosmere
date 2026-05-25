@@ -47,7 +47,7 @@ spec:
                     key: PLEX_CLAIM
             image:
               repository: ghcr.io/linuxserver/plex
-              tag: "1.43.1"
+              tag: "1.43.2"
             securityContext:
               privileged: true
     persistence:
