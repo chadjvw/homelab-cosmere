@@ -29,7 +29,7 @@ spec:
               TORRENTING_PORT: 51413
             image:
               repository: ghcr.io/linuxserver/qbittorrent
-              tag: "5.1.4"
+              tag: "5.2.1"
     persistence:
       config:
         existingClaim: qbittorrent-config-nvmeof
