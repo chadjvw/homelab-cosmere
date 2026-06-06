@@ -1,4 +1,4 @@
-apiVersion: upgrades.home-operations.dev/v1alpha1
+apiVersion: tuppr.home-operations.com/v1alpha1
 kind: TalosUpgrade
 metadata:
   name: talos
@@ -7,9 +7,15 @@ spec:
   talos:
     version: v1.12.6
   maintenance:
-    schedule: "0 2 * * 2" # 2am every Tuesday
+    windows:
+      - start: "0 2 * * 2" # 2am every Tuesday
+        duration: 4h
   healthChecks:
     - description: All nodes are Ready
-      expression: "nodes.all(n, n.status.conditions.exists(c, c.type == 'Ready' && c.status == 'True'))"
+      apiVersion: v1
+      kind: Node
+      expr: "object.status.conditions.exists(c, c.type == 'Ready' && c.status == 'True')"
     - description: No pods are in a failed state
-      expression: "pods.all(p, p.status.phase != 'Failed')"
+      apiVersion: v1
+      kind: Pod
+      expr: "object.status.phase != 'Failed'"
