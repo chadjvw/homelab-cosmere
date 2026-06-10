@@ -11,5 +11,5 @@ find apps/ infra/ observability/ gitops/ repos/ flux/ bootstrap/ -name '*.yaml' 
     -schema-location default \
     -schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' \
     -ignore-missing-schemas \
-    -skip-kinds TalosUpgrade,KubernetesUpgrade \
+    -skip TalosUpgrade,KubernetesUpgrade \
     -summary
