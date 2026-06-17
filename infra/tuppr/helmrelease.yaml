@@ -30,7 +30,7 @@ spec:
         enabled: true
     env:
       - name: TALOSCONFIG
-        value: /var/run/secrets/talos.dev/talosconfig
+        value: /var/run/secrets/talos.dev/config
     volumes:
       - name: home
         emptyDir: {}
