@@ -28,3 +28,9 @@ spec:
     metrics:
       serviceMonitor:
         enabled: true
+    volumes:
+      - name: home
+        emptyDir: {}
+    volumeMounts:
+      - name: home
+        mountPath: /home/nonroot
