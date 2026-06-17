@@ -28,6 +28,9 @@ spec:
     metrics:
       serviceMonitor:
         enabled: true
+    env:
+      - name: TALOSCONFIG
+        value: /var/run/secrets/talos.dev/talosconfig
     volumes:
       - name: home
         emptyDir: {}
