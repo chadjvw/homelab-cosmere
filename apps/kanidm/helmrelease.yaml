@@ -53,12 +53,14 @@ spec:
       config:
         type: configMap
         name: kanidm-config
+        defaultMode: 0400
         globalMounts:
           - path: /etc/kanidm
             readOnly: true
       tls:
         type: secret
         name: kanidm-tls
+        defaultMode: 0400
         globalMounts:
           - path: /tls
             readOnly: true
