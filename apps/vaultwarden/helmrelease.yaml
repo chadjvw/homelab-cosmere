@@ -80,6 +80,15 @@ spec:
                     key: smtp-from
               SMTP_PORT: "465"
               SMTP_SECURITY: force_tls
+              SSO_ENABLED: "true"
+              SSO_ONLY: "true"
+              SSO_AUTHORITY: https://auth.int.vanwyhe.xyz/
+              SSO_CLIENT_ID: vaultwarden
+              SSO_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: vaultwarden-secrets
+                    key: sso-client-secret
             securityContext:
               runAsNonRoot: true
               allowPrivilegeEscalation: false
