@@ -6,9 +6,13 @@ run = "kubectl exec -n default deployment/kanidm -- kanidmd recover-account idm_
 description = "Open an interactive shell in the kanidm tools sidecar"
 run = "kubectl exec -it -n default deployment/kanidm -c tools -- sh"
 
+[tasks."kanidm:login"]
+description = "Login as idm_admin and cache session token in the sidecar (run before other tasks)"
+run = "kubectl exec -it -n default deployment/kanidm -c tools -- kanidm login -D idm_admin"
+
 [tasks."kanidm:domain"]
 description = "Run kanidm system domain subcommands (e.g. set-displayname 'Wyhebreaker Auth')"
-run = "kubectl exec -it -n default deployment/kanidm -c tools -- kanidm system domain $@ -D idm_admin -W"
+run = "kubectl exec -it -n default deployment/kanidm -c tools -- kanidm system domain $@"
 
 [tasks."kanidm:person:create"]
 description = "Create a person"
@@ -18,8 +22,7 @@ arg "<display_name>" help="Display name for the new person"
 '''
 run = """
 kubectl exec -it -n default deployment/kanidm -c tools -- \
-  kanidm person create "${usage_username}" "${usage_display_name}" \
-  -D idm_admin -W
+  kanidm person create "${usage_username}" "${usage_display_name}"
 """
 
 [tasks."kanidm:group:create"]
@@ -27,8 +30,7 @@ description = "Create a group"
 usage = 'arg "<name>" help="Group name"'
 run = """
 kubectl exec -it -n default deployment/kanidm -c tools -- \
-  kanidm group create "${usage_name}" \
-  -D idm_admin -W
+  kanidm group create "${usage_name}"
 """
 
 [tasks."kanidm:group:add-member"]
@@ -39,8 +41,7 @@ arg "<username>" help="Username to add"
 '''
 run = """
 kubectl exec -it -n default deployment/kanidm -c tools -- \
-  kanidm group add-members "${usage_group}" "${usage_username}" \
-  -D idm_admin -W
+  kanidm group add-members "${usage_group}" "${usage_username}"
 """
 
 [tasks."kanidm:oauth2:create-public"]
@@ -52,8 +53,7 @@ arg "<landing_url>" help="App landing URL"
 '''
 run = """
 kubectl exec -it -n default deployment/kanidm -c tools -- \
-  kanidm system oauth2 create-public "${usage_name}" "${usage_display_name}" "${usage_landing_url}" \
-  -D idm_admin -W
+  kanidm system oauth2 create-public "${usage_name}" "${usage_display_name}" "${usage_landing_url}"
 """
 
 [tasks."kanidm:oauth2:create-confidential"]
@@ -65,8 +65,7 @@ arg "<landing_url>" help="App landing URL"
 '''
 run = """
 kubectl exec -it -n default deployment/kanidm -c tools -- \
-  kanidm system oauth2 create-basic "${usage_name}" "${usage_display_name}" "${usage_landing_url}" \
-  -D idm_admin -W
+  kanidm system oauth2 create-basic "${usage_name}" "${usage_display_name}" "${usage_landing_url}"
 """
 
 [tasks."kanidm:oauth2:show-secret"]
@@ -74,8 +73,7 @@ description = "Show the client secret for a confidential OAuth2 client"
 usage = 'arg "<name>" help="Client name"'
 run = """
 kubectl exec -it -n default deployment/kanidm -c tools -- \
-  kanidm system oauth2 show-basic-secret "${usage_name}" \
-  -D idm_admin -W
+  kanidm system oauth2 show-basic-secret "${usage_name}"
 """
 
 [tools]
