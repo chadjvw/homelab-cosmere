@@ -1,0 +1,16 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kanidm
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./apps/kanidm
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: default
+  dependsOn:
+    - name: repos
+    - name: cert-manager
+    - name: democratic-csi-nvmeof

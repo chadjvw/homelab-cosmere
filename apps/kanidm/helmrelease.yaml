@@ -1,0 +1,83 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kanidm
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: kanidm
+  install:
+    createNamespace: true
+    disableWait: true
+  upgrade:
+    disableWait: true
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        pod:
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          main:
+            # renovate: datasource=docker depName=ghcr.io/kanidm/server
+            image:
+              repository: ghcr.io/kanidm/server
+              tag: "1.4.0"
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
+    persistence:
+      data:
+        existingClaim: kanidm-data
+        globalMounts:
+          - path: /data
+      config:
+        type: configMap
+        name: kanidm-config
+        globalMounts:
+          - path: /etc/kanidm/server.toml
+            subPath: server.toml
+            readOnly: true
+      tls:
+        type: secret
+        name: kanidm-tls
+        globalMounts:
+          - path: /tls
+            readOnly: true
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+    service:
+      main:
+        controller: main
+        ports:
+          https:
+            port: 8443
+    route:
+      main:
+        hostnames:
+          - auth.int.vanwyhe.xyz
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: Gateway
+            name: external
+            namespace: kube-system
+            sectionName: https

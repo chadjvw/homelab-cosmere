@@ -1,0 +1,14 @@
+apiVersion: gateway.networking.k8s.io/v1alpha3
+kind: BackendTLSPolicy
+metadata:
+  name: kanidm-backend-tls
+  namespace: default
+spec:
+  targetRefs:
+    - group: ""
+      kind: Service
+      name: kanidm-main
+      sectionName: https
+  validation:
+    wellKnownCACertificates: System
+    hostname: auth.int.vanwyhe.xyz
