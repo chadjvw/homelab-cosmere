@@ -52,8 +52,7 @@ spec:
         type: configMap
         name: kanidm-config
         globalMounts:
-          - path: /etc/kanidm/server.toml
-            subPath: server.toml
+          - path: /etc/kanidm
             readOnly: true
       tls:
         type: secret
