@@ -1,14 +1,16 @@
-[tasks."kanidm:recover-admin"]
-description = "Reset idm_admin and print a one-time recovery token (first-time setup)"
-run = "kubectl exec -n default deployment/kanidm -- kanidmd recover-account idm_admin"
+[tasks."kanidm:recover-account"]
+description = "Reset an account and print a one-time token. Use 'admin' for system tasks, 'idm_admin' for user/group tasks"
+usage = 'arg "<name>" help="Account to recover (admin or idm_admin)"'
+run = "kubectl exec -n default deployment/kanidm -- kanidmd recover-account ${usage_name}"
 
 [tasks."kanidm:shell"]
 description = "Open an interactive shell in the kanidm tools sidecar"
 run = "kubectl exec -it -n default deployment/kanidm -c tools -- sh"
 
 [tasks."kanidm:login"]
-description = "Login as idm_admin and cache session token in the sidecar (run before other tasks)"
-run = "kubectl exec -it -n default deployment/kanidm -c tools -- kanidm login -D idm_admin"
+description = "Login and cache session token in the sidecar. Use 'admin' for system tasks, 'idm_admin' for user/group tasks"
+usage = 'arg "<name>" help="Account name (admin or idm_admin)"'
+run = "kubectl exec -it -n default deployment/kanidm -c tools -- kanidm login -D ${usage_name}"
 
 [tasks."kanidm:domain"]
 description = "Run kanidm system domain subcommands (e.g. set-displayname 'Wyhebreaker Auth')"
