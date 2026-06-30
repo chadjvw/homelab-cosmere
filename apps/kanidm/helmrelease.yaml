@@ -30,10 +30,10 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
-            # renovate: datasource=docker depName=ghcr.io/kanidm/server
+            # renovate: datasource=docker depName=kanidm/server
             image:
-              repository: ghcr.io/kanidm/server
-              tag: "v1.10.4"
+              repository: docker.io/kanidm/server
+              tag: "1.10.4"
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
