@@ -3,14 +3,20 @@ description = "Reset idm_admin and print a one-time recovery token (first-time s
 run = "kubectl exec -n default deployment/kanidm -- kanidmd recover-account idm_admin"
 
 [tasks."kanidm:shell"]
-description = "Open an interactive shell in the kanidm pod (KANIDM_URL pre-set)"
-run = "kubectl exec -it -n default deployment/kanidm -- env KANIDM_URL=https://auth.int.vanwyhe.xyz /bin/sh"
+description = "Run an interactive kanidm shell via the tools container (KANIDM_URL pre-set)"
+run = """
+kubectl run kanidm-cli -it --rm --restart=Never -n default \
+  --image=docker.io/kanidm/tools:1.10.4 \
+  --env=KANIDM_URL=https://auth.int.vanwyhe.xyz \
+  -- sh
+"""
 
 [tasks."kanidm:domain"]
 description = "Run kanidm system domain subcommands (e.g. set-displayname 'Wyhebreaker Auth')"
 run = """
-kubectl exec -it -n default deployment/kanidm -- \
-  kanidm system domain $@ \
+kubectl run kanidm-cli -it --rm --restart=Never -n default \
+  --image=docker.io/kanidm/tools:1.10.4 \
+  -- kanidm system domain $@ \
   -H https://auth.int.vanwyhe.xyz -D idm_admin -W
 """
 
@@ -21,8 +27,9 @@ arg "<username>" help="Username for the new person"
 arg "<display_name>" help="Display name for the new person"
 '''
 run = """
-kubectl exec -it -n default deployment/kanidm -- \
-  kanidm person create "${usage_username}" "${usage_display_name}" \
+kubectl run kanidm-cli -it --rm --restart=Never -n default \
+  --image=docker.io/kanidm/tools:1.10.4 \
+  -- kanidm person create "${usage_username}" "${usage_display_name}" \
   -H https://auth.int.vanwyhe.xyz -D idm_admin -W
 """
 
@@ -30,8 +37,9 @@ kubectl exec -it -n default deployment/kanidm -- \
 description = "Create a group"
 usage = 'arg "<name>" help="Group name"'
 run = """
-kubectl exec -it -n default deployment/kanidm -- \
-  kanidm group create "${usage_name}" \
+kubectl run kanidm-cli -it --rm --restart=Never -n default \
+  --image=docker.io/kanidm/tools:1.10.4 \
+  -- kanidm group create "${usage_name}" \
   -H https://auth.int.vanwyhe.xyz -D idm_admin -W
 """
 
@@ -42,8 +50,9 @@ arg "<group>" help="Group name"
 arg "<username>" help="Username to add"
 '''
 run = """
-kubectl exec -it -n default deployment/kanidm -- \
-  kanidm group add-members "${usage_group}" "${usage_username}" \
+kubectl run kanidm-cli -it --rm --restart=Never -n default \
+  --image=docker.io/kanidm/tools:1.10.4 \
+  -- kanidm group add-members "${usage_group}" "${usage_username}" \
   -H https://auth.int.vanwyhe.xyz -D idm_admin -W
 """
 
@@ -55,8 +64,9 @@ arg "<display_name>" help="Human-readable display name"
 arg "<landing_url>" help="App landing URL"
 '''
 run = """
-kubectl exec -it -n default deployment/kanidm -- \
-  kanidm system oauth2 create-public "${usage_name}" "${usage_display_name}" "${usage_landing_url}" \
+kubectl run kanidm-cli -it --rm --restart=Never -n default \
+  --image=docker.io/kanidm/tools:1.10.4 \
+  -- kanidm system oauth2 create-public "${usage_name}" "${usage_display_name}" "${usage_landing_url}" \
   -H https://auth.int.vanwyhe.xyz -D idm_admin -W
 """
 
@@ -68,8 +78,9 @@ arg "<display_name>" help="Human-readable display name"
 arg "<landing_url>" help="App landing URL"
 '''
 run = """
-kubectl exec -it -n default deployment/kanidm -- \
-  kanidm system oauth2 create-basic "${usage_name}" "${usage_display_name}" "${usage_landing_url}" \
+kubectl run kanidm-cli -it --rm --restart=Never -n default \
+  --image=docker.io/kanidm/tools:1.10.4 \
+  -- kanidm system oauth2 create-basic "${usage_name}" "${usage_display_name}" "${usage_landing_url}" \
   -H https://auth.int.vanwyhe.xyz -D idm_admin -W
 """
 
@@ -77,8 +88,9 @@ kubectl exec -it -n default deployment/kanidm -- \
 description = "Show the client secret for a confidential OAuth2 client"
 usage = 'arg "<name>" help="Client name"'
 run = """
-kubectl exec -it -n default deployment/kanidm -- \
-  kanidm system oauth2 show-basic-secret "${usage_name}" \
+kubectl run kanidm-cli -it --rm --restart=Never -n default \
+  --image=docker.io/kanidm/tools:1.10.4 \
+  -- kanidm system oauth2 show-basic-secret "${usage_name}" \
   -H https://auth.int.vanwyhe.xyz -D idm_admin -W
 """
 
