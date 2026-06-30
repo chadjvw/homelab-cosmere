@@ -82,7 +82,7 @@ spec:
               SMTP_SECURITY: force_tls
               SSO_ENABLED: "true"
               SSO_ONLY: "true"
-              SSO_AUTHORITY: https://auth.int.vanwyhe.xyz/
+              SSO_AUTHORITY: https://auth.int.vanwyhe.xyz/oauth2/openid/vaultwarden
               SSO_CLIENT_ID: vaultwarden
               SSO_CLIENT_SECRET:
                 valueFrom:
