@@ -7,7 +7,7 @@ spec:
   targetRefs:
     - group: ""
       kind: Service
-      name: kanidm-main
+      name: kanidm
       sectionName: https
   validation:
     wellKnownCACertificates: System

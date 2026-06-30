@@ -7,7 +7,7 @@ spec:
   targetRefs:
     - group: ""
       kind: Service
-      name: vaultwarden-main
+      name: vaultwarden
       sectionName: https
   validation:
     wellKnownCACertificates: System
