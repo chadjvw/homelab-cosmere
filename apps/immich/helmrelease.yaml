@@ -105,6 +105,10 @@ spec:
       enabled: true
       controllers:
         main:
+          strategy: RollingUpdate
+          rollingUpdate:
+            unavailable: 1
+            surge: 0
           pod:
             runtimeClassName: nvidia
             nodeSelector:
