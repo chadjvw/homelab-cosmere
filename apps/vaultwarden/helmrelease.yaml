@@ -57,7 +57,7 @@ spec:
               ORG_CREATION_USERS: "none"
               ROCKET_PORT: "8443"
               ROCKET_TLS: '{certs="/tls/tls.crt",key="/tls/tls.key"}'
-              LOG_LEVEL: warn
+              LOG_LEVEL: info
               SMTP_HOST:
                 valueFrom:
                   secretKeyRef:
