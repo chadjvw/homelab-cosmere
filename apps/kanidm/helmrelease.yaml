@@ -45,6 +45,24 @@ spec:
               runAsNonRoot: true
               runAsUser: 1000
               runAsGroup: 1000
+          tools:
+            # renovate: datasource=docker depName=kanidm/tools
+            image:
+              repository: docker.io/kanidm/tools
+              tag: "1.10.4"
+            command: ["sleep", "infinity"]
+            env:
+              KANIDM_URL: https://auth.int.vanwyhe.xyz
+              HOME: /tmp
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
     persistence:
       data:
         existingClaim: kanidm-data
