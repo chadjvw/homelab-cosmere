@@ -26,7 +26,9 @@ spec:
       main:
         pod:
           securityContext:
-            fsGroup: 0
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
@@ -79,6 +81,7 @@ spec:
               SMTP_PORT: "465"
               SMTP_SECURITY: force_tls
             securityContext:
+              runAsNonRoot: true
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
@@ -86,11 +89,7 @@ spec:
               readOnlyRootFilesystem: true
     persistence:
       data:
-        type: nfs
-        server: truenas.vanwyhe.xyz
-        path: /mnt/mongo/data/apps/vaultwarden
-        globalMounts:
-          - path: /data
+        existingClaim: vaultwarden-config-nvmeof
       tls:
         type: secret
         name: vaultwarden-tls
