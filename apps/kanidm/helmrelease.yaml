@@ -33,7 +33,7 @@ spec:
             # renovate: datasource=docker depName=ghcr.io/kanidm/server
             image:
               repository: ghcr.io/kanidm/server
-              tag: "1.4.0"
+              tag: "v1.10.4"
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
