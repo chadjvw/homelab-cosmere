@@ -5,4 +5,3 @@ resources:
   - cnpg-cluster.yaml
   - externalsecret.yaml
   - httproute.yaml
-  - dnsentries.yaml

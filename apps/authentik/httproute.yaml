@@ -7,11 +7,11 @@ spec:
   parentRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
-      name: external
+      name: internal
       namespace: kube-system
       sectionName: https
   hostnames:
-    - auth.vanwyhe.xyz
+    - auth.int.vanwyhe.xyz
   rules:
     - backendRefs:
         - name: authentik-server
