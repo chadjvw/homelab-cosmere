@@ -30,15 +30,15 @@ spec:
               TOKEN_TIME: 720
               OIDC_AUTH_ENABLED: "true"
               OIDC_SIGNUP_ENABLED: "false"
-              OIDC_PROVIDER_NAME: Authentik
-              OIDC_USER_GROUP: users
-              OIDC_ADMIN_GROUP: admin
+              OIDC_PROVIDER_NAME: Wyhebreaker
+              OIDC_USER_GROUP: users@vanwyhe.xyz
+              OIDC_ADMIN_GROUP: admin@vanwyhe.xyz
               OIDC_CLIENT_ID:
                 valueFrom:
                   secretKeyRef:
                     name: mealie-oidc
                     key: clientId
-              OIDC_CONFIGURATION_URL: https://auth.vanwyhe.xyz/application/o/mealie/.well-known/openid-configuration
+              OIDC_CONFIGURATION_URL: https://auth.int.vanwyhe.xyz/oauth2/openid/mealie/.well-known/openid-configuration
               # OIDC_CLIENT_SECRET:
               #   valueFrom:
               #     secretKeyRef:
