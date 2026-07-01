@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - certificate.yaml
   - configmap.yaml
+  - dnsentries.yaml
   - externalsecret.yaml
   - pvc.yaml
   - backend-tls-policy.yaml
