@@ -52,7 +52,7 @@ spec:
               tag: "1.10.4"
             command: ["sleep", "infinity"]
             env:
-              KANIDM_URL: https://auth.int.vanwyhe.xyz
+              KANIDM_URL: https://auth.vanwyhe.xyz
               HOME: /tmp
             securityContext:
               allowPrivilegeEscalation: false
@@ -126,10 +126,10 @@ spec:
     route:
       main:
         hostnames:
-          - auth.int.vanwyhe.xyz
+          - auth.vanwyhe.xyz
         parentRefs:
           - group: gateway.networking.k8s.io
             kind: Gateway
-            name: internal
+            name: external
             namespace: kube-system
             sectionName: https

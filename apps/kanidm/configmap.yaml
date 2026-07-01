@@ -10,11 +10,11 @@ data:
     tls_key = "/tls/tls.key"
     db_path = "/data/kanidm.db"
     db_fs_type = "generic"
-    origin = "https://auth.int.vanwyhe.xyz"
+    origin = "https://auth.vanwyhe.xyz"
     domain = "auth.vanwyhe.xyz"
     role = "WriteReplica"
     log_level = "info"
   config: |
-    uri = "https://auth.int.vanwyhe.xyz"
+    uri = "https://auth.vanwyhe.xyz"
     verify_ca = true
     verify_hostnames = true

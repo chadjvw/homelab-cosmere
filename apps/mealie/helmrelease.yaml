@@ -34,7 +34,7 @@ spec:
               OIDC_USER_GROUP: media_users
               OIDC_ADMIN_GROUP: media_admin
               OIDC_CLIENT_ID: mealie
-              OIDC_CONFIGURATION_URL: https://auth.int.vanwyhe.xyz/oauth2/openid/mealie/.well-known/openid-configuration
+              OIDC_CONFIGURATION_URL: https://auth.vanwyhe.xyz/oauth2/openid/mealie/.well-known/openid-configuration
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v3.20.1

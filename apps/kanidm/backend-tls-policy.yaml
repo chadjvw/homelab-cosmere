@@ -11,4 +11,4 @@ spec:
       sectionName: https
   validation:
     wellKnownCACertificates: System
-    hostname: auth.int.vanwyhe.xyz
+    hostname: auth.vanwyhe.xyz
