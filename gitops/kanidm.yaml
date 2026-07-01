@@ -14,3 +14,4 @@ spec:
     - name: repos
     - name: cert-manager
     - name: democratic-csi-nvmeof
+    - name: external-secrets

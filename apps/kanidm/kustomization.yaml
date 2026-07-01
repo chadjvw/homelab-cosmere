@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - certificate.yaml
   - configmap.yaml
+  - externalsecret.yaml
   - pvc.yaml
   - backend-tls-policy.yaml
   - helmrelease.yaml

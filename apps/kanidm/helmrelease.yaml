@@ -63,6 +63,28 @@ spec:
               runAsNonRoot: true
               runAsUser: 1000
               runAsGroup: 1000
+          mail-sender:
+            # renovate: datasource=docker depName=kanidm/tools
+            image:
+              repository: docker.io/kanidm/tools
+              tag: "1.10.4"
+            command:
+              - /sbin/kanidm-mail-sender
+              - -c
+              - /etc/kanidm/config
+              - -m
+              - /run/mail-sender/config
+            env:
+              HOME: /tmp
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
     persistence:
       data:
         existingClaim: kanidm-data
@@ -86,6 +108,15 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
+      mail-sender-config:
+        type: secret
+        name: kanidm-mail-sender-config
+        defaultMode: 0400
+        advancedMounts:
+          main:
+            mail-sender:
+              - path: /run/mail-sender
+                readOnly: true
     service:
       main:
         controller: main
