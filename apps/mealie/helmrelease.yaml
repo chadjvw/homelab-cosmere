@@ -31,8 +31,8 @@ spec:
               OIDC_AUTH_ENABLED: "true"
               OIDC_SIGNUP_ENABLED: "false"
               OIDC_PROVIDER_NAME: Wyhebreaker
-              OIDC_USER_GROUP: media_users@vanwyhe.xyz
-              OIDC_ADMIN_GROUP: media_admin@vanwyhe.xyz
+              OIDC_USER_GROUP: media_users
+              OIDC_ADMIN_GROUP: media_admin
               OIDC_CLIENT_ID: mealie
               OIDC_CONFIGURATION_URL: https://auth.int.vanwyhe.xyz/oauth2/openid/mealie/.well-known/openid-configuration
             image:
