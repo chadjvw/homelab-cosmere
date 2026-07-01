@@ -70,6 +70,30 @@ kubectl exec -it -n default deployment/kanidm -c tools -- \
   kanidm system oauth2 create-basic "${usage_name}" "${usage_display_name}" "${usage_landing_url}"
 """
 
+[tasks."kanidm:oauth2:update-scope-map"]
+description = "Map scopes a group's members may request on a client (e.g. openid profile email groups)"
+usage = '''
+arg "<client>" help="OAuth2 client name"
+arg "<group>" help="Group whose members get these scopes"
+arg "<scopes>..." help="Scopes to allow (e.g. openid profile email groups)"
+'''
+run = """
+kubectl exec -it -n default deployment/kanidm -c tools -- \
+  kanidm system oauth2 update-scope-map "${usage_client}" "${usage_group}" ${usage_scopes}
+"""
+
+[tasks."kanidm:oauth2:update-sup-scope-map"]
+description = "Always include these scopes in tokens for a group (regardless of what client requests)"
+usage = '''
+arg "<client>" help="OAuth2 client name"
+arg "<group>" help="Group whose members always get these scopes"
+arg "<scopes>..." help="Scopes to always include (e.g. groups)"
+'''
+run = """
+kubectl exec -it -n default deployment/kanidm -c tools -- \
+  kanidm system oauth2 update-sup-scope-map "${usage_client}" "${usage_group}" ${usage_scopes}
+"""
+
 [tasks."kanidm:oauth2:show-secret"]
 description = "Show the client secret for a confidential OAuth2 client"
 usage = 'arg "<name>" help="Client name"'
