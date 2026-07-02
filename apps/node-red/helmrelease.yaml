@@ -27,6 +27,14 @@ spec:
               tag: "5.0.1"
             env:
               TZ: America/Denver
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              runAsNonRoot: true
+              runAsUser: 1000
+              runAsGroup: 1000
     persistence:
       data:
         existingClaim: node-red-data-nvmeof
