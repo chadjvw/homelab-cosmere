@@ -52,7 +52,7 @@ spec:
               tag: "1.10.4"
             command: ["sleep", "infinity"]
             env:
-              KANIDM_URL: https://auth.vanwyhe.xyz
+              KANIDM_URL: https://kanidm.default.svc.cluster.local:8443
               HOME: /tmp
             securityContext:
               allowPrivilegeEscalation: false
