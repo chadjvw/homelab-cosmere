@@ -15,6 +15,6 @@ data:
     role = "WriteReplica"
     log_level = "info"
   config: |
-    uri = "https://localhost:8443"
-    verify_ca = false
-    verify_hostnames = false
+    uri = "https://auth.vanwyhe.xyz"
+    verify_ca = true
+    verify_hostnames = true
