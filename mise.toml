@@ -67,7 +67,7 @@ arg "<landing_url>" help="App landing URL"
 '''
 run = """
 kubectl exec -it -n default deployment/kanidm -c tools -- \
-  kanidm system oauth2 create-basic "${usage_name}" "${usage_display_name}" "${usage_landing_url}"
+  kanidm system oauth2 create "${usage_name}" "${usage_display_name}" "${usage_landing_url}"
 """
 
 [tasks."kanidm:oauth2:update-scope-map"]
@@ -100,105 +100,6 @@ usage = 'arg "<name>" help="Client name"'
 run = """
 kubectl exec -it -n default deployment/kanidm -c tools -- \
   kanidm system oauth2 show-basic-secret "${usage_name}"
-"""
-
-[tasks."kanidm:domain-rename"]
-description = "Rename the kanidm domain. Requires configmap.yaml to already be updated and applied. Scales to 0, runs kanidmd domain rename, scales back to 1."
-run = """
-#!/usr/bin/env bash
-set -euo pipefail
-IMAGE=$(kubectl get deployment/kanidm -n default -o jsonpath='{.spec.template.spec.containers[?(@.name=="main")].image}')
-echo "Using image: $IMAGE"
-echo "Scaling kanidm to 0..."
-kubectl scale deployment/kanidm -n default --replicas=0
-echo "Waiting for pods to terminate..."
-kubectl wait pod --for=delete -n default -l 'app.kubernetes.io/name=kanidm' --timeout=120s 2>/dev/null || true
-kubectl delete job/kanidm-domain-rename -n default --ignore-not-found
-kubectl apply -f - <<EOF
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: kanidm-domain-rename
-  namespace: default
-spec:
-  template:
-    spec:
-      restartPolicy: Never
-      securityContext:
-        fsGroup: 1000
-      containers:
-        - name: rename
-          image: $IMAGE
-          command: ["kanidmd", "domain", "rename"]
-          env:
-            - name: KANIDM_CONFIG
-              value: /etc/kanidm/server.toml
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            runAsNonRoot: true
-            readOnlyRootFilesystem: true
-          volumeMounts:
-            - name: data
-              mountPath: /data
-            - name: config
-              mountPath: /etc/kanidm
-            - name: tls
-              mountPath: /tls
-            - name: tmp
-              mountPath: /tmp
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: kanidm-data
-        - name: config
-          configMap:
-            name: kanidm-config
-            defaultMode: 256
-        - name: tls
-          secret:
-            secretName: kanidm-tls
-            defaultMode: 256
-        - name: tmp
-          emptyDir: {}
-EOF
-echo "Waiting for domain rename job to complete..."
-kubectl wait --for=condition=complete job/kanidm-domain-rename -n default --timeout=120s
-echo "Job logs:"
-kubectl logs job/kanidm-domain-rename -n default
-kubectl delete job/kanidm-domain-rename -n default
-echo "Scaling kanidm back to 1..."
-kubectl scale deployment/kanidm -n default --replicas=1
-kubectl rollout status deployment/kanidm -n default --timeout=120s
-echo "Domain rename complete. Remember to recover admin and re-setup the mail sender service account token."
-"""
-
-[tasks."kanidm:mail-sender:init-secret"]
-description = "Create a placeholder kanidm-mail-sender-config secret so the pod can start before the real token is in Doppler. Run this after domain rename, before flux reconciles."
-run = """
-kubectl create secret generic kanidm-mail-sender-config \
-  --from-literal=config="# placeholder - will be replaced by ExternalSecret once KANIDM_MAIL_SENDER_TOKEN is in Doppler" \
-  -n default --dry-run=client -o yaml | kubectl apply -f -
-echo "Placeholder secret created. Pod should start now."
-echo "Next: set up the mail sender service account with: mise run kanidm:mail-sender:create-service-account"
-"""
-
-[tasks."kanidm:mail-sender:create-service-account"]
-description = "Create the mail-sender service account and generate an API token. Login as idm_admin first with: mise run kanidm:login idm_admin"
-run = """
-#!/usr/bin/env bash
-set -euo pipefail
-echo "Creating mail-sender service account..."
-kubectl exec -it -n default deployment/kanidm -c tools -- \
-  kanidm service-account create mail-sender "Mail Sender"
-echo ""
-echo "Adding mail-sender to idm_message_senders group..."
-kubectl exec -it -n default deployment/kanidm -c tools -- \
-  kanidm group add-members idm_message_senders mail-sender
-echo ""
-echo "Generating API token (copy this to Doppler as KANIDM_MAIL_SENDER_TOKEN)..."
-kubectl exec -it -n default deployment/kanidm -c tools -- \
-  kanidm service-account api-token generate mail-sender "mail sender token" --readwrite
 """
 
 [tools]
