@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: zwavejs-ws
+  namespace: default
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: internal
+      namespace: kube-system
+      sectionName: zwavejs-ws
+  rules:
+    - backendRefs:
+        - name: zwavejs
+          port: 3000
