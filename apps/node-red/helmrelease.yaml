@@ -21,16 +21,17 @@ spec:
       main:
         containers:
           main:
+            # renovate: datasource=docker depName=docker.io/nodered/node-red
             image:
-              repository: docker.io/kennethreitz/httpbin
-              tag: latest
+              repository: docker.io/nodered/node-red
+              tag: "5.0.1"
             env:
-              PGID: 1000
-              PUID: 1000
               TZ: America/Denver
     persistence:
       data:
         existingClaim: node-red-data-nvmeof
+        globalMounts:
+          - path: /data
     service:
       main:
         controller: main
