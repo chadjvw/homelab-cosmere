@@ -19,6 +19,31 @@ spec:
   values:
     controllers:
       main:
+        initContainers:
+          init-db:
+            image:
+              repository: docker.io/alpine
+              tag: "3.21.3"
+            command:
+              - sh
+              - -c
+              - |
+                printf 'db_url: %s\noidc_client_secret: %s\n' \
+                  "$(cat /cnpg-secret/uri)" \
+                  "$(cat /oidc-secret/client-secret)" \
+                  > /config/secrets.yaml
+                grep -q 'recorder:' /config/configuration.yaml || \
+                  printf '\nrecorder:\n  db_url: !secret db_url\n' \
+                  >> /config/configuration.yaml
+                grep -q 'use_x_forwarded_for' /config/configuration.yaml || \
+                  printf '\nhttp:\n  use_x_forwarded_for: true\n  trusted_proxies:\n    - 10.0.0.0/8\n    - 172.16.0.0/12\n    - 192.168.0.0/16\n' \
+                  >> /config/configuration.yaml
+                grep -q 'external_url:' /config/configuration.yaml || \
+                  printf '\nhomeassistant:\n  external_url: https://ha.vanwyhe.xyz\n' \
+                  >> /config/configuration.yaml
+                grep -q 'auth_oidc:' /config/configuration.yaml || \
+                  printf '\nauth_oidc:\n  client_id: home-assistant\n  client_secret: !secret oidc_client_secret\n  discovery_url: https://auth.vanwyhe.xyz/oauth2/openid/home-assistant/.well-known/openid-configuration\n  display_name: Kanidm\n  id_token_signing_alg: ES256\n  roles:\n    admin: homeassistant_admins@auth.vanwyhe.xyz\n    user: homeassistant_users@auth.vanwyhe.xyz\n  features:\n    automatic_person_creation: true\n' \
+                  >> /config/configuration.yaml
         containers:
           main:
             image:
@@ -33,6 +58,20 @@ spec:
     persistence:
       config:
         existingClaim: home-assistant-config-nvmeof
+      cnpg-secret:
+        type: secret
+        name: home-assistant-database-app
+        advancedMounts:
+          main:
+            init-db:
+              - path: /cnpg-secret
+      oidc-secret:
+        type: secret
+        name: home-assistant-oidc
+        advancedMounts:
+          main:
+            init-db:
+              - path: /oidc-secret
     service:
       main:
         controller: main
@@ -44,9 +83,8 @@ spec:
     route:
       main:
         hostnames:
-          - home-assistant.int.vanwyhe.xyz
-          - home-assistant.i.vw4.lol
-          - home-assistant.int.vw4.lol
+          - ha.vanwyhe.xyz
+          - ha.vw4.lol
         parentRefs:
           - group: gateway.networking.k8s.io
             kind: Gateway

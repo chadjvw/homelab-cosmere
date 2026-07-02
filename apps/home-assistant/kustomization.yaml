@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - pvc.yaml
+  - cnpg-cluster.yaml
+  - dnsentries.yaml
+  - externalsecret.yaml
