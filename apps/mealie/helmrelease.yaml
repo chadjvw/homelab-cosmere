@@ -29,7 +29,7 @@ spec:
               BASE_URL: https://noms.vanwyhe.xyz
               TOKEN_TIME: 720
               OIDC_AUTH_ENABLED: "true"
-              OIDC_SIGNUP_ENABLED: "false"
+              OIDC_SIGNUP_ENABLED: "true"
               OIDC_PROVIDER_NAME: Wyhebreaker
               OIDC_USER_GROUP: media_users@auth.vanwyhe.xyz
               OIDC_ADMIN_GROUP: media_admin@auth.vanwyhe.xyz
