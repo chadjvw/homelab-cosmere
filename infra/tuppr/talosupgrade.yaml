@@ -3,9 +3,9 @@ kind: TalosUpgrade
 metadata:
   name: talos
 spec:
-  # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
   talos:
-    version: v1.12.6
+    # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+    version: v1.13.5
   maintenance:
     windows:
       - start: "0 2 * * 2" # 2am every Tuesday
