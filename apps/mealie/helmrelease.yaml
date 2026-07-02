@@ -34,6 +34,11 @@ spec:
               OIDC_USER_GROUP: media_users@auth.vanwyhe.xyz
               OIDC_ADMIN_GROUP: media_admin@auth.vanwyhe.xyz
               OIDC_CLIENT_ID: mealie
+              OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: mealie-oidc
+                    key: clientSecret
               OIDC_CONFIGURATION_URL: https://auth.vanwyhe.xyz/oauth2/openid/mealie/.well-known/openid-configuration
             image:
               repository: ghcr.io/mealie-recipes/mealie
