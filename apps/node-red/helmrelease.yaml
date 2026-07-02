@@ -19,6 +19,10 @@ spec:
   values:
     controllers:
       main:
+        pod:
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
             # renovate: datasource=docker depName=ghcr.io/node-red/node-red
