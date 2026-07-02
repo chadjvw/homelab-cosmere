@@ -23,10 +23,6 @@ spec:
         namespace: flux-system
       interval: 12h
   values:
-    server:
-      replicas: 0
-    worker:
-      replicas: 0
     global:
       env:
         - name: AUTHENTIK_POSTGRESQL__HOST
