@@ -5,6 +5,7 @@ resources:
   - pvc.yaml
   - cnpg-cluster.yaml
   - externalsecret.yaml
+  - backup-b2-externalsecret.yaml
   - backup-cronjob.yaml
   - certificate.yaml
   - backend-tls-policy.yaml
