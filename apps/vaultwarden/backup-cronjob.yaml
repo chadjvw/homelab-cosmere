@@ -35,7 +35,7 @@ spec:
           containers:
             - name: upload
               # renovate: datasource=docker depName=amazon/aws-cli
-              image: amazon/aws-cli:2.31.11
+              image: amazon/aws-cli:2.35.20
               command:
                 - /bin/sh
                 - -c
