@@ -34,7 +34,7 @@ spec:
             image:
               # renovate: datasource=docker depName=docker.io/arnaudcayrol/immich-selfie-timelapse
               repository: arnaudcayrol/immich-selfie-timelapse
-              tag: "2.2.1"
+              tag: "2.3.0"
             securityContext:
               runAsUser: 3002
               runAsGroup: 3001
