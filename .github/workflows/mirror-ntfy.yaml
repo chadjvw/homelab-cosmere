@@ -1,0 +1,21 @@
+name: Mirror ntfy
+# ntfy only publishes images to docker.io; this cluster forbids docker.io pulls.
+# Mirror the multi-arch image 1:1 into ghcr.io so the cluster can pull it.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "ntfy image tag to mirror (e.g. v2.26.0)"
+        required: true
+permissions:
+  packages: write
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copy image to GHCR
+        run: |
+          skopeo copy --all \
+            --dest-creds "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" \
+            "docker://docker.io/binwiederhier/ntfy:${{ inputs.tag }}" \
+            "docker://ghcr.io/${{ github.repository_owner }}/ntfy:${{ inputs.tag }}"

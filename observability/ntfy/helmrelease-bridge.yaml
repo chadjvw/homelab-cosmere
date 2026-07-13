@@ -1,0 +1,60 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ntfy-alertmanager
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: monitoring
+  releaseName: ntfy-alertmanager
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            # xenrox/ntfy-alertmanager was requested, but registry.xenrox.net does not
+            # resolve/serve its image (connection refused, verified 2026-07) and the
+            # project has no ghcr/quay mirror. davyjones (github.com/embik/davyjones) is
+            # a functionally equivalent Alertmanager-webhook-to-ntfy bridge published to
+            # ghcr.io by its upstream. No semver releases; images are tagged by short
+            # commit SHA. 224bdb6 is current main HEAD.
+            image:
+              repository: ghcr.io/embik/davyjones
+              tag: 224bdb6
+            command:
+              - /davyjones
+            args:
+              - --host
+              - 0.0.0.0
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              runAsNonRoot: true
+              runAsUser: 65532
+              runAsGroup: 65532
+              readOnlyRootFilesystem: true
+    persistence:
+      config:
+        type: secret
+        name: ntfy-secrets
+        globalMounts:
+          - path: /etc/davyjones/config.toml
+            subPath: config.toml
+            readOnly: true
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 8080
