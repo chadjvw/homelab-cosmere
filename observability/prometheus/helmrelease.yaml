@@ -20,7 +20,32 @@ spec:
       interval: 12h
   values:
     alertmanager:
-      enabled: false
+      enabled: true
+      # route/receivers merge over chart defaults (default inhibit_rules kept):
+      # everything goes to the ntfy bridge; the always-firing Watchdog is nulled
+      config:
+        route:
+          receiver: ntfy
+          routes:
+            - receiver: "null"
+              matchers:
+                - alertname = "Watchdog"
+        receivers:
+          - name: "null"
+          - name: ntfy
+            webhook_configs:
+              - url: http://ntfy-alertmanager.monitoring.svc.cluster.local:8080/v1/webhooks/alerts
+                send_resolved: true
+      alertmanagerSpec:
+        storage:
+          volumeClaimTemplate:
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 1Gi
+              storageClassName: org.democratic-csi.nvmeof
     cleanPrometheusOperatorObjectNames: true
     coreDns:
       enabled: true
