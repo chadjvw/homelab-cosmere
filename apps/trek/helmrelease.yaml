@@ -1,0 +1,96 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: trek
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: trek
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        pod:
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          main:
+            env:
+              TZ: America/Denver
+              NODE_ENV: production
+              PORT: "3000"
+              APP_URL: https://trek.vanwyhe.xyz
+              ALLOWED_ORIGINS: https://trek.vanwyhe.xyz,https://trek.vw4.lol
+              FORCE_HTTPS: "true"
+              TRUST_PROXY: "1"
+              OIDC_ISSUER: https://auth.vanwyhe.xyz/oauth2/openid/trek
+              OIDC_DISCOVERY_URL: https://auth.vanwyhe.xyz/oauth2/openid/trek/.well-known/openid-configuration
+              OIDC_CLIENT_ID: trek
+              OIDC_DISPLAY_NAME: Wyhebreaker
+              OIDC_ONLY: "true"
+              OIDC_SCOPE: openid profile email groups
+              OIDC_ADMIN_CLAIM: groups
+              OIDC_ADMIN_VALUE: media_admin@auth.vanwyhe.xyz
+              OIDC_CLIENT_SECRET:
+                valueFrom:
+                  secretKeyRef:
+                    name: trek-oidc
+                    key: clientSecret
+              ENCRYPTION_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: trek-oidc
+                    key: encryptionKey
+            image:
+              repository: mauriceboe/trek
+              tag: "3.3.0"
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              privileged: false
+              runAsUser: 1000
+              runAsGroup: 1000
+              seccompProfile:
+                type: RuntimeDefault
+    persistence:
+      data:
+        existingClaim: trek-data-nvmeof
+        globalMounts:
+          - path: /app/data
+      uploads:
+        existingClaim: trek-uploads-nvmeof
+        globalMounts:
+          - path: /app/uploads
+    service:
+      main:
+        controller: main
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 3000
+    route:
+      main:
+        hostnames:
+          - trek.vanwyhe.xyz
+          - trek.vw4.lol
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: Gateway
+            name: external
+            namespace: kube-system
+            sectionName: https
