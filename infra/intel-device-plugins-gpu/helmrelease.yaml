@@ -16,3 +16,5 @@ spec:
         name: intel
         namespace: flux-system
       interval: 12h
+  values:
+    sharedDevNum: 4

@@ -54,8 +54,6 @@ spec:
               PGID: 1000
               PUID: 1000
               TZ: America/Denver
-            securityContext:
-              privileged: true
     persistence:
       config:
         existingClaim: home-assistant-config-nvmeof

@@ -42,8 +42,9 @@ spec:
             image:
               repository: ghcr.io/linuxserver/jellyfin
               tag: "10.11.11"
-            securityContext:
-              privileged: true
+            resources:
+              limits:
+                gpu.intel.com/i915: 1
     persistence:
       config:
         existingClaim: jellyfin-data-nvmeof
@@ -76,11 +77,6 @@ spec:
       transcode:
         enabled: true
         type: emptyDir
-      dri:
-        enabled: true
-        type: hostPath
-        hostPathType: Directory
-        hostPath: /dev/dri
     service:
       main:
         controller: main
