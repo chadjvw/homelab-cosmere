@@ -54,18 +54,6 @@ spec:
             image:
               repository: mauriceboe/trek
               tag: "3.3.0"
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - ALL
-              readOnlyRootFilesystem: false
-              runAsNonRoot: true
-              privileged: false
-              runAsUser: 1000
-              runAsGroup: 1000
-              seccompProfile:
-                type: RuntimeDefault
     persistence:
       data:
         existingClaim: trek-data-nvmeof
