@@ -5,10 +5,14 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
+  timeout: 10m
   targetNamespace: security
   releaseName: crowdsec
   install:
     createNamespace: true
+  upgrade:
+    remediation:
+      retries: 3
   chart:
     spec:
       chart: crowdsec
@@ -31,6 +35,9 @@ spec:
           use_wal: true
           flush:
             agents_autodelete:
+              cert: 60m
+              login_password: 60m
+            bouncers_autodelete:
               cert: 60m
               login_password: 60m
         api:
@@ -76,17 +83,25 @@ spec:
           podName: envoy-kube-system-*
           program: envoy
           poll_without_inotify: true
+        - namespace: default
+          podName: home-assistant-*
+          program: home-assistant
+          poll_without_inotify: true
+        - namespace: default
+          podName: vaultwarden-*
+          program: vaultwarden
+          poll_without_inotify: true
       env:
         - name: COLLECTIONS
-          value: "crowdsecurity/base-http-scenarios crowdsecurity/http-dos crowdsecurity/http-cve crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/linux yanis-kouidri/envoy"
+          value: "crowdsecurity/base-http-scenarios crowdsecurity/http-dos crowdsecurity/http-cve crowdsecurity/appsec-generic-rules crowdsecurity/appsec-virtual-patching crowdsecurity/linux yanis-kouidri/envoy crowdsecurity/home-assistant Dominic-Wagner/vaultwarden"
         - name: PARSERS
           value: "crowdsecurity/http-logs crowdsecurity/cri-logs"
-          # metrics:
-          #   enabled: true
-          #   serviceMonitor:
-          #     enabled: true
-          #     additionalLabels:
-          #       release: kube-prometheus-stack
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            release: kube-prometheus-stack
     lapi:
       persistentVolume:
         data:
@@ -109,12 +124,12 @@ spec:
             secretKeyRef:
               name: crowdsec-secrets
               key: opnsenseBouncerKey
-              # metrics:
-              #   enabled: true
-              #   serviceMonitor:
-              #     enabled: true
-              #     additionalLabels:
-              #       release: kube-prometheus-stack
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            release: kube-prometheus-stack
     appsec:
       enabled: true
       env:
@@ -127,9 +142,9 @@ spec:
             - crowdsecurity/appsec-default
           labels:
             type: appsec
-      # metrics:
-      #   enabled: true
-      #   serviceMonitor:
-      #     enabled: true
-      #     additionalLabels:
-      #       release: kube-prometheus-stack
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          additionalLabels:
+            release: kube-prometheus-stack
