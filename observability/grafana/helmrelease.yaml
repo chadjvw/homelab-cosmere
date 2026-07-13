@@ -33,10 +33,6 @@ spec:
             type: file
     dashboards:
       default:
-        linstor:
-          datasource: Prometheus
-          gnetId: 15917
-          revision: 1
         flux:
           datasource: Prometheus
           gnetId: 16714
@@ -52,6 +48,10 @@ spec:
             name: Prometheus
             type: prometheus
             url: http://prometheus-operated:9090/
+          - access: proxy
+            name: Loki
+            type: loki
+            url: http://loki:3100/
     grafana.ini:
       analytics:
         check_for_updates: false
@@ -75,6 +75,7 @@ spec:
     persistence:
       enabled: true
       size: 1Gi
+      storageClassName: org.democratic-csi.nvmeof
     plugins:
       - grafana-piechart-panel
       - grafana-worldmap-panel
