@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: https-endpoints
+  namespace: monitoring
+spec:
+  module: http_2xx
+  prober:
+    url: blackbox-prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115
+  targets:
+    staticConfig:
+      static:
+        - https://auth.vanwyhe.xyz
+        - https://vault.vanwyhe.xyz
+        - https://ha.vanwyhe.xyz
+        - https://photos.vanwyhe.xyz
+        - https://plex.vanwyhe.xyz
+        - https://jellyfin.vanwyhe.xyz
+        - https://sonarr.int.vanwyhe.xyz
+        - https://crowdsec.int.vanwyhe.xyz
+      labels:
+        job: blackbox-https
