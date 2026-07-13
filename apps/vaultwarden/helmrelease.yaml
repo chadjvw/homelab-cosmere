@@ -39,6 +39,7 @@ spec:
             env:
               TZ: America/Denver
               DOMAIN: https://vault.vanwyhe.xyz
+              IP_HEADER: X-Forwarded-For
               DATABASE_URL:
                 valueFrom:
                   secretKeyRef:
