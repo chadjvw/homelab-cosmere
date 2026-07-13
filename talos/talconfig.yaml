@@ -49,7 +49,6 @@ controlPlane:
   patches:
     - "@./patches/routes-controlplane.yaml"
     - "@./patches/controlplane-talos-api-access.yaml"
-    - "@./patches/controlplane-admission-control.yaml"
   machineSpec:
     mode: metal
     arch: amd64
