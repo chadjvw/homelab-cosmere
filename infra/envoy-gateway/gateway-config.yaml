@@ -71,7 +71,12 @@ spec:
       name: external
   clientIPDetection:
     xForwardedFor:
-      numTrustedHops: 1
+      # No proxy sits in front of Envoy (OPNsense NATs, doesn't proxy), so
+      # numTrustedHops must be 0: Envoy trusts only the socket peer address
+      # as the client IP and rewrites XFF from it. Any value >0 lets an
+      # external client set X-Forwarded-For itself and be trusted, spoofing
+      # a LAN/whitelisted IP to bypass CrowdSec detection entirely.
+      numTrustedHops: 0
   tls:
     minVersion: "1.2"
     alpnProtocols:
