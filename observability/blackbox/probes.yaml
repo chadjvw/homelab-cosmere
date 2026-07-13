@@ -18,5 +18,7 @@ spec:
         - https://jellyfin.vanwyhe.xyz
         - https://sonarr.int.vanwyhe.xyz
         - https://crowdsec.int.vanwyhe.xyz
+        - https://dash.int.vanwyhe.xyz
+        - https://prom.int.vanwyhe.xyz
       labels:
         job: blackbox-https

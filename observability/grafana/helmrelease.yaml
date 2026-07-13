@@ -66,6 +66,8 @@ spec:
     route:
       main:
         enabled: true
+        hostnames:
+          - dash.int.vanwyhe.xyz
         parentRefs:
           - group: gateway.networking.k8s.io
             kind: Gateway

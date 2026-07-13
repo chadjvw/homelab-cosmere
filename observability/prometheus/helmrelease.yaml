@@ -49,6 +49,8 @@ spec:
       route:
         main:
           enabled: true
+          hostnames:
+            - prom.int.vanwyhe.xyz
           parentRefs:
             - group: gateway.networking.k8s.io
               kind: Gateway
@@ -62,6 +64,7 @@ spec:
         maximumStartupDurationSeconds: 300
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
         storageSpec:
           volumeClaimTemplate:
             spec:
