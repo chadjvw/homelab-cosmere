@@ -8,6 +8,7 @@ on:
 permissions:
   packages: write
   contents: read
+  id-token: write
 env:
   OCI_REPO: "oci://ghcr.io/chadjvw/homelab/cosmere"
 jobs:
@@ -21,7 +22,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@main
+        uses: fluxcd/flux2/action@f05a280b876a3a1d35a76a91f701e605777853aa # v2.9.1
+      - name: Install cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
       - name: Login to GHCR
         uses: docker/login-action@v4
         with:
@@ -30,7 +33,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Push artifact
         run: |
-          flux push artifact $OCI_REPO:main \
+          digest="$(flux push artifact $OCI_REPO:main \
             --path="./" \
             --source="$(git config --get remote.origin.url)" \
-            --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)"
+            --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)" \
+            --output json | jq -r '.digest')"
+          echo "ARTIFACT_DIGEST=${OCI_REPO#oci://}@${digest}" >> "$GITHUB_ENV"
+      - name: Sign artifact
+        run: cosign sign --yes "$ARTIFACT_DIGEST"
