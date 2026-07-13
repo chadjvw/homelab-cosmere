@@ -6,6 +6,11 @@ spec:
   talos:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
     version: v1.13.6
+  policy:
+    # kexec silently no-ops on this nocloud/QEMU hardware: the installer
+    # writes the new image and reports exit_code=0 but never actually
+    # reboots into it. powercycle forces a real reboot.
+    rebootMode: powercycle
   maintenance:
     windows:
       - start: "0 2 * * 2" # 2am every Tuesday
