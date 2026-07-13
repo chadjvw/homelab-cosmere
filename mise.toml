@@ -94,6 +94,17 @@ kubectl exec -it -n default deployment/kanidm -c tools -- \
   kanidm system oauth2 update-sup-scope-map "${usage_client}" "${usage_group}" ${usage_scopes}
 """
 
+[tasks."kanidm:oauth2:add-redirect-url"]
+description = "Register an additional exact redirect/callback URL for an OAuth2 client"
+usage = '''
+arg "<client>" help="OAuth2 client name"
+arg "<url>" help="Exact redirect URL the app sends (e.g. https://app.example.com/api/auth/callback)"
+'''
+run = """
+kubectl exec -it -n default deployment/kanidm -c tools -- \
+  kanidm system oauth2 add-redirect-url "${usage_client}" "${usage_url}"
+"""
+
 [tasks."kanidm:oauth2:show-secret"]
 description = "Show the client secret for a confidential OAuth2 client"
 usage = 'arg "<name>" help="Client name"'
