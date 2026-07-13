@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: zwavejs
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: zwavejs
+      app.kubernetes.io/instance: zwavejs
+  policyTypes:
+    - Ingress
+  ingress:
+    - ports:
+        - protocol: TCP
+          port: 3000
+      from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: home-assistant
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: node-red
+    - ports:
+        - protocol: TCP
+          port: 8091
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system

@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - pvc.yaml
-  - tcproute.yaml
+  - networkpolicy.yaml

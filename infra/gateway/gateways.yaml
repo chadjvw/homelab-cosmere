@@ -53,9 +53,3 @@ spec:
         certificateRefs:
           - kind: Secret
             name: int.vanwyhe.xyz-tls
-    - name: zwavejs-ws
-      protocol: TCP
-      port: 3000
-      allowedRoutes:
-        namespaces:
-          from: All
