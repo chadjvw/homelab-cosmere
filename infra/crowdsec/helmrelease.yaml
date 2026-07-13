@@ -94,6 +94,36 @@ spec:
         config:
           storageClassName: org.democratic-csi.nvmeof
           size: 512Mi
+      # ponytail: CrowdSec 1.7.8 has no declarative allowlist file the LAPI loads at
+      # startup (checked docs.crowdsec.net/docs/local_api/centralized_allowlists/ +
+      # cscli allowlists reference) - only cscli create/add/import(CSV), and those
+      # must run on the LAPI machine itself (remote cscli errors "local API is
+      # disabled"). postStart on the lapi container is the least amount of
+      # machinery that runs in-pod and is idempotent every reconcile/restart.
+      # Re-asserts the cosmere-infra allowlist (k8s node IPs + pod CIDR) that
+      # stops CrowdSec's pf-scan-multi_ports scenario from banning our own nodes.
+      lifecycle:
+        postStart:
+          exec:
+            command:
+              - sh
+              - -c
+              - |
+                set -eu
+                i=0
+                until cscli lapi status >/dev/null 2>&1; do
+                  i=$((i + 1))
+                  if [ "$i" -ge 60 ]; then
+                    echo "cosmere-infra allowlist: LAPI not ready after 5m, giving up" >&2
+                    exit 1
+                  fi
+                  sleep 5
+                done
+                cscli allowlists create cosmere-infra -d "k8s node IPs + pod CIDR, exempted from CrowdSec bans (homelab-cosmere infra/crowdsec)" || true
+                cscli allowlists add cosmere-infra \
+                  10.0.10.12 10.0.10.13 10.0.10.14 \
+                  10.0.30.102 10.0.30.103 10.0.30.104 10.0.30.105 10.0.30.106 10.0.30.107 \
+                  10.244.0.0/16
       env:
         - name: ENROLL_KEY
           valueFrom:
