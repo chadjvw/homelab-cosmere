@@ -10,6 +10,7 @@ resources:
   - envoy-gateway.yaml
   - external-secrets.yaml
   - gardener.yaml
+  - grafana-charts.yaml
   - grafana.yaml
   - home-operations.yaml
   - intel.yaml
