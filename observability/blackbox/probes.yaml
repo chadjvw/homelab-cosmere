@@ -14,10 +14,10 @@ spec:
         - https://vault.vanwyhe.xyz
         - https://ha.vanwyhe.xyz
         - https://photos.vanwyhe.xyz
-        - https://plex.vanwyhe.xyz
+        - https://plex.vanwyhe.xyz/identity
         - https://jellyfin.vanwyhe.xyz
         - https://sonarr.int.vanwyhe.xyz
-        - https://crowdsec.int.vanwyhe.xyz
+        - https://crowdsec.int.vanwyhe.xyz/health
         - https://dash.int.vanwyhe.xyz
         - https://prom.int.vanwyhe.xyz
       labels:
