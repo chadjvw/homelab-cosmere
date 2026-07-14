@@ -53,9 +53,9 @@ spec:
               SIGNUPS_ALLOWED: "false"
               INVITATIONS_ALLOWED: "false"
               SHOW_PASSWORD_HINT: "false"
+              PASSWORD_ITERATIONS: "2000000"
               EMERGENCY_ACCESS_ALLOWED: "true"
               SENDS_ALLOWED: "true"
-              ORG_CREATION_USERS: "none"
               ROCKET_PORT: "8443"
               ROCKET_TLS: '{certs="/tls/tls.crt",key="/tls/tls.key"}'
               LOG_LEVEL: info
@@ -85,6 +85,8 @@ spec:
               SSO_ONLY: "true"
               SSO_AUTHORITY: https://auth.vanwyhe.xyz/oauth2/openid/vaultwarden
               SSO_CLIENT_ID: vaultwarden
+              SSO_ROLES_ENABLED: "true"
+              SSO_ROLES_TOKEN_PATH: /roles
               SSO_CLIENT_SECRET:
                 valueFrom:
                   secretKeyRef:
