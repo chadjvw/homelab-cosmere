@@ -1,7 +1,7 @@
 [tasks."kanidm:recover-account"]
 description = "Reset an account and print a one-time token. Use 'admin' for system tasks, 'idm_admin' for user/group tasks"
 usage = 'arg "<name>" help="Account to recover (admin or idm_admin)"'
-run = "kubectl exec -n default deployment/kanidm -- kanidmd recover-account ${usage_name}"
+run = 'kubectl exec -n default deployment/kanidm -c main -- kanidmd recover-account "${usage_name}"'
 
 [tasks."kanidm:shell"]
 description = "Open an interactive shell in the kanidm tools sidecar"
@@ -14,7 +14,15 @@ run = "kubectl exec -it -n default deployment/kanidm -c tools -- kanidm login -D
 
 [tasks."kanidm:domain"]
 description = "Run kanidm system domain subcommands (e.g. set-displayname 'Wyhebreaker Auth')"
-run = "kubectl exec -it -n default deployment/kanidm -c tools -- kanidm system domain $@"
+run = "kubectl exec -it -n default deployment/kanidm -c tools -- kanidm system domain"
+
+[tasks."kanidm:person:reset-credential"]
+description = "Generate a credential reset token/link for a person (requires idm_admin login)"
+usage = 'arg "<username>" help="Person to reset"'
+run = """
+kubectl exec -it -n default deployment/kanidm -c tools -- \
+  kanidm person credential create-reset-token "${usage_username}"
+"""
 
 [tasks."kanidm:person:create"]
 description = "Create a person"
@@ -114,6 +122,7 @@ kubectl exec -it -n default deployment/kanidm -c tools -- \
 """
 
 [tools]
+kubectl = "latest"
 uv = "latest"
 doppler = "latest"
 flux2 = "latest"
