@@ -4,3 +4,5 @@ resources:
   - namespace.yaml
   - helmrelease.yaml
   - scrapeconfig-opnsense.yaml
+  - externalsecret.yaml
+  - securitypolicy.yaml

@@ -55,6 +55,24 @@ spec:
     grafana.ini:
       analytics:
         check_for_updates: false
+      server:
+        root_url: https://dash.int.vanwyhe.xyz
+      users:
+        allow_sign_up: false
+      auth:
+        disable_login_form: false
+      auth.generic_oauth:
+        enabled: true
+        name: Kanidm
+        client_id: grafana
+        scopes: "openid profile email groups"
+        auth_url: https://auth.vanwyhe.xyz/ui/oauth2
+        token_url: https://auth.vanwyhe.xyz/oauth2/token
+        api_url: https://auth.vanwyhe.xyz/oauth2/openid/grafana/userinfo
+        use_pkce: true
+        allow_sign_up: true
+        role_attribute_path: "contains(groups[*], 'idm_admins@auth.vanwyhe.xyz') && 'Admin' || ''"
+        role_attribute_strict: true
       date_formats:
         full_date: "MMM Do, YYYY @ hh:mm:ss a"
         interval_second: "hh:mm:ss A"
@@ -82,6 +100,12 @@ spec:
       - grafana-piechart-panel
       - grafana-worldmap-panel
       - grafana-clock-panel
+    envValueFrom:
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
+        secretKeyRef:
+          name: grafana-oidc
+          key: clientSecret
+          optional: true
     serviceAccount:
       autoMount: true
     serviceMonitor:
