@@ -71,7 +71,7 @@ spec:
         api_url: https://auth.vanwyhe.xyz/oauth2/openid/grafana/userinfo
         use_pkce: true
         allow_sign_up: true
-        role_attribute_path: "contains(groups[*], 'idm_admins@auth.vanwyhe.xyz') && 'Admin' || ''"
+        role_attribute_path: "contains(groups[*], 'media_admin@auth.vanwyhe.xyz') && 'Admin' || ''"
         role_attribute_strict: true
       date_formats:
         full_date: "MMM Do, YYYY @ hh:mm:ss a"
