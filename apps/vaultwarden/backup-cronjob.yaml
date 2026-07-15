@@ -13,6 +13,17 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
+          # data PVC is RWO: must land on the same node as vaultwarden to mount it
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/name: vaultwarden
+                  topologyKey: kubernetes.io/hostname
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
           initContainers:
             - name: dump
               # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
@@ -23,6 +34,8 @@ spec:
                 - |
                   set -eu
                   pg_dump "$DATABASE_URL" -Fc -f /backup/vaultwarden.dump
+                  # attachments, sends, config.json, rsa_key* — icon_cache regenerates
+                  tar -C /data -czf /backup/vaultwarden-data.tar.gz --exclude ./icon_cache .
               env:
                 - name: DATABASE_URL
                   valueFrom:
@@ -32,6 +45,9 @@ spec:
               volumeMounts:
                 - name: backup
                   mountPath: /backup
+                - name: data
+                  mountPath: /data
+                  readOnly: true
           containers:
             - name: upload
               # renovate: datasource=docker depName=amazon/aws-cli
@@ -43,7 +59,8 @@ spec:
                   set -eu
                   TIMESTAMP=$(date +%Y%m%d-%H%M%S)
                   aws --endpoint-url "https://$B2_ENDPOINT" s3 cp /backup/vaultwarden.dump "s3://$B2_BUCKET/vaultwarden-backups/$TIMESTAMP-vaultwarden.dump"
-                  echo "Uploaded $TIMESTAMP-vaultwarden.dump to B2"
+                  aws --endpoint-url "https://$B2_ENDPOINT" s3 cp /backup/vaultwarden-data.tar.gz "s3://$B2_BUCKET/vaultwarden-backups/$TIMESTAMP-vaultwarden-data.tar.gz"
+                  echo "Uploaded $TIMESTAMP dump + data tarball to B2"
               env:
                 - name: AWS_ACCESS_KEY_ID
                   valueFrom:
@@ -70,3 +87,7 @@ spec:
           volumes:
             - name: backup
               emptyDir: {}
+            - name: data
+              persistentVolumeClaim:
+                claimName: vaultwarden-config-nvmeof
+                readOnly: true
