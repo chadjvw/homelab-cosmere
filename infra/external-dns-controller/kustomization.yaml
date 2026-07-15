@@ -4,3 +4,4 @@ resources:
   - helmrelease.yaml
   - externalsecret.yaml
   - dnsprovider.yaml
+  - dnsentries.yaml

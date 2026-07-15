@@ -16,3 +16,4 @@ spec:
     - name: democratic-csi-nvmeof
     - name: cloudnative-pg
     - name: cert-manager
+    - name: gateway

@@ -13,5 +13,6 @@ spec:
   dependsOn:
     - name: repos
     - name: cert-manager
+    - name: gateway
     - name: democratic-csi-nvmeof
     - name: external-secrets

@@ -1,10 +1,10 @@
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  name: trek-ext-xyz-dns
+  name: wildcard-vanwyhe-xyz-dns
   namespace: default
 spec:
-  dnsName: trek.vanwyhe.xyz
+  dnsName: "*.vanwyhe.xyz"
   ttl: 300
   targets:
     - home.vanwyhe.xyz
@@ -12,10 +12,10 @@ spec:
 apiVersion: dns.gardener.cloud/v1alpha1
 kind: DNSEntry
 metadata:
-  name: trek-ext-lol-dns
+  name: wildcard-vw4-lol-dns
   namespace: default
 spec:
-  dnsName: trek.vw4.lol
+  dnsName: "*.vw4.lol"
   ttl: 300
   targets:
     - home.vanwyhe.xyz

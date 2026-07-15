@@ -4,4 +4,3 @@ resources:
   - helmrelease.yaml
   - pvc.yaml
   - externalsecret.yaml
-  - dnsentries.yaml

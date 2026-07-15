@@ -99,7 +99,7 @@ spec:
             readOnly: true
       tls:
         type: secret
-        name: kanidm-tls
+        name: wildcard-vanwyhe-xyz-tls
         defaultMode: 0400
         globalMounts:
           - path: /tls

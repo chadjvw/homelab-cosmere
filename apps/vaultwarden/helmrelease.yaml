@@ -104,7 +104,7 @@ spec:
         existingClaim: vaultwarden-config-nvmeof
       tls:
         type: secret
-        name: vaultwarden-tls
+        name: wildcard-vanwyhe-xyz-tls
         globalMounts:
           - path: /tls
             readOnly: true

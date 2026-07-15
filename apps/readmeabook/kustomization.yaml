@@ -4,5 +4,4 @@ resources:
   - helmrelease.yaml
   - cnpg-cluster.yaml
   - externalsecret.yaml
-  - dnsentries.yaml
   - pvc.yaml
