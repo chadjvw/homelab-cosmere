@@ -34,6 +34,9 @@ spec:
             image:
               repository: ghcr.io/chadjvw/ntfy
               tag: v2.26.0
+            # image entrypoint is bare `ntfy`; without this it prints help and exits 0
+            args:
+              - serve
             env:
               TZ: America/Denver
               NTFY_BASE_URL: https://ntfy.vanwyhe.xyz
