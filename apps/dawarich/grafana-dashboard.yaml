@@ -1,0 +1,116 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dawarich-grafana-dashboard
+  namespace: default
+  labels:
+    grafana_dashboard: "1"
+data:
+  dawarich.json: |
+    {
+      "title": "Dawarich",
+      "uid": "dawarich",
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "time": { "from": "now-6h", "to": "now" },
+      "panels": [
+        {
+          "id": 1,
+          "title": "HTTP Request Rate",
+          "type": "timeseries",
+          "datasource": "Prometheus",
+          "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "expr": "sum by (status) (rate(rails_requests_total[5m]))",
+              "legendFormat": "{{status}}"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "HTTP Request Duration (p95)",
+          "type": "timeseries",
+          "datasource": "Prometheus",
+          "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+          "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "expr": "histogram_quantile(0.95, sum by (le) (rate(rails_request_duration_seconds_bucket[5m])))",
+              "legendFormat": "p95"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Puma Threads",
+          "type": "timeseries",
+          "datasource": "Prometheus",
+          "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+          "targets": [
+            { "datasource": "Prometheus", "expr": "puma_running", "legendFormat": "running" },
+            { "datasource": "Prometheus", "expr": "puma_busy_threads", "legendFormat": "busy" },
+            { "datasource": "Prometheus", "expr": "puma_max_threads", "legendFormat": "max" }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "Puma Backlog",
+          "type": "timeseries",
+          "datasource": "Prometheus",
+          "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+          "targets": [
+            { "datasource": "Prometheus", "expr": "puma_backlog", "legendFormat": "backlog" }
+          ]
+        },
+        {
+          "id": 5,
+          "title": "ActiveRecord Connection Pool",
+          "type": "timeseries",
+          "datasource": "Prometheus",
+          "gridPos": { "x": 0, "y": 16, "w": 12, "h": 8 },
+          "targets": [
+            { "datasource": "Prometheus", "expr": "activerecord_connection_pool_busy", "legendFormat": "busy" },
+            { "datasource": "Prometheus", "expr": "activerecord_connection_pool_size", "legendFormat": "size" },
+            { "datasource": "Prometheus", "expr": "activerecord_connection_pool_waiting", "legendFormat": "waiting" }
+          ]
+        },
+        {
+          "id": 6,
+          "title": "Sidekiq Queue Size",
+          "type": "timeseries",
+          "datasource": "Prometheus",
+          "gridPos": { "x": 12, "y": 16, "w": 12, "h": 8 },
+          "targets": [
+            { "datasource": "Prometheus", "expr": "sidekiq_jobs_waiting_count", "legendFormat": "{{queue}}" }
+          ]
+        },
+        {
+          "id": 7,
+          "title": "Sidekiq Jobs Rate",
+          "type": "timeseries",
+          "datasource": "Prometheus",
+          "gridPos": { "x": 0, "y": 24, "w": 12, "h": 8 },
+          "targets": [
+            { "datasource": "Prometheus", "expr": "sum(rate(sidekiq_jobs_success_total[5m]))", "legendFormat": "success" },
+            { "datasource": "Prometheus", "expr": "sum(rate(sidekiq_jobs_failed_total[5m]))", "legendFormat": "failed" }
+          ]
+        },
+        {
+          "id": 8,
+          "title": "Archive Operations",
+          "type": "timeseries",
+          "datasource": "Prometheus",
+          "gridPos": { "x": 12, "y": 24, "w": 12, "h": 8 },
+          "targets": [
+            {
+              "datasource": "Prometheus",
+              "expr": "sum by (operation, status) (rate(dawarich_archive_operations_total[5m]))",
+              "legendFormat": "{{operation}}/{{status}}"
+            }
+          ]
+        }
+      ]
+    }

@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: dawarich
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: dawarich
+      app.kubernetes.io/controller: main
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+      basicAuth:
+        username:
+          name: dawarich-secrets
+          key: metrics-username
+        password:
+          name: dawarich-secrets
+          key: metrics-password

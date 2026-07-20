@@ -5,3 +5,5 @@ resources:
   - cnpg-cluster.yaml
   - pvc.yaml
   - externalsecret.yaml
+  - servicemonitor.yaml
+  - grafana-dashboard.yaml
