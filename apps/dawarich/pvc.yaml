@@ -35,7 +35,7 @@ spec:
     - ReadWriteOnce
   nfs:
     server: truenas.vanwyhe.xyz
-    path: /mnt/mongo/data/dawarich-photon
+    path: /mnt/mongo/k8s/nfs/v/dawarich-photon
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
