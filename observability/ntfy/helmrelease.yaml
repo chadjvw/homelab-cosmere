@@ -27,12 +27,8 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
-            # upstream ntfy only publishes to docker.io/binwiederhier/ntfy (no ghcr.io image
-            # exists - verified via ghcr.io token endpoint and upstream's release workflow,
-            # which logs into Docker Hub only). Mirrored 1:1 to ghcr.io/chadjvw/ntfy via
-            # .github/workflows/mirror-ntfy.yaml to keep this cluster docker.io-free.
             image:
-              repository: ghcr.io/chadjvw/ntfy
+              repository: docker.io/binwiederhier/ntfy
               tag: v2.26.0
             # image entrypoint is bare `ntfy`; without this it prints help and exits 0
             args:
