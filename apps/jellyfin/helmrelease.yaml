@@ -126,6 +126,16 @@ spec:
             namespace: kube-system
             sectionName: https
         rules:
+          - matches:
+              - path:
+                  type: Exact
+                  value: /metrics
+            filters:
+              - type: ExtensionRef
+                extensionRef:
+                  group: gateway.envoyproxy.io
+                  kind: HTTPRouteFilter
+                  name: jellyfin-deny-metrics
           - backendRefs:
               - group: ""
                 kind: Service
