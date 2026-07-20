@@ -37,7 +37,7 @@ spec:
             env:
               RAILS_ENV: production
               TIME_ZONE: America/Denver
-              APPLICATION_HOSTS: dawarich.vanwyhe.xyz,dawarich.vw4.lol
+              APPLICATION_HOSTS: timeline.vanwyhe.xyz,timeline.vw4.lol
               APPLICATION_PROTOCOL: https
               RAILS_LOG_TO_STDOUT: "true"
               SELF_HOSTED: "true"
@@ -80,7 +80,7 @@ spec:
                     name: dawarich-secrets
                     key: oidc-client-secret
               OIDC_ISSUER: https://auth.vanwyhe.xyz/oauth2/openid/dawarich
-              OIDC_REDIRECT_URI: https://dawarich.vanwyhe.xyz/users/auth/openid_connect/callback
+              OIDC_REDIRECT_URI: https://timeline.vanwyhe.xyz/users/auth/openid_connect/callback
               OIDC_PROVIDER_NAME: Wyhebreaker
               ALLOW_EMAIL_PASSWORD_REGISTRATION: "false"
               ALLOW_EMAIL_PASSWORD_LOGIN: "false"
@@ -96,6 +96,7 @@ spec:
                   topologyKey: kubernetes.io/hostname
         containers:
           main:
+            # renovate: datasource=docker depName=freikin/dawarich
             image:
               repository: freikin/dawarich
               tag: 1.10.1
@@ -106,7 +107,7 @@ spec:
             env:
               RAILS_ENV: production
               TIME_ZONE: America/Denver
-              APPLICATION_HOSTS: dawarich.vanwyhe.xyz,dawarich.vw4.lol
+              APPLICATION_HOSTS: timeline.vanwyhe.xyz,timeline.vw4.lol
               APPLICATION_PROTOCOL: https
               RAILS_LOG_TO_STDOUT: "true"
               SELF_HOSTED: "true"
@@ -190,8 +191,8 @@ spec:
     route:
       main:
         hostnames:
-          - dawarich.vanwyhe.xyz
-          - dawarich.vw4.lol
+          - timeline.vanwyhe.xyz
+          - timeline.vw4.lol
         parentRefs:
           - group: gateway.networking.k8s.io
             kind: Gateway
