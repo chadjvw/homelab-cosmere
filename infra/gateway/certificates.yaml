@@ -12,7 +12,6 @@ spec:
   dnsNames:
     - vanwyhe.xyz
     - "*.vanwyhe.xyz"
-    - int.vanwyhe.xyz
     - "*.int.vanwyhe.xyz"
 ---
 # allows the kube-system gateways to use the cert secret in default
