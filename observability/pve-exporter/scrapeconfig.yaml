@@ -1,0 +1,15 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: proxmox
+  namespace: monitoring
+spec:
+  metricsPath: /pve
+  params:
+    target:
+      - dcw.vanwyhe.xyz
+  staticConfigs:
+    - targets:
+        - pve-exporter.monitoring.svc.cluster.local:9221
+      labels:
+        instance: dcw
