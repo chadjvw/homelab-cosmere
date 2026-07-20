@@ -117,6 +117,7 @@ spec:
               OIDC_ISSUER: https://auth.vanwyhe.xyz/oauth2/openid/dawarich
               OIDC_REDIRECT_URI: https://timeline.vanwyhe.xyz/users/auth/openid_connect/callback
               OIDC_PROVIDER_NAME: Wyhebreaker
+              OIDC_PKCE_ENABLED: "true"
               ALLOW_EMAIL_PASSWORD_REGISTRATION: "false"
               ALLOW_EMAIL_PASSWORD_LOGIN: "false"
       sidekiq:
