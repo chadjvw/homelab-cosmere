@@ -25,6 +25,7 @@ spec:
               PGID: 1000
               PUID: 1000
               TZ: America/Denver
+              CRON_SCHEDULE: "0 */6 * * *"
             image:
               repository: ghcr.io/jmbannon/ytdl-sub-gui
               tag: "2026.07.17.post1"
@@ -45,6 +46,17 @@ spec:
         path: /mnt/mongo/data/media/movies
         globalMounts:
           - path: /movies
+      music:
+        enabled: true
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/media/music
+        globalMounts:
+          - path: /music
+      working-dir:
+        type: emptyDir
+        globalMounts:
+          - path: /scratch
     service:
       main:
         controller: main
