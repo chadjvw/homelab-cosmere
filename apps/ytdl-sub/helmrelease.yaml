@@ -1,0 +1,67 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ytdl-sub
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: ytdl-sub
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            env:
+              PGID: 1000
+              PUID: 1000
+              TZ: America/Denver
+            image:
+              repository: ghcr.io/jmbannon/ytdl-sub-gui
+              tag: "2026.07.17.post1"
+    persistence:
+      config:
+        existingClaim: ytdl-sub-config-nvmeof
+      tv:
+        enabled: true
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/media/tv
+        globalMounts:
+          - path: /tv_shows
+      movies:
+        enabled: true
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/media/movies
+        globalMounts:
+          - path: /movies
+    service:
+      main:
+        controller: main
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 8443
+    route:
+      main:
+        hostnames:
+          - ytdl-sub.int.vanwyhe.xyz
+          - ytdl-sub.i.vw4.lol
+          - ytdl-sub.int.vw4.lol
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: Gateway
+            name: internal
+            namespace: kube-system
+            sectionName: https

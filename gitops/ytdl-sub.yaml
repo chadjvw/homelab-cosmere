@@ -1,0 +1,16 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: ytdl-sub
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./apps/ytdl-sub
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: default
+  dependsOn:
+    - name: repos
+    - name: democratic-csi-nvmeof
+    - name: external-secrets
