@@ -40,6 +40,8 @@ spec:
               PUID: 1000
               TZ: America/Denver
               VERSION: latest
+              DOCKER_MODS: linuxserver/mods:universal-stdout-logs
+              LOGS_TO_STDOUT: "/config/Library/Application Support/Plex Media Server/Logs/Plex Media Server.log"
               PLEX_CLAIM:
                 valueFrom:
                   secretKeyRef:

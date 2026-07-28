@@ -27,6 +27,8 @@ spec:
               TZ: America/Denver
               WEBUI_PORT: 9092
               TORRENTING_PORT: 51413
+              DOCKER_MODS: linuxserver/mods:universal-stdout-logs
+              LOGS_TO_STDOUT: /config/qBittorrent/logs/qbittorrent.log
             image:
               repository: ghcr.io/linuxserver/qbittorrent
               tag: "5.2.3"
