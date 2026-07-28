@@ -59,7 +59,7 @@ spec:
         server: truenas.vanwyhe.xyz
         path: /mnt/mongo/data/torrents
         globalMounts:
-          - path: /scratch
+          - path: /downloads
     service:
       main:
         controller: main
