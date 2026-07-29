@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: vaultwarden-config-nvmeof
   trigger:
-    schedule: "0 0 4 * * *"
+    schedule: "0 4 * * *"
   restic:
     repository: vaultwarden-volsync-restic
     copyMethod: Snapshot

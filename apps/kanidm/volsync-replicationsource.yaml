@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: kanidm-data
   trigger:
-    schedule: "0 0 4 * * *"
+    schedule: "0 4 * * *"
   restic:
     repository: kanidm-volsync-restic
     copyMethod: Snapshot
