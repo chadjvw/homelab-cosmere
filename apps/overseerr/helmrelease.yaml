@@ -47,6 +47,10 @@ spec:
         existingClaim: overseerr-config-nvmeof
         globalMounts:
           - path: /app/config
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /app/config/logs
     service:
       main:
         controller: main

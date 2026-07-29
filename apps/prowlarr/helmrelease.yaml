@@ -31,6 +31,10 @@ spec:
     persistence:
       config:
         existingClaim: prowlarr-config-nvmeof
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
     service:
       main:
         controller: main

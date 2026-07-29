@@ -33,6 +33,10 @@ spec:
         existingClaim: audiobookshelf-config-nvmeof
       metadata:
         existingClaim: audiobookshelf-metadata-nvmeof
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /metadata/logs
       audiobooks:
         enabled: true
         type: nfs

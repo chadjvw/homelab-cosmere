@@ -31,6 +31,10 @@ spec:
     persistence:
       config:
         existingClaim: radarr-config-nvmeof
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
       movies:
         enabled: true
         type: nfs

@@ -63,6 +63,10 @@ spec:
         existingClaim: trek-uploads-nvmeof
         globalMounts:
           - path: /app/uploads
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /app/data/logs
     service:
       main:
         controller: main

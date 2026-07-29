@@ -26,12 +26,17 @@ spec:
               PUID: 1000
               TZ: America/Denver
               CRON_SCHEDULE: "0 */6 * * *"
+              LOGS_TO_STDOUT: /cron-log/.cron.log
             image:
               repository: ghcr.io/jmbannon/ytdl-sub-gui
               tag: "2026.07.17.post1"
     persistence:
       config:
         existingClaim: ytdl-sub-config-nvmeof
+      cron-log:
+        type: emptyDir
+        globalMounts:
+          - path: /cron-log
       tv:
         enabled: true
         type: nfs

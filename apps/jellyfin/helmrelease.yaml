@@ -81,6 +81,12 @@ spec:
         existingClaim: jellyfin-cache-nvmeof
         globalMounts:
           - path: /config/cache
+      logging-config:
+        type: configMap
+        name: jellyfin-logging-config
+        globalMounts:
+          - path: /config/logging.json
+            subPath: logging.json
       tv:
         enabled: true
         type: nfs
