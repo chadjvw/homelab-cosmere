@@ -6,3 +6,5 @@ resources:
   - pvc.yaml
   - backend-tls-policy.yaml
   - helmrelease.yaml
+  - volsync-restic-externalsecret.yaml
+  - volsync-replicationsource.yaml

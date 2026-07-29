@@ -1,0 +1,19 @@
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: kanidm-data
+  namespace: default
+spec:
+  sourcePVC: kanidm-data
+  trigger:
+    schedule: "0 0 4 * * *"
+  restic:
+    repository: kanidm-volsync-restic
+    copyMethod: Snapshot
+    volumeSnapshotClassName: org.democratic-csi.nvmeof
+    pruneIntervalDays: 7
+    retain:
+      daily: 7
+      weekly: 4
+      monthly: 6
+    cacheCapacity: 1Gi

@@ -1,0 +1,19 @@
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: vaultwarden-config
+  namespace: default
+spec:
+  sourcePVC: vaultwarden-config-nvmeof
+  trigger:
+    schedule: "0 0 4 * * *"
+  restic:
+    repository: vaultwarden-volsync-restic
+    copyMethod: Snapshot
+    volumeSnapshotClassName: org.democratic-csi.nvmeof
+    pruneIntervalDays: 7
+    retain:
+      daily: 7
+      weekly: 4
+      monthly: 6
+    cacheCapacity: 1Gi

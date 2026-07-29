@@ -17,3 +17,9 @@ spec:
     - name: cloudnative-pg
     - name: cert-manager
     - name: gateway
+    - name: volsync
+    - name: backup
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: backup-s3-vars

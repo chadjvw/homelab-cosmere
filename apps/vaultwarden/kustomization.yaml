@@ -4,7 +4,8 @@ resources:
   - helmrelease.yaml
   - pvc.yaml
   - cnpg-cluster.yaml
+  - cnpg-scheduledbackup.yaml
   - externalsecret.yaml
-  - backup-b2-externalsecret.yaml
-  - backup-cronjob.yaml
+  - volsync-restic-externalsecret.yaml
+  - volsync-replicationsource.yaml
   - backend-tls-policy.yaml
