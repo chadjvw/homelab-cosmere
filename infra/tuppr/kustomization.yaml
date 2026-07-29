@@ -6,3 +6,4 @@ resources:
   - externalsecret.yaml
   - talosupgrade.yaml
   - kubernetesupgrade.yaml
+  - prometheusrule.yaml

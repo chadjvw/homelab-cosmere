@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: tuppr
+  namespace: system-upgrade
+spec:
+  groups:
+    - name: tuppr
+      rules:
+        - alert: TupprUpgradeFailed
+          expr: tuppr_upgrades{phase="Failed"} > 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "tuppr {{ $labels.upgrade_type }} upgrade is stuck Failed"
+            description: >-
+              tuppr's {{ $labels.upgrade_type }} upgrade has been in phase Failed for 5+ minutes and will not retry on its own. Check `kubectl get talosupgrades,kubernetesupgrades` and the tuppr controller logs, then clear it with the `tuppr.home-operations.com/reset` annotation.
