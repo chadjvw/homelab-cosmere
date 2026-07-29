@@ -40,6 +40,7 @@ spec:
                     name: mealie-oidc
                     key: clientSecret
               OIDC_CONFIGURATION_URL: https://auth.vanwyhe.xyz/oauth2/openid/mealie/.well-known/openid-configuration
+              LOG_CONFIG_OVERRIDE: /logconf/logconf.json
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v3.20.1
@@ -48,6 +49,11 @@ spec:
         existingClaim: mealie-data-nvmeof
         globalMounts:
           - path: /app/data
+      logging-config:
+        type: configMap
+        name: mealie-logging-config
+        globalMounts:
+          - path: /logconf
     service:
       main:
         controller: main

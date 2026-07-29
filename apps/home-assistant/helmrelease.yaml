@@ -54,6 +54,7 @@ spec:
               PGID: 1000
               PUID: 1000
               TZ: America/Denver
+              HA_DISABLE_LOG_FILE: "true"
     persistence:
       config:
         existingClaim: home-assistant-config-nvmeof

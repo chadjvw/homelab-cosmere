@@ -29,6 +29,7 @@ spec:
               PUID: 1000
               TZ: America/Denver
               ZWAVEJS_EXTERNAL_CONFIG: /usr/src/app/store/.config-db
+              ZWAVEJS_LOGS_DIR: /zwave-logs
             image:
               repository: docker.io/zwavejs/zwave-js-ui
               tag: "11.21.1"
@@ -40,6 +41,10 @@ spec:
         existingClaim: zwavejs-config-nvmeof
         globalMounts:
           - path: /usr/src/app/store
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /zwave-logs
     service:
       main:
         controller: main
