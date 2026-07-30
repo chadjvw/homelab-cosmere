@@ -25,6 +25,6 @@ spec:
           name: backup-s3-credentials
           key: REGION
       wal:
-        compression: gzip
+        compression: zstd
       data:
-        compression: gzip
+        compression: snappy
