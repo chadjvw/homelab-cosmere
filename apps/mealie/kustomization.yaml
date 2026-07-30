@@ -5,3 +5,5 @@ resources:
   - helmrelease.yaml
   - pvc.yaml
   - externalsecret.yaml
+  - volsync-mealie-data-restic-externalsecret.yaml
+  - volsync-mealie-data-replicationsource.yaml

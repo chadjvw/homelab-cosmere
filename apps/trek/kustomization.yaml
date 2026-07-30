@@ -4,3 +4,7 @@ resources:
   - helmrelease.yaml
   - pvc.yaml
   - externalsecret.yaml
+  - volsync-trek-data-restic-externalsecret.yaml
+  - volsync-trek-uploads-restic-externalsecret.yaml
+  - volsync-trek-data-replicationsource.yaml
+  - volsync-trek-uploads-replicationsource.yaml

@@ -5,3 +5,5 @@ resources:
   - pvc.yaml
   - externalsecret.yaml
   - securitypolicy.yaml
+  - volsync-ytdl-sub-config-restic-externalsecret.yaml
+  - volsync-ytdl-sub-config-replicationsource.yaml

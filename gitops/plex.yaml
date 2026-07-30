@@ -13,4 +13,5 @@ spec:
   dependsOn:
     - name: repos
     - name: external-secrets
+    - name: volsync
     - name: democratic-csi-nvmeof

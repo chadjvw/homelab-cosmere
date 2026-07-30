@@ -3,3 +3,7 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - pvc.yaml
+  - volsync-audiobookshelf-config-restic-externalsecret.yaml
+  - volsync-audiobookshelf-metadata-restic-externalsecret.yaml
+  - volsync-audiobookshelf-config-replicationsource.yaml
+  - volsync-audiobookshelf-metadata-replicationsource.yaml

@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - pvc.yaml
+  - volsync-qbittorrent-config-restic-externalsecret.yaml
+  - volsync-qbittorrent-config-replicationsource.yaml

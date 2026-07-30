@@ -4,3 +4,5 @@ resources:
   - helmrelease.yaml
   - pvc.yaml
   - externalsecret.yaml
+  - volsync-plex-config-restic-externalsecret.yaml
+  - volsync-plex-config-replicationsource.yaml

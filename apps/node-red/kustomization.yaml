@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - pvc.yaml
+  - volsync-node-red-data-restic-externalsecret.yaml
+  - volsync-node-red-data-replicationsource.yaml

@@ -4,3 +4,5 @@ resources:
   - helmrelease.yaml
   - httproutefilter.yaml
   - pvc.yaml
+  - volsync-jellyfin-data-restic-externalsecret.yaml
+  - volsync-jellyfin-data-replicationsource.yaml
