@@ -1,0 +1,26 @@
+apiVersion: tuppr.home-operations.com/v1alpha1
+kind: TalosUpgrade
+metadata:
+  name: talos-controlplane
+spec:
+  nodeSelector:
+    matchLabels:
+      node-role.kubernetes.io/control-plane: "true"
+  talos:
+    # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+    version: v1.13.6
+  # Real hardware: kexec (the default reboot mode) works fine and is faster
+  # than a full powercycle. See talosupgrade-workers.yaml for the QEMU nodes.
+  maintenance:
+    windows:
+      - start: "0 2 * * 2" # 2am every Tuesday
+        duration: 4h
+  healthChecks:
+    - description: All nodes are Ready
+      apiVersion: v1
+      kind: Node
+      expr: "object.status.conditions.exists(c, c.type == 'Ready' && c.status == 'True')"
+    - description: No pods are in a failed state
+      apiVersion: v1
+      kind: Pod
+      expr: "object.status.phase != 'Failed'"
