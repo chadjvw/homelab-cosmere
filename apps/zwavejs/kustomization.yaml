@@ -4,3 +4,5 @@ resources:
   - helmrelease.yaml
   - pvc.yaml
   - networkpolicy.yaml
+  - volsync-restic-externalsecret.yaml
+  - volsync-replicationsource.yaml

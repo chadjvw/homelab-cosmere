@@ -13,3 +13,11 @@ spec:
   dependsOn:
     - name: repos
     - name: democratic-csi-nvmeof
+    - name: cloudnative-pg
+    - name: external-secrets
+    - name: volsync
+    - name: backup
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: backup-s3-vars

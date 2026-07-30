@@ -15,3 +15,8 @@ spec:
     - name: external-secrets
     - name: democratic-csi-nvmeof
     - name: cloudnative-pg
+    - name: backup
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: backup-s3-vars

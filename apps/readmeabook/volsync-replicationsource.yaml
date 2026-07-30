@@ -1,0 +1,23 @@
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: readmeabook-config
+  namespace: default
+spec:
+  sourcePVC: readmeabook-config
+  trigger:
+    schedule: "0 4 * * *"
+  restic:
+    repository: readmeabook-volsync-restic
+    copyMethod: Snapshot
+    volumeSnapshotClassName: org.democratic-csi.nvmeof
+    pruneIntervalDays: 7
+    retain:
+      daily: 7
+      weekly: 4
+      monthly: 6
+    cacheCapacity: 1Gi
+    cacheStorageClassName: org.democratic-csi.nvmeof
+    moverSecurityContext:
+      runAsUser: 0
+      runAsGroup: 0

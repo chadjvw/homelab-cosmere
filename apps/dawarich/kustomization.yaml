@@ -3,7 +3,10 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - cnpg-cluster.yaml
+  - cnpg-scheduledbackup.yaml
   - pvc.yaml
   - externalsecret.yaml
   - servicemonitor.yaml
   - grafana-dashboard.yaml
+  - volsync-restic-externalsecret.yaml
+  - volsync-replicationsource.yaml
