@@ -19,5 +19,5 @@ spec:
     cacheCapacity: 1Gi
     cacheStorageClassName: org.democratic-csi.nvmeof
     moverSecurityContext:
-      runAsUser: 0
+      runAsUser: 1000
       runAsGroup: 1000
