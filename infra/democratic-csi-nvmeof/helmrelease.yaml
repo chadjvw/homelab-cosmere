@@ -36,7 +36,7 @@ spec:
     volumeSnapshotClasses:
       - name: org.democratic-csi.nvmeof
         parameters:
-          detachedSnapshots: "true"
+          detachedSnapshots: "false"
     driver:
       existingConfigSecret: truenas-nvmeof-driver-config
       config:

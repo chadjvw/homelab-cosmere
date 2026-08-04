@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: dawarich-data
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "10 4 * * *"
   restic:
     repository: dawarich-volsync-restic
     copyMethod: Snapshot

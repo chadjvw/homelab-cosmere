@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: trek-uploads-nvmeof
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "20 5 * * *"
   restic:
     repository: trek-uploads-volsync-restic
     copyMethod: Snapshot

@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: mealie-data-nvmeof
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "30 4 * * *"
   restic:
     repository: mealie-data-volsync-restic
     copyMethod: Snapshot

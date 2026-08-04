@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: radarr-config-nvmeof
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "0 5 * * *"
   restic:
     repository: radarr-config-volsync-restic
     copyMethod: Snapshot

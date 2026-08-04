@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: zwavejs-config-nvmeof
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "35 5 * * *"
   restic:
     repository: zwavejs-volsync-restic
     copyMethod: Snapshot

@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: sonarr-config-nvmeof
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "10 5 * * *"
   restic:
     repository: sonarr-config-volsync-restic
     copyMethod: Snapshot

@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: readmeabook-config
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "5 5 * * *"
   restic:
     repository: readmeabook-volsync-restic
     copyMethod: Snapshot

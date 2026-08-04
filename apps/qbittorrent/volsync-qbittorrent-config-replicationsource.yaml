@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: qbittorrent-config-nvmeof
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "55 4 * * *"
   restic:
     repository: qbittorrent-config-volsync-restic
     copyMethod: Snapshot

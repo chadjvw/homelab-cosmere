@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: plex-config-nvmeof
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "45 4 * * *"
   restic:
     repository: plex-config-volsync-restic
     copyMethod: Snapshot

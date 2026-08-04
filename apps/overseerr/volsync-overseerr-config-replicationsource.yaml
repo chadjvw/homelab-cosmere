@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: overseerr-config-nvmeof
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "40 4 * * *"
   restic:
     repository: overseerr-config-volsync-restic
     copyMethod: Snapshot

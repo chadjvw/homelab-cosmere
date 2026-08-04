@@ -6,7 +6,7 @@ metadata:
 spec:
   sourcePVC: node-red-data-nvmeof
   trigger:
-    schedule: "0 4 * * *"
+    schedule: "35 4 * * *"
   restic:
     repository: node-red-data-volsync-restic
     copyMethod: Snapshot
