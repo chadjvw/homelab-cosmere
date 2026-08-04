@@ -54,6 +54,13 @@ spec:
           tag: v1.9.5
     controller:
       externalAttacher:
+        args:
+          - --v=5
+          - --leader-election
+          - --leader-election-namespace=storage
+          - --timeout=90s
+          - --worker-threads=2
+          - --csi-address=/csi-data/csi.sock
         resources:
           requests:
             cpu: 10m
@@ -62,6 +69,14 @@ spec:
             cpu: 100m
             memory: 128Mi
       externalProvisioner:
+        args:
+          - --v=5
+          - --leader-election
+          - --leader-election-namespace=storage
+          - --timeout=90s
+          - --worker-threads=2
+          - --extra-create-metadata
+          - --csi-address=/csi-data/csi.sock
         resources:
           requests:
             cpu: 10m
@@ -70,6 +85,13 @@ spec:
             cpu: 100m
             memory: 128Mi
       externalResizer:
+        args:
+          - --v=5
+          - --leader-election
+          - --leader-election-namespace=storage
+          - --timeout=90s
+          - --workers=2
+          - --csi-address=/csi-data/csi.sock
         resources:
           requests:
             cpu: 10m
@@ -78,6 +100,13 @@ spec:
             cpu: 100m
             memory: 128Mi
       externalSnapshotter:
+        args:
+          - --v=5
+          - --leader-election
+          - --leader-election-namespace=storage
+          - --timeout=90s
+          - --worker-threads=2
+          - --csi-address=/csi-data/csi.sock
         resources:
           requests:
             cpu: 10m
