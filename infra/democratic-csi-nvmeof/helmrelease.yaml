@@ -32,7 +32,7 @@ spec:
         allowVolumeExpansion: true
         parameters:
           fsType: xfs
-          detachedVolumesFromSnapshots: "true"
+          detachedVolumesFromSnapshots: "false"
     volumeSnapshotClasses:
       - name: org.democratic-csi.nvmeof
         parameters:
