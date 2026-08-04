@@ -60,6 +60,8 @@ spec:
                     name: immich-database-app
                     key: password
     immich:
+      metrics:
+        enabled: true
       persistence:
         library:
           existingClaim: immich-library

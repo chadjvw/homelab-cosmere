@@ -8,3 +8,5 @@ resources:
   - externalsecret.yaml
   - volsync-restic-externalsecret.yaml
   - volsync-replicationsource.yaml
+  - httproutefilter.yaml
+  - servicemonitor.yaml

@@ -37,6 +37,14 @@ spec:
           datasource: Prometheus
           gnetId: 16714
           revision: 1
+        immich:
+          gnetId: 22555
+          revision: 1
+          datasource:
+            - name: DS_PROMETHEUS
+              value: Prometheus
+            - name: DS_LOKI
+              value: Loki
     datasources:
       datasources.yaml:
         apiVersion: 1

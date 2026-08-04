@@ -44,6 +44,9 @@ spec:
                 grep -q 'auth_oidc:' /config/configuration.yaml || \
                   printf '\nauth_oidc:\n  client_id: home-assistant\n  client_secret: !secret oidc_client_secret\n  discovery_url: https://auth.vanwyhe.xyz/oauth2/openid/home-assistant/.well-known/openid-configuration\n  display_name: Kanidm\n  id_token_signing_alg: ES256\n  roles:\n    admin: homeassistant_admins@auth.vanwyhe.xyz\n    user: homeassistant_users@auth.vanwyhe.xyz\n  features:\n    automatic_person_creation: true\n' \
                   >> /config/configuration.yaml
+                grep -q 'prometheus:' /config/configuration.yaml || \
+                  printf '\nprometheus:\n  requires_auth: false\n' \
+                  >> /config/configuration.yaml
         containers:
           main:
             # renovate: datasource=docker depName=ghcr.io/home-assistant/home-assistant
@@ -91,3 +94,21 @@ spec:
             name: external
             namespace: kube-system
             sectionName: https
+        rules:
+          - matches:
+              - path:
+                  type: Exact
+                  value: /api/prometheus
+            filters:
+              - type: ExtensionRef
+                extensionRef:
+                  group: gateway.envoyproxy.io
+                  kind: HTTPRouteFilter
+                  name: home-assistant-deny-metrics
+          - backendRefs:
+              - group: ""
+                kind: Service
+                name: home-assistant
+                namespace: default
+                port: 8123
+                weight: 1
