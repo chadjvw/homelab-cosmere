@@ -28,7 +28,7 @@ spec:
             # renovate: datasource=docker depName=ghcr.io/node-red/node-red
             image:
               repository: ghcr.io/node-red/node-red
-              tag: "5.0.1"
+              tag: "5.0.4"
             env:
               TZ: America/Denver
             securityContext:
