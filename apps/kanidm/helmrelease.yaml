@@ -33,7 +33,7 @@ spec:
             # renovate: datasource=docker depName=kanidm/server
             image:
               repository: docker.io/kanidm/server
-              tag: "1.10.4"
+              tag: "1.11.1"
             env:
               KANIDM_CONFIG: /etc/kanidm/server.toml
             securityContext:
