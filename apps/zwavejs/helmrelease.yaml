@@ -32,7 +32,7 @@ spec:
               ZWAVEJS_LOGS_DIR: /zwave-logs
             image:
               repository: docker.io/zwavejs/zwave-js-ui
-              tag: "11.21.1"
+              tag: "11.22.3"
             resources:
               limits:
                 devic.es/zwave: 1
