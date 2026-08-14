@@ -35,7 +35,7 @@ spec:
             # renovate: datasource=docker depName=ghcr.io/dani-garcia/vaultwarden
             image:
               repository: ghcr.io/dani-garcia/vaultwarden
-              tag: 1.36.0
+              tag: 1.37.1
             env:
               TZ: America/Denver
               DOMAIN: https://vault.vanwyhe.xyz
