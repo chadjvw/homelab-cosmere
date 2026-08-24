@@ -8,7 +8,7 @@ spec:
       node-role.kubernetes.io/control-plane: "true"
   talos:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-    version: v1.13.8
+    version: v1.13.9
   # Real hardware: kexec (the default reboot mode) works fine and is faster
   # than a full powercycle. See talosupgrade-workers.yaml for the QEMU nodes.
   maintenance:
