@@ -220,7 +220,7 @@ spec:
             # renovate: datasource=docker depName=ghcr.io/valkey-io/valkey
             image:
               repository: ghcr.io/valkey-io/valkey
-              tag: 9.1.1-alpine
+              tag: 9.1.2-alpine
             securityContext:
               allowPrivilegeEscalation: false
       photon:
