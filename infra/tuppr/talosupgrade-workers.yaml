@@ -9,7 +9,7 @@ spec:
         operator: DoesNotExist
   talos:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-    version: v1.13.9
+    version: v1.13.10
   policy:
     # kexec silently no-ops on this nocloud/QEMU hardware: the installer
     # writes the new image and reports exit_code=0 but never actually
