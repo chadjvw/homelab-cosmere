@@ -7,6 +7,12 @@
       allowedVersions: "!/^\\d{4}.*$/",
     },
     {
+      description: "Home Assistant uses CalVer (YYYY.MM.patch), don't treat it as a date-based image to skip",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/home-assistant/home-assistant"],
+      allowedVersions: "*",
+    },
+    {
       description: "Avoid old lidarr images",
       matchDatasources: ["docker"],
       matchPackageNames: "ghcr.io/linuxserver/lidarr",
@@ -19,11 +25,11 @@
       allowedVersions: "<=14.0",
     },
     {
-      description: "Auto-merge GitHub Actions minor/patch updates",
+      description: "Auto-merge GitHub Actions patch updates",
       matchManagers: ["github-actions"],
       automerge: true,
       automergeType: "branch",
-      matchUpdateTypes: ["minor", "patch", "digest"],
+      matchUpdateTypes: ["patch", "digest"],
       ignoreTests: true,
     },
     {
@@ -58,6 +64,13 @@
       description: "Auto-merge infra and apps Helm chart patch updates",
       matchFileNames: ["infra/**", "apps/**"],
       matchManagers: ["flux"],
+      matchUpdateTypes: ["patch"],
+      automerge: true,
+      automergeType: "branch",
+      ignoreTests: true,
+    },
+    {
+      description: "Auto-merge all other patch updates; minor/major always get a PR",
       matchUpdateTypes: ["patch"],
       automerge: true,
       automergeType: "branch",
