@@ -24,7 +24,7 @@ spec:
             # renovate: datasource=docker depName=freikin/dawarich
             image:
               repository: freikin/dawarich
-              tag: 1.14.1
+              tag: 1.14.3
             securityContext:
               allowPrivilegeEscalation: false
             command:
@@ -135,7 +135,7 @@ spec:
             # renovate: datasource=docker depName=freikin/dawarich
             image:
               repository: freikin/dawarich
-              tag: 1.14.1
+              tag: 1.14.3
             securityContext:
               allowPrivilegeEscalation: false
             command:
