@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: recyclarr-config
+  namespace: default
+data:
+  recyclarr.yml: |
+    radarr:
+      hd:
+        base_url: http://radarr:7878
+        api_key: !env_var RADARR_API_KEY
+        quality_definition:
+          type: movie
+        quality_profiles:
+          - trash_id: d1d67249d3890e49bc12e275d989a7e9 # HD Bluray + WEB
+            reset_unmatched_scores:
+              enabled: true
+      uhd:
+        base_url: http://radarr:7878
+        api_key: !env_var RADARR_API_KEY
+        quality_definition:
+          type: movie
+        quality_profiles:
+          - trash_id: 64fb5f9858489bdac2af690e27c8f42f # UHD Bluray + WEB
+            reset_unmatched_scores:
+              enabled: true
+        custom_format_groups:
+          add:
+            - trash_id: 7fc2751eef7e6bdc70b74136e5e35c76 # [HDR Formats] DV (w/o HDR fallback)
+            - trash_id: 1616617ab3a14397a2b2321bcbda44d1 # [HDR Formats] DV Boost
+            - trash_id: b29413a7487478fe98228ce79e5689e4 # [HDR Formats] HDR10+ Boost
+      anime:
+        base_url: http://radarr:7878
+        api_key: !env_var RADARR_API_KEY
+        quality_definition:
+          type: anime
+        quality_profiles:
+          - trash_id: 722b624f9af1e492284c4bc842153a38 # [Anime] Remux-1080p
+            reset_unmatched_scores:
+              enabled: true
+
+    sonarr:
+      hd:
+        base_url: http://sonarr:8989
+        api_key: !env_var SONARR_API_KEY
+        quality_definition:
+          type: series
+        quality_profiles:
+          - trash_id: 72dae194fc92bf828f32cde7744e51a1 # WEB-1080p
+            reset_unmatched_scores:
+              enabled: true
+      uhd:
+        base_url: http://sonarr:8989
+        api_key: !env_var SONARR_API_KEY
+        quality_definition:
+          type: series
+        quality_profiles:
+          - trash_id: d1498e7d189fbe6c7110ceaabb7473e6 # WEB-2160p
+            reset_unmatched_scores:
+              enabled: true
+        custom_format_groups:
+          add:
+            - trash_id: d776a1ea912a117d66d83b880ff2055d # [HDR Formats] DV (w/o HDR fallback)
+            - trash_id: e0b2774083df4265f25c9e5bc6c80940 # [HDR Formats] DV Boost
+            - trash_id: 7d366c213e5c23a052b157356fac1921 # [HDR Formats] HDR10+ Boost
+      anime:
+        base_url: http://sonarr:8989
+        api_key: !env_var SONARR_API_KEY
+        quality_definition:
+          type: anime
+        quality_profiles:
+          - trash_id: 20e0fc959f1f1704bed501f23bdae76f # [Anime] Remux-1080p
+            reset_unmatched_scores:
+              enabled: true

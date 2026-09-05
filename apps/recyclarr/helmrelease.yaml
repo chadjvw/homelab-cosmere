@@ -1,0 +1,59 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: recyclarr
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: recyclarr
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        type: cronjob
+        cronjob:
+          schedule: "0 6 * * 1"
+          concurrencyPolicy: Forbid
+        containers:
+          main:
+            image:
+              # renovate: datasource=docker depName=ghcr.io/recyclarr/recyclarr
+              repository: ghcr.io/recyclarr/recyclarr
+              tag: "8.7.2"
+            args:
+              - sync
+            env:
+              TZ: America/Denver
+              RECYCLARR_CONFIG_DIR: /etc/recyclarr
+              RECYCLARR_DATA_DIR: /config
+              RADARR_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: recyclarr
+                    key: RADARR_API_KEY
+              SONARR_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: recyclarr
+                    key: SONARR_API_KEY
+    persistence:
+      config-file:
+        type: configMap
+        name: recyclarr-config
+        globalMounts:
+          - path: /etc/recyclarr/recyclarr.yml
+            subPath: recyclarr.yml
+            readOnly: true
+      data:
+        type: emptyDir
+        globalMounts:
+          - path: /config
