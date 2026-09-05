@@ -25,3 +25,4 @@ resources:
   - nvidia.yaml
   - nvidia-dcgm.yaml
   - volsync.yaml
+  - reloader.yaml

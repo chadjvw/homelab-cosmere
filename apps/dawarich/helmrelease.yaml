@@ -19,6 +19,8 @@ spec:
   values:
     controllers:
       main:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           main:
             # renovate: datasource=docker depName=freikin/dawarich
@@ -121,6 +123,8 @@ spec:
               ALLOW_EMAIL_PASSWORD_REGISTRATION: "false"
               ALLOW_EMAIL_PASSWORD_LOGIN: "false"
       sidekiq:
+        annotations:
+          reloader.stakater.com/auto: "true"
         pod:
           affinity:
             podAffinity:

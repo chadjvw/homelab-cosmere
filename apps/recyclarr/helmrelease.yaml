@@ -20,6 +20,8 @@ spec:
     controllers:
       main:
         type: cronjob
+        annotations:
+          reloader.stakater.com/auto: "true"
         cronjob:
           schedule: "0 6 * * 1"
           concurrencyPolicy: Forbid
