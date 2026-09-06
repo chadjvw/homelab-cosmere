@@ -9,8 +9,13 @@ spec:
   talos:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
     version: v1.13.10
-  # Real hardware: kexec (the default reboot mode) works fine and is faster
-  # than a full powercycle. See talosupgrade-workers.yaml for the QEMU nodes.
+  policy:
+    # kexec was assumed reliable on this real hardware (see
+    # talosupgrade-workers.yaml for the known QEMU no-op case), but the
+    # Aug 4 -> v1.13.6 and Aug 11 -> v1.13.8 cycles both reported Completed
+    # while the nodes never actually rebooted into the new version. Forcing
+    # a real reboot until tuppr's health checks can verify version drift.
+    rebootMode: powercycle
   maintenance:
     windows:
       - start: "0 2 * * 2" # 2am every Tuesday
