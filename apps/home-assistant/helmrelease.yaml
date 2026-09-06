@@ -52,7 +52,7 @@ spec:
             # renovate: datasource=docker depName=ghcr.io/home-assistant/home-assistant
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: "2026.7.0"
+              tag: "2026.9.1"
             env:
               PGID: 1000
               PUID: 1000
