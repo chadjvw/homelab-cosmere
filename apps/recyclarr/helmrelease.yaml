@@ -35,8 +35,6 @@ spec:
               - sync
             env:
               TZ: America/Denver
-              RECYCLARR_CONFIG_DIR: /etc/recyclarr
-              RECYCLARR_DATA_DIR: /config
               RADARR_API_KEY:
                 valueFrom:
                   secretKeyRef:
@@ -48,14 +46,14 @@ spec:
                     name: recyclarr
                     key: SONARR_API_KEY
     persistence:
-      config-file:
-        type: configMap
-        name: recyclarr-config
-        globalMounts:
-          - path: /etc/recyclarr/recyclarr.yml
-            subPath: recyclarr.yml
-            readOnly: true
       data:
         type: emptyDir
         globalMounts:
           - path: /config
+      config-file:
+        type: configMap
+        name: recyclarr-config
+        globalMounts:
+          - path: /config/recyclarr.yml
+            subPath: recyclarr.yml
+            readOnly: true
