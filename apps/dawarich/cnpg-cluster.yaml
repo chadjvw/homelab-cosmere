@@ -5,6 +5,7 @@ metadata:
   namespace: default
 spec:
   instances: 1
+  enablePDB: false
   # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgis
   imageName: ghcr.io/cloudnative-pg/postgis:15-3.3-21
   storage:
