@@ -45,7 +45,7 @@ spec:
               LOG_CONFIG_OVERRIDE: /logconf/logconf.json
             image:
               repository: ghcr.io/mealie-recipes/mealie
-              tag: v3.25.1
+              tag: v3.26.0
     persistence:
       config:
         existingClaim: mealie-data-nvmeof
