@@ -4,8 +4,9 @@ metadata:
   name: talos-controlplane
 spec:
   nodeSelector:
-    matchLabels:
-      node-role.kubernetes.io/control-plane: "true"
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
   talos:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
     version: v1.13.10
