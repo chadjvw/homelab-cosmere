@@ -23,7 +23,7 @@ spec:
           init-db:
             image:
               repository: docker.io/alpine
-              tag: "3.24.1"
+              tag: "3.24.2"
             command:
               - sh
               - -c
