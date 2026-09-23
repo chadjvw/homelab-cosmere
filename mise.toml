@@ -70,6 +70,24 @@ kubectl exec -it -n default deployment/kanidm -c tools -- \
   kanidm person posix set "${usage_username}"
 """
 
+[tasks."kanidm:person:onboard-media"]
+description = "Create a person, add to media_users, posix-enable for LDAP, and print a 7-day credential reset link"
+usage = '''
+arg "<username>" help="Username for the new person"
+arg "<display_name>" help="Display name for the new person"
+'''
+run = """
+set -euo pipefail
+kubectl exec -it -n default deployment/kanidm -c tools -- \
+  kanidm person create "${usage_username}" "${usage_display_name}"
+kubectl exec -it -n default deployment/kanidm -c tools -- \
+  kanidm group add-members media_users "${usage_username}"
+kubectl exec -it -n default deployment/kanidm -c tools -- \
+  kanidm person posix set "${usage_username}"
+kubectl exec -it -n default deployment/kanidm -c tools -- \
+  kanidm person credential create-reset-token "${usage_username}" --ttl 604800
+"""
+
 [tasks."kanidm:oauth2:create-public"]
 description = "Create a public OAuth2 client (PKCE, no secret)"
 usage = '''
