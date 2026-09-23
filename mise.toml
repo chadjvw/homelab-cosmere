@@ -54,6 +54,22 @@ kubectl exec -it -n default deployment/kanidm -c tools -- \
   kanidm group add-members "${usage_group}" "${usage_username}"
 """
 
+[tasks."kanidm:group:posix-enable"]
+description = "Enable the posix extension on a group so it's visible over LDAP"
+usage = 'arg "<name>" help="Group name"'
+run = """
+kubectl exec -it -n default deployment/kanidm -c tools -- \
+  kanidm group posix set "${usage_name}"
+"""
+
+[tasks."kanidm:person:posix-enable"]
+description = "Enable the posix extension on a person, required before they can bind over LDAP"
+usage = 'arg "<username>" help="Person to posix-enable"'
+run = """
+kubectl exec -it -n default deployment/kanidm -c tools -- \
+  kanidm person posix set "${usage_username}"
+"""
+
 [tasks."kanidm:oauth2:create-public"]
 description = "Create a public OAuth2 client (PKCE, no secret)"
 usage = '''

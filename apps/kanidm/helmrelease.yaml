@@ -123,6 +123,8 @@ spec:
         ports:
           https:
             port: 8443
+          ldaps:
+            port: 3636
     route:
       main:
         hostnames:

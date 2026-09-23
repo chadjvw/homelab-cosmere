@@ -6,6 +6,7 @@ metadata:
 data:
   server.toml: |
     bindaddress = "[::]:8443"
+    ldapbindaddress = "[::]:3636"
     tls_chain = "/tls/tls.crt"
     tls_key = "/tls/tls.key"
     db_path = "/data/kanidm.db"
