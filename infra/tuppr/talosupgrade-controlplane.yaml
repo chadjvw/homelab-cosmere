@@ -9,7 +9,7 @@ spec:
         operator: Exists
   talos:
     # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-    version: v1.13.10
+    version: v1.13.11
   policy:
     # kexec was assumed reliable on this real hardware (see
     # talosupgrade-workers.yaml for the known QEMU no-op case), but the
