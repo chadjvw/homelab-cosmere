@@ -4,7 +4,7 @@ set -euo pipefail
 
 yamlfmt -lint .
 
-uvx flux-local test --enable-helm --all-namespaces --sources default=./ --path flux/
+flate test all --path gitops/
 
 find apps/ infra/ observability/ gitops/ repos/ flux/ bootstrap/ -name '*.yaml' \
   | xargs kubeconform \

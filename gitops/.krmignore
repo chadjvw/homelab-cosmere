@@ -1,0 +1,3 @@
+# flate: skip the root `flux` Kustomization so the scan never loads flux/ocirepository.yaml.
+# With OCIRepository/default missing, flate seeds it from this checkout instead of the published artifact.
+/flux.yaml
