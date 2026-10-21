@@ -157,11 +157,11 @@ kubectl exec -it -n default deployment/kanidm -c tools -- \
 
 [tools]
 kubectl = "latest"
-uv = "latest"
 doppler = "latest"
 flux2 = "latest"
 gh = "latest"
 "github:budimanjojo/talhelper" = "latest"
+"github:home-operations/flate" = "latest"
 helm = "latest"
 kubeconform = "latest"
 kube-score = "latest"
