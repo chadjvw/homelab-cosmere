@@ -1,0 +1,4 @@
+machine:
+  nodeLabels:
+    # https://www.techpowerup.com/gpu-specs/hd-graphics-630.c2962
+    intel-igpu: hd-graphics-630

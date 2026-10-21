@@ -1,0 +1,42 @@
+clusterName: cosmere
+clusterEndpoint: https://10.0.10.13:6443
+# renovate: datasource=github-releases depName=siderolabs/talos
+talosVersion: v1.14.4
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.37.1
+schematicId: "@schematic.yaml.tpl"
+patchesDir: patches
+nodes:
+  - host: roshar
+    ip: 10.0.10.13
+    role: control-plane
+  - host: nalthis
+    ip: 10.0.10.14
+    role: control-plane
+  - host: scadrial
+    ip: 10.0.10.12
+    role: control-plane
+  - host: komashi
+    ip: 10.0.30.102
+    role: worker
+    platform: nocloud
+  - host: braize
+    ip: 10.0.30.103
+    role: worker
+    platform: nocloud
+  - host: ashyn
+    ip: 10.0.30.104
+    role: worker
+    platform: nocloud
+  - host: canticle
+    ip: 10.0.30.105
+    role: worker
+    platform: nocloud
+  - host: threnody
+    ip: 10.0.30.106
+    role: worker
+    platform: nocloud
+  - host: taldain
+    ip: 10.0.30.107
+    role: worker
+    platform: nocloud

@@ -1,0 +1,30 @@
+machine:
+  certSANs:
+    - 10.0.10.12
+    - 10.0.10.13
+    - 10.0.10.14
+    - 127.0.0.1 # Kubeprism
+---
+# Cilium is the CNI (infra/cilium); without this Talos deploys flannel.
+apiVersion: v1alpha1
+kind: KubeFlannelCNIConfig
+$patch: delete
+---
+# Generated with the control-plane NoSchedule taint and exclude-from-external-load-balancers
+# label, ignoring allowSchedulingOnControlPlanes. Labels stay on machine.nodeLabels.
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+$patch: delete
+---
+# ponytail: new Talos 1.14 GA generation defaults that talhelper's alpha machinery never emitted, so the
+# live nodes don't have them. Dropped to keep the topf migration a no-op; adopt them in their own change.
+# Workload isolation (sandboxd):
+apiVersion: v1alpha1
+kind: SecurityProfileConfig
+$patch: delete
+---
+# nosuid/nodev/noexec on the EPHEMERAL (/var) mount:
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+$patch: delete
