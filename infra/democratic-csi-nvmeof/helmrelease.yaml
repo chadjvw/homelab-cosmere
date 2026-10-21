@@ -51,6 +51,7 @@ spec:
         image:
           registry: ghcr.io/democratic-csi/democratic-csi
           pullPolicy: Always
+          # renovate: datasource=docker depName=ghcr.io/democratic-csi/democratic-csi
           tag: v1.9.5
     controller:
       externalAttacher:
@@ -120,6 +121,7 @@ spec:
         image:
           registry: ghcr.io/democratic-csi/democratic-csi
           pullPolicy: Always
+          # renovate: datasource=docker depName=ghcr.io/democratic-csi/democratic-csi
           tag: v1.9.5
         resources:
           requests:

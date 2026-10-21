@@ -16,12 +16,17 @@
   timezone: "America/Denver",
   schedule: ["on monday"],
   rebaseWhen: "conflicted",
+  // Security PRs bypass the weekly schedule. GitHub advisories need Dependabot alerts enabled on the repo.
+  osvVulnerabilityAlerts: true,
+  vulnerabilityAlerts: {
+    labels: ["security"],
+    schedule: ["at any time"],
+  },
   "pre-commit": {
     enabled: false,
   },
-  ignorePaths: ["deploy/**"],
   flux: {
-    managerFilePatterns: ["/apps/.+/helmrelease\\.yaml$/", "/infra/.+/helmrelease\\.yaml$/", "/repos/.+\\.yaml$/"],
+    managerFilePatterns: ["/(apps|infra|observability)/.+\\.yaml$/", "/repos/.+\\.yaml$/"],
   },
   kubernetes: {
     managerFilePatterns: ["/apps/.+\\.yaml$/"],

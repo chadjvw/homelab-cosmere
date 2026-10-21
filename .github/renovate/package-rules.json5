@@ -13,10 +13,11 @@
       allowedVersions: "*",
     },
     {
-      description: "Avoid old lidarr images",
+      description: "ytdl-sub uses CalVer (YYYY.MM.DD[.postN])",
       matchDatasources: ["docker"],
-      matchPackageNames: "ghcr.io/linuxserver/lidarr",
-      allowedVersions: "<=8.0",
+      matchPackageNames: ["ghcr.io/jmbannon/ytdl-sub-gui"],
+      allowedVersions: "/^\\d{4}\\.\\d{2}\\.\\d{2}/",
+      versioning: "regex:^(?<major>\\d{4})\\.(?<minor>\\d{2})\\.(?<patch>\\d{2})(\\.post(?<build>\\d+))?$",
     },
     {
       description: "Avoid old qbittorrent images",
@@ -35,7 +36,7 @@
     {
       description: "Separate minor and patch for Talos/Kubernetes to enforce sequential upgrades",
       matchPackageNames: [
-        "ghcr.io/siderolabs/installer",
+        "siderolabs/talos",
         "ghcr.io/siderolabs/kubelet",
       ],
       separateMinorPatch: true,
@@ -43,7 +44,7 @@
     {
       description: "Auto-merge Talos/Kubernetes patch updates",
       matchPackageNames: [
-        "ghcr.io/siderolabs/installer",
+        "siderolabs/talos",
         "ghcr.io/siderolabs/kubelet",
       ],
       matchUpdateTypes: ["patch"],
@@ -61,17 +62,10 @@
       ignoreTests: true,
     },
     {
-      description: "Auto-merge infra and apps Helm chart patch updates",
-      matchFileNames: ["infra/**", "apps/**"],
-      matchManagers: ["flux"],
+      description: "Auto-merge all other patch updates as soon as they land (security fixes usually ship as patches); minor/major stay weekly and get a PR. Talos/k8s patches stay weekly since they trigger node upgrades.",
       matchUpdateTypes: ["patch"],
-      automerge: true,
-      automergeType: "branch",
-      ignoreTests: true,
-    },
-    {
-      description: "Auto-merge all other patch updates; minor/major always get a PR",
-      matchUpdateTypes: ["patch"],
+      matchPackageNames: ["!ghcr.io/siderolabs/kubelet", "!siderolabs/talos"],
+      schedule: ["at any time"],
       automerge: true,
       automergeType: "branch",
       ignoreTests: true,
