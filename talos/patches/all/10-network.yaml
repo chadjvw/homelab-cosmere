@@ -1,0 +1,12 @@
+apiVersion: v1alpha1
+kind: ResolverConfig
+searchDomains:
+  # Explicit empty list overrides DHCP-provided search domains (applied since Talos 1.14).
+  # OPNsense hands out vanwyhe.xyz, and with wildcard DNS + ndots:5 every external lookup
+  # from pods resolved to the gateway (*.vanwyhe.xyz cert on grafana.com, api.crowdsec.net, ...).
+  domains: []
+  disableDefault: true
+hostDNS:
+  enabled: true
+  resolveMemberNames: true
+  forwardKubeDNSToHost: false

@@ -1,0 +1,4 @@
+machine:
+  nodeLabels:
+    # https://www.techpowerup.com/gpu-specs/graphics-24eu-mobile.c4344
+    intel-igpu: intel-graphics-24eu

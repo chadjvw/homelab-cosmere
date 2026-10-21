@@ -1,0 +1,4 @@
+machine:
+  nodeLabels:
+    intel-igpu: hd-graphics-630
+    attached-usb: zwave
