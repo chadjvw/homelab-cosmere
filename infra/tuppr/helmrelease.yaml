@@ -25,7 +25,7 @@ spec:
   values:
     controller:
       logLevel: info
-    metrics:
+    monitoring:
       serviceMonitor:
         enabled: true
     env:

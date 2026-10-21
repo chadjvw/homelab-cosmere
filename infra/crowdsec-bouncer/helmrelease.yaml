@@ -40,5 +40,3 @@ spec:
           enabled: true
           prometheusMatchLabels:
             release: kube-prometheus-stack
-    securityPolicy:
-      create: false
