@@ -1,6 +1,6 @@
 clusterName: cosmere
-# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.13.11
+# renovate: datasource=github-releases depName=siderolabs/talos
+talosVersion: v1.14.4
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.37.1
 endpoint: https://10.0.10.13:6443
@@ -49,6 +49,8 @@ controlPlane:
   patches:
     - "@./patches/routes-controlplane.yaml"
     - "@./patches/controlplane-talos-api-access.yaml"
+    - "@./patches/scheduler.yaml"
+    - "@./patches/cluster-proxy-disabled.yaml"
   machineSpec:
     mode: metal
     arch: amd64
@@ -58,14 +60,11 @@ controlPlane:
       extraKernelArgs: *kernelArgs
       systemExtensions: *extensions
 patches:
-  - "@./patches/cluster-proxy-disabled.yaml"
   - "@./patches/containerd.yaml"
   - "@./patches/network.yaml"
   - "@./patches/ntp.yaml"
   - "@./patches/features.yaml"
   - "@./patches/kubelet.yaml"
-  - "@./patches/cluster-discovery.yaml"
-  - "@./patches/scheduler.yaml"
   - "@./patches/sysctls.yaml"
   - "@./patches/nfs.yaml"
 nodes:
