@@ -5,6 +5,7 @@ resources:
   - crowdsec.yaml
   - crowdsec-bouncer.yaml
   - cilium.yaml
+  - controlplaneio-fluxcd.yaml
   - democratic-csi.yaml
   - descheduler.yaml
   - envoy-gateway.yaml
