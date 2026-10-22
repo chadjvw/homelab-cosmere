@@ -15,10 +15,3 @@ $patch: delete
 apiVersion: v1alpha1
 kind: KubeNodeConfig
 $patch: delete
----
-# ponytail: workload isolation (sandboxd) is a Talos 1.14 default that upgraded clusters don't get.
-# Kept off cluster-wide while it's trialled per node (patches/node/<host>/20-workload-isolation.yaml);
-# the risk is the in-tree NFS volumes. Drop this once every node runs it.
-apiVersion: v1alpha1
-kind: SecurityProfileConfig
-$patch: delete
