@@ -1,4 +1,0 @@
-# Trial of Talos 1.14 workload isolation (sandboxd); re-adds the document deleted in all/00-cluster.yaml.
-apiVersion: v1alpha1
-kind: SecurityProfileConfig
-workloadIsolation: true
