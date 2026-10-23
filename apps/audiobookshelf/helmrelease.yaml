@@ -27,7 +27,7 @@ spec:
               TZ: America/Denver
             image:
               repository: ghcr.io/advplyr/audiobookshelf
-              tag: "2.37.1"
+              tag: "2.37.2"
     persistence:
       config:
         existingClaim: audiobookshelf-config-nvmeof
