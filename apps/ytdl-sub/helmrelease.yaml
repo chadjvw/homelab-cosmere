@@ -29,7 +29,7 @@ spec:
               LOGS_TO_STDOUT: /cron-log/.cron.log
             image:
               repository: ghcr.io/jmbannon/ytdl-sub-gui
-              tag: "2026.07.17.post1"
+              tag: "2026.08.26.post1"
     persistence:
       config:
         existingClaim: ytdl-sub-config-nvmeof
