@@ -19,6 +19,7 @@ spec:
   values:
     controllers:
       main:
+        replicas: 0 # scaled down: Plex vuln, 2026-10-24
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
