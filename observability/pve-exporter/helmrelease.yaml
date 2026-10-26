@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: ghcr.io/prometheus-pve/prometheus-pve-exporter
-              tag: 3.10.1
+              tag: 3.10.2
             env:
               PVE_USER: pve-exporter@pve
               PVE_TOKEN_NAME: prometheus
