@@ -33,7 +33,7 @@ spec:
             # verified via the ghcr.io token endpoint - no mirror workflow needed.
             image:
               repository: ghcr.io/louislam/uptime-kuma
-              tag: "2.5.7"
+              tag: "2.5.8"
             env:
               TZ: America/Denver
             securityContext:
