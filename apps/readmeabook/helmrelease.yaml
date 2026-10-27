@@ -54,7 +54,7 @@ spec:
             # renovate: datasource=docker depName=docker.io/valkey/valkey
             image:
               repository: docker.io/valkey/valkey
-              tag: 9.1.2-alpine
+              tag: 9.1.3-alpine
     persistence:
       config:
         existingClaim: readmeabook-config
