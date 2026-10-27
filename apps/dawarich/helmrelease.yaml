@@ -233,7 +233,7 @@ spec:
             # renovate: datasource=docker depName=ghcr.io/rtuszik/photon-docker
             image:
               repository: ghcr.io/rtuszik/photon-docker
-              tag: "2.4.0"
+              tag: "2.5.0"
             securityContext:
               allowPrivilegeEscalation: false
             env:
