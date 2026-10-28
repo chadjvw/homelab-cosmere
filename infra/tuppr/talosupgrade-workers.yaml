@@ -9,7 +9,7 @@ spec:
         operator: DoesNotExist
   talos:
     # renovate: datasource=github-releases depName=siderolabs/talos
-    version: v1.14.4
+    version: v1.14.5
   policy:
     # kexec silently no-ops on this nocloud/QEMU hardware: the installer
     # writes the new image and reports exit_code=0 but never actually

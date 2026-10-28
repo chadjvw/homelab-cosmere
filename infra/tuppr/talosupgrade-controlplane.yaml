@@ -9,7 +9,7 @@ spec:
         operator: Exists
   talos:
     # renovate: datasource=github-releases depName=siderolabs/talos
-    version: v1.14.4
+    version: v1.14.5
   policy:
     # kexec was assumed reliable on this real hardware (see
     # talosupgrade-workers.yaml for the known QEMU no-op case), but the
