@@ -55,7 +55,7 @@ spec:
                     key: encryptionKey
             image:
               repository: mauriceboe/trek
-              tag: "5.0.0"
+              tag: "5.0.1"
     persistence:
       data:
         existingClaim: trek-data-nvmeof
