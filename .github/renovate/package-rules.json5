@@ -20,6 +20,12 @@
       versioning: "regex:^(?<major>\\d{4})\\.(?<minor>\\d{2})\\.(?<patch>\\d{2})(\\.post(?<build>\\d+))?$",
     },
     {
+      description: "linuxserver jellyfin tags (12.1ubu2604-ls50): docker versioning treats ubu2604-ls50 as an exact-match suffix, so the ls bump blocks every update",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/linuxserver/jellyfin"],
+      versioning: "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(\\.(?<patch>\\d+))?(?<compatibility>ubu\\d+)-ls(?<build>\\d+)$",
+    },
+    {
       description: "Avoid old qbittorrent images",
       matchDatasources: ["docker"],
       matchPackageNames: "ghcr.io/linuxserver/qbittorrent",
