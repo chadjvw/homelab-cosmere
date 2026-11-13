@@ -16,6 +16,7 @@ on:
       - 'bootstrap/**'
       - 'mise.toml'
       - '.mise/**'
+      - '.github/workflows/validate.yaml'
 permissions:
   contents: read
 jobs:
