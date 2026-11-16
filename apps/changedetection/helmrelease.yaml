@@ -45,7 +45,7 @@ spec:
             # renovate: datasource=docker depName=docker.io/dgtlmoon/sockpuppetbrowser
             image:
               repository: docker.io/dgtlmoon/sockpuppetbrowser
-              tag: "0.0.4"
+              tag: "0.0.5"
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
