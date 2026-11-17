@@ -27,7 +27,7 @@ spec:
               TZ: America/Denver
             image:
               repository: ghcr.io/linuxserver/radarr
-              tag: "6.4.4"
+              tag: "7.0.3"
     persistence:
       config:
         existingClaim: radarr-config-nvmeof
