@@ -1,0 +1,56 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: shelfbridge
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: shelfbridge
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+    controllers:
+      main:
+        type: cronjob
+        annotations:
+          reloader.stakater.com/auto: "true"
+        cronjob:
+          schedule: "*/30 * * * *"
+          concurrencyPolicy: Forbid
+        containers:
+          main:
+            # renovate: datasource=docker depName=ghcr.io/rohit-purandare/shelfbridge
+            image:
+              repository: ghcr.io/rohit-purandare/shelfbridge
+              tag: 1.23.14
+            # one-shot sync; the image's default command is a long-running scheduler
+            args: ["node", "src/main.js", "sync"]
+            env:
+              TZ: America/Denver
+              SHELFBRIDGE_TIMEZONE: America/Denver
+              SHELFBRIDGE_USER_0_ID: chad
+              SHELFBRIDGE_USER_0_ABS_URL: http://audiobookshelf.default.svc.cluster.local
+              # add in-progress books missing from Hardcover shelves
+              SHELFBRIDGE_AUTO_ADD_BOOKS: "true"
+            envFrom:
+              - secretRef:
+                  name: shelfbridge
+    persistence:
+      # match cache: keeps runs from re-searching Hardcover for every book
+      data:
+        existingClaim: shelfbridge-data
+        globalMounts:
+          - path: /app/data
