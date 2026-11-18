@@ -67,3 +67,10 @@ spec:
             name: internal
             namespace: kube-system
             sectionName: https
+        rules:
+          - backendRefs:
+              - identifier: main
+                port: http
+            # Envoy's 15s default kills slow multi-indexer searches / adds
+            timeouts:
+              request: 120s
