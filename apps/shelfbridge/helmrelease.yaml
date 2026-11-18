@@ -17,11 +17,8 @@ spec:
         namespace: flux-system
       interval: 12h
   values:
-    defaultPodOptions:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+    # no runAsUser: the entrypoint must start as root to chown /app/data on
+    # the fresh PVC, then drops to uid 1000 itself via su-exec
     controllers:
       main:
         type: cronjob
