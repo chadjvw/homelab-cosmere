@@ -1,0 +1,65 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cleanuparr
+  namespace: flux-system
+spec:
+  interval: 1h
+  targetNamespace: default
+  releaseName: cleanuparr
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 12h
+  values:
+    controllers:
+      main:
+        pod:
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+        containers:
+          main:
+            env:
+              TZ: America/Denver
+            image:
+              repository: ghcr.io/cleanuparr/cleanuparr
+              tag: "2.11.1"
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: false
+              runAsNonRoot: true
+              privileged: false
+              runAsUser: 1000
+              runAsGroup: 1000
+              seccompProfile:
+                type: RuntimeDefault
+    persistence:
+      config:
+        existingClaim: cleanuparr-config-nvmeof
+        globalMounts:
+          - path: /config
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 11011
+    route:
+      main:
+        hostnames:
+          - cleanuparr.int.vanwyhe.xyz
+        parentRefs:
+          - group: gateway.networking.k8s.io
+            kind: Gateway
+            name: internal
+            namespace: kube-system
+            sectionName: https
