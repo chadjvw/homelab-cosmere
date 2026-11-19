@@ -47,6 +47,12 @@ spec:
         existingClaim: cleanuparr-config-nvmeof
         globalMounts:
           - path: /config
+      # same path as qbit's mount, so Cleanuparr's download dir source/target mapping stays blank
+      downloads:
+        enabled: true
+        type: nfs
+        server: truenas.vanwyhe.xyz
+        path: /mnt/mongo/data/torrents
     service:
       main:
         controller: main
