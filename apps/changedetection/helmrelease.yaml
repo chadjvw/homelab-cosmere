@@ -28,7 +28,7 @@ spec:
             # renovate: datasource=docker depName=ghcr.io/dgtlmoon/changedetection.io
             image:
               repository: ghcr.io/dgtlmoon/changedetection.io
-              tag: "0.70.3"
+              tag: "0.70.4"
             env:
               TZ: America/Denver
               BASE_URL: https://changedetection.int.vanwyhe.xyz
