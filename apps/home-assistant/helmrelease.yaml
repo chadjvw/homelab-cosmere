@@ -83,6 +83,8 @@ spec:
         ports:
           http:
             port: 8123
+          mcp:
+            port: 9584
     route:
       main:
         hostnames:
