@@ -35,9 +35,6 @@ spec:
                 grep -q 'recorder:' /config/configuration.yaml || \
                   printf '\nrecorder:\n  db_url: !secret db_url\n' \
                   >> /config/configuration.yaml
-                grep -q 'use_x_forwarded_for' /config/configuration.yaml || \
-                  printf '\nhttp:\n  use_x_forwarded_for: true\n  trusted_proxies:\n    - 10.0.0.0/8\n    - 172.16.0.0/12\n    - 192.168.0.0/16\n' \
-                  >> /config/configuration.yaml
                 grep -q 'external_url:' /config/configuration.yaml || \
                   printf '\nhomeassistant:\n  external_url: https://ha.vanwyhe.xyz\n' \
                   >> /config/configuration.yaml
