@@ -6,7 +6,7 @@
       description: "Process docker image tags in HelmRelease values",
       managerFilePatterns: ["{apps,infra,observability}/**/*.yaml"],
       matchStrings: [
-        "repository:\\s+(?<depName>[^\\s]+)\\s+tag:\\s+\"?(?<currentValue>[^\\s\"]+)\"?",
+        "repository:\\s+(?<depName>[^\\s]+)\\s+tag:\\s+\"?(?<currentValue>[^\\s\"@]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?\"?",
       ],
       datasourceTemplate: "docker",
     },
