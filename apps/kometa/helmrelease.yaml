@@ -25,13 +25,6 @@ spec:
         cronjob:
           schedule: "0 5 * * *"
           concurrencyPolicy: Forbid
-        initContainers:
-          # kometa rewrites config.yml at startup, so it can't read the secret mount directly
-          copy-config:
-            image:
-              repository: docker.io/alpine
-              tag: "3.24.4"
-            command: ["cp", "/secret/config.yml", "/config/config.yml"]
         containers:
           main:
             image:
@@ -40,6 +33,7 @@ spec:
               tag: develop@sha256:07bcc389e497c5708c45a23ac601117cc9ab846b1f550925abc8195b92f9f9b1
             args:
               - --run
+              - --read-only-config
             env:
               TZ: America/Denver
     persistence:
@@ -51,5 +45,6 @@ spec:
         type: secret
         name: kometa
         globalMounts:
-          - path: /secret
+          - path: /config/config.yml
+            subPath: config.yml
             readOnly: true
