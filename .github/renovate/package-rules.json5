@@ -36,7 +36,7 @@
       matchManagers: ["github-actions"],
       automerge: true,
       automergeType: "branch",
-      matchUpdateTypes: ["patch", "digest"],
+      matchUpdateTypes: ["patch"],
       ignoreTests: true,
     },
     {
