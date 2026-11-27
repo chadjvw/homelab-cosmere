@@ -20,16 +20,8 @@ spec:
     controllers:
       main:
         pod:
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: intel-igpu
-                        operator: Exists
-                  - matchExpressions:
-                      - key: nvidia-gpu
-                        operator: Exists
+          nodeSelector:
+            intel-igpu: intel-graphics-24eu # scadrial, Meteor Lake iGPU (where plex ran)
           securityContext:
             supplementalGroups:
               - 100
