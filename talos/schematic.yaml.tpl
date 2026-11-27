@@ -10,10 +10,10 @@ customization:
     - iommu=pt # PCI Passthrough
     - mitigations=off # Less security, faster puter
     - security=none # Less security, faster puter
-    - sysctl.kernel.kexec_load_disabled=1 # Meteor Lake CPU / iGPU
+    - sysctl.kernel.kexec_load_disabled=1 # Intel iGPU
     - talos.auditd.disabled=1 # Less security, faster puter
 {{- if eq .Node.Host "scadrial" }}
-    - i915.enable_guc=3 # Meteor Lake CPU / iGPU
+    - i915.enable_guc=3 # N150 (Alder Lake-N) iGPU: GuC/HuC needed for low-power QSV encode
 {{- end }}
     # https://docs.siderolabs.com/talos/v1.12/configure-your-talos-cluster/system-configuration/performance-tuning
     - cpufreq.default_governor=performance
