@@ -21,19 +21,36 @@ spec:
       main:
         pod:
           nodeSelector:
-            intel-igpu: intel-graphics-24eu # scadrial, Meteor Lake iGPU (where plex ran)
+            intel-igpu: intel-graphics-24eu # scadrial, N150 (Alder Lake-N) iGPU (where plex ran)
+          enableServiceLinks: false # JELLYFIN_* service env vars would leak into jellyfin's config
           securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
             supplementalGroups:
               - 100
         containers:
           main:
             env:
-              PGID: 1000
-              PUID: 1000
               TZ: America/Denver
+              # keep the linuxserver-era layout; image defaults point at stale 2025 copies on the PVC
+              HOME: /config
+              JELLYFIN_DATA_DIR: /config/data
+              JELLYFIN_CONFIG_DIR: /config
+              JELLYFIN_CACHE_DIR: /config/cache
+              JELLYFIN_LOG_DIR: /config/log
+              XDG_CACHE_HOME: /config/cache
             image:
-              repository: ghcr.io/linuxserver/jellyfin
-              tag: "12.4ubu2604-ls61"
+              repository: ghcr.io/jellyfin/jellyfin
+              tag: "12.4@sha256:fea863d0cd9ec445985d9c75fc6ed64e38a1d2766cf0c250a33d553f4fc1b771"
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
             probes:
               startup:
                 enabled: true
@@ -101,6 +118,12 @@ spec:
       transcode:
         enabled: true
         type: emptyDir
+        globalMounts:
+          - path: /transcode
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
     service:
       main:
         controller: main
