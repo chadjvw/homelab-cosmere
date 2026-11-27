@@ -41,7 +41,7 @@ spec:
               TZ: America/Denver
             image:
               repository: ghcr.io/linuxserver/jellyfin
-              tag: "12.4ubu2604-ls60"
+              tag: "12.4ubu2604-ls61"
             probes:
               startup:
                 enabled: true
